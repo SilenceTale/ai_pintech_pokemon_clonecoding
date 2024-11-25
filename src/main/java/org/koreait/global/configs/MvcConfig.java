@@ -8,6 +8,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 public class MvcConfig implements WebMvcConfigurer {
     /**
      * 정적 경로 설정, CSS, JS, 이미지
+     *
      * @param registry
      */
     @Override

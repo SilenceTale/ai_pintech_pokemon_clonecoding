@@ -35,7 +35,7 @@ public class Member extends BaseEntity {
     private Gender gender; // 성별
 
     @Column(length = 10, nullable = false)
-    private String zipcode; // 우편주소
+    private String zipCode; // 우편주소
 
     @Column(length = 100, nullable = false)
     private String address; // 도로명 주소

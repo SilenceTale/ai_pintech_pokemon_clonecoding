@@ -11,5 +11,4 @@ public class Ability {
     @JsonAlias("is_hidden")
     private boolean isHidden;
     private int slot;
-
 }

@@ -1,6 +1,5 @@
 package org.koreait.pokemon.tests;
 
-
 import org.junit.jupiter.api.Test;
 import org.koreait.pokemon.api.services.ApiUpdateService;
 import org.springframework.beans.factory.annotation.Autowired;

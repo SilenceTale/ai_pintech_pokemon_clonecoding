@@ -17,3 +17,4 @@ public class RequestLogin {
 
     private List<String> errorCodes;
 }
+

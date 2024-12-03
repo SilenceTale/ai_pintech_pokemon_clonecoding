@@ -14,7 +14,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-
 @Service
 @RequiredArgsConstructor
 public class ApiUpdateService {
@@ -23,16 +22,18 @@ public class ApiUpdateService {
     private final PokemonRepository repository;
 
     /**
-     * 1페이지 당 100개씩 DB 반영
+     * 1페이지당 100개씩 DB 반영
+     *
      * @param page
      */
     public void update(int page) {
         int limit = 100;
-        int offset = (page - 1) * limit; // 시작 레코드 번호, 0, 100 ...
-        String url = String.format("https://pokeapi.co/api/v2/pokemon?offset=%d0&limit=%d1400", offset, limit);
+        //int limit = 3;
+        int offset = (page - 1) * limit; // 시작 레코드 번호, 0, 100, ..
+        String url = String.format("https://pokeapi.co/api/v2/pokemon?offset=%d&limit=%d", offset, limit);
         ApiResponse response = tpl.getForObject(URI.create(url), ApiResponse.class);
         List<UrlItem> items = response.getResults();
-        if (items == null || items.isEmpty()) { // 조회된 결과가 없는 경우 처리 x
+        if (items == null || items.isEmpty()) { // 조회된 결과가 없는 경우 처리 X
             return;
         }
         /* 상세 정보 처리 S */
@@ -46,16 +47,15 @@ public class ApiUpdateService {
             pokemon.setHeight(data1.getHeight());
             pokemon.setWeight(data1.getWeight());
             pokemon.setBaseExperience(data1.getBaseExperience());
-            pokemon.setFrontImage(data1.getSprites().getOther().getOfficalArtwork().get("front_default"));
+            pokemon.setFrontImage(data1.getSprites().getOther().getOfficialArtwork().get("front_default"));
 
             // 타입 처리 S
             String types = data1.getTypes().stream().map(d -> d.getType().getName())
-                    .collect(Collectors.joining("||")); //타입1||타입2||타입3
+                    .collect(Collectors.joining("||"));  // 타입1||타입2||타입3
             // 타입 처리 E
 
             // 능력 처리 S
-            String abilities = data1.getAbilities().stream().map(d -> d.getAbility().getName())
-                    .collect(Collectors.joining("||")); //능력1||능력2||능력3
+            String abilities = data1.getAbilities().stream().map(d -> d.getAbility().getName()).collect(Collectors.joining("||"));
             // 능력 처리 E
 
             pokemon.setTypes(types);

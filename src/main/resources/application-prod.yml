@@ -1,5 +1,5 @@
 spring:
-  # thymeleaf(타임리프) 설정 실제 개발할때는 cache는 true로 사용할 것.
+  # 타임리프 설정
   thymeleaf:
-    cache: false
+    cache: true
     prefix: classpath:/templates/

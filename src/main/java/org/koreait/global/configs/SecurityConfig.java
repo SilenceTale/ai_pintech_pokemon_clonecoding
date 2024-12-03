@@ -1,4 +1,3 @@
-
 package org.koreait.global.configs;
 
 import org.koreait.member.services.LoginFailureHandler;
@@ -23,18 +22,29 @@ public class SecurityConfig {
 
         /* 인증 설정 S - 로그인, 로그아웃 */
         http.formLogin(c -> {
-            c.loginPage("/member/login") // 로그인 양식을 처리할 주소
-                    .usernameParameter("email")
-                    .passwordParameter("password")
-                    .failureHandler(new LoginFailureHandler())
-                    .successHandler(new LoginSuccessHandler());
+           c.loginPage("/member/login") // 로그인 양식을 처리할 주소
+                   .usernameParameter("email")
+                   .passwordParameter("password")
+                   .failureHandler(new LoginFailureHandler())
+                   .successHandler(new LoginSuccessHandler());
         });
 
         http.logout(c -> {
-            c.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
-                    .logoutSuccessUrl("/member/login");
+           c.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
+                   .logoutSuccessUrl("/member/login");
         });
         /* 인증 설정 E */
+
+        /* 인가 설정 S - 페이지 접근 통제 */
+        /**
+         * authenticated() : 인증 받은 사용자만 접근
+         * anonymous() : 인증 받지 않은 사용자만 접근
+         * permitAll() : 모든 사용자가 접근 가능
+         */
+        http.authorizeHttpRequests(c -> {
+            c.requestMatchers("/mypage/**").authenticated()
+        });
+        /* 인가 설정 E */
 
         return http.build(); // 설정 무력화
     }

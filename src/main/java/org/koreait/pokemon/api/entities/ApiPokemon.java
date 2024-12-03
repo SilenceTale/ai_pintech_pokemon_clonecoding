@@ -26,3 +26,4 @@ public class ApiPokemon {
     @JsonAlias("flavor_text_entries")
     private List<FlavorText> flavorTextEntries;
 }
+

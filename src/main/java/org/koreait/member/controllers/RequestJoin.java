@@ -1,59 +1,46 @@
+package org.koreait.member.controllers;
 
-package org.koreait.member.entities;
-
-import jakarta.persistence.*;
+import jakarta.validation.constraints.Email;
+import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
-import lombok.ToString;
-import org.koreait.global.entities.BaseEntity;
 import org.koreait.member.constants.Gender;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Data
-@Entity
-public class Member extends BaseEntity {
-    @Id @GeneratedValue
-    private Long seq; // 회원 번호
+public class RequestJoin extends RequestAgree {
 
-    @Column(length=65, nullable = false, unique = true)
+    @Email
+    @NotBlank
     private String email; // 이메일
 
-    @Column(length=65, nullable = false)
-    private String password;
+    @NotBlank
+    private String name; // 회원명
 
-    @Column(length=40, nullable = false)
-    private String name;
+    @NotBlank
+    @Size(min=8)
+    private String password; // 비밀번호
 
-    @Column(length=40, nullable = false)
-    private String nickName;
+    @NotBlank
+    private String confirmPassword; // 비밀번호 확인
 
-    @Column(nullable = false)
-    private LocalDate birthDt; // 생년월일
+    @NotBlank
+    private String nickName; // 닉네임
 
-    @Enumerated(EnumType.STRING)
-    @Column(length=10, nullable = false)
-    private Gender gender;
+    @NotNull
+    @DateTimeFormat(pattern="yyyy-MM-dd")
+    private LocalDate birthDt;  // 생년월일
 
-    @Column(length=10, nullable = false)
-    private String zipCode;
+    @NotNull
+    private Gender gender; // 성별
 
-    @Column(length=100, nullable = false)
-    private String address;
+    @NotBlank
+    private String zipCode; // 우편번호
 
-    @Column(length=100)
-    private String addressSub;
-
-    private boolean requiredTerms1;
-
-    private boolean requiredTerms2;
-
-    private boolean requiredTerms3;
-
-    @Column(length=50)
-    private String optionalTerms; // 선택 약관
-
-    @ToString.Exclude
-    @OneToMany(mappedBy = "member")
-    private List<Authorities> authorities;
+    @NotBlank
+    private String address; // 주소
+    private String addressSub; // 나머지 주소
 }

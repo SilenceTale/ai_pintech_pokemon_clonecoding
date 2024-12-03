@@ -23,10 +23,8 @@ public class ApiTest1 {
     void requestTest1() {
         String url = "https://pokeapi.co/api/v2/pokemon";
 
-        RestTemplate tpl = new RestTemplate();
-
         ApiResponse response = tpl.getForObject(URI.create(url), ApiResponse.class);
-        //String.class는 어디서 가져온거고 왜 지정을한거지?
+
         System.out.println(response);
     }
 

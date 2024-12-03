@@ -1,4 +1,3 @@
-
 package org.koreait.member.entities;
 
 import lombok.AllArgsConstructor;

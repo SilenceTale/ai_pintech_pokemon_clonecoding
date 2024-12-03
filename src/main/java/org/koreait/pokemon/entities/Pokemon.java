@@ -7,18 +7,16 @@ import jakarta.persistence.Lob;
 import lombok.Data;
 import org.koreait.global.entities.BaseEntity;
 
-import java.util.logging.Level;
-
 @Data
 @Entity
 public class Pokemon extends BaseEntity {
     @Id
     private Long seq;
 
-    @Column(length = 50)
+    @Column(length=50)
     private String name; // 포켓몬 한글 이름
 
-    @Column(length = 50)
+    @Column(length=50)
     private String nameEn; // 포켓몬 영어 이름
     private int weight;
     private int height;

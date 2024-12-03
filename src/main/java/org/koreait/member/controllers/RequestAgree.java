@@ -1,10 +1,6 @@
 package org.koreait.member.controllers;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.EnumType;
-import jakarta.persistence.Enumerated;
 import lombok.Data;
-import org.koreait.member.constants.Gender;
 
 import java.util.List;
 

@@ -10,5 +10,5 @@ import java.util.Map;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class SpritesOther {
     @JsonAlias("official-artwork")
-    private Map<String, String> officalArtwork;
+    private Map<String, String> officialArtwork;
 }

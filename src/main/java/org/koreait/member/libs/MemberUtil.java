@@ -16,13 +16,13 @@ public class MemberUtil {
 
     /**
      * 관리자 여부
-     *   권한 - MANAGER, ADMIN
+     *  권한 - MANAGER, ADMIN
      * @return
      */
     public boolean isAdmin() {
         return isLogin() &&
-                    getMember().getAuthorities().stream()
-                            .anyMatch(a -> a.getAuthority() == Authority.ADMIN || a.getAuthority() == Authority.MANAGER);
+                getMember().getAuthorities().stream()
+                        .anyMatch(a -> a.getAuthority() == Authority.ADMIN || a.getAuthority() == Authority.MANAGER);
     }
 
     /**
@@ -32,7 +32,7 @@ public class MemberUtil {
      */
     public Member getMember() {
         Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth.isAuthenticated() && auth != null && auth.getPrincipal() instanceof MemberInfo memberInfo) {
+        if (auth.isAuthenticated() && auth.getPrincipal() instanceof MemberInfo memberInfo) {
             return memberInfo.getMember();
         }
 

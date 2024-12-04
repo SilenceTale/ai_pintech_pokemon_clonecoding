@@ -76,15 +76,6 @@ public class MemberController {
         System.out.println(SecurityContextHolder.getContext().getAuthentication().getPrincipal()); // 로그인 상태 AnonymousUser 문자열
     }
 
-    /*
-    public void test(@AuthenticationPrincipal MemberInfo memberInfo) {
-        System.out.println(memberInfo);
-    }*/
-    /*
-    public void test(Principal principal) {
-        String email = principal.getName();
-        System.out.println(email);
-    }*/
 
     /**
      * 회원가입 약관 동의

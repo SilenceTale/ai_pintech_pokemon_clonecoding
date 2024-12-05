@@ -57,6 +57,6 @@ public class Member extends BaseEntity {
     @OneToMany(mappedBy = "member")
     private List<Authorities> authorities;
 
-    //비밀번호 변경 일시
+    // 비밀번호 변경 일시
     private LocalDateTime credentialChangedAt;
 }

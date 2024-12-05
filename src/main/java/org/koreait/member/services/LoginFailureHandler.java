@@ -51,7 +51,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
             }
 
             form.setErrorCodes(errorCodes);
-        } else if (exception instanceof CredentialsExpiredException) { // 비밀번호가 만료된 경우
+        } else if (exception instanceof CredentialsExpiredException) { //  비밀번호가 만료된 경우
             redirectUrl = request.getContextPath() + "/member/password/change";
         } else if (exception instanceof DisabledException) { // 탈퇴한 회원
             form.setErrorCodes(List.of("Failure.disabled.login"));

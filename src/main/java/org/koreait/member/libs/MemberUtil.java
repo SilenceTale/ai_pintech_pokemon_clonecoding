@@ -20,9 +20,9 @@ public class MemberUtil {
      * @return
      */
     public boolean isAdmin() {
-        return isLogin() &&
-                getMember().getAuthorities().stream()
-                        .anyMatch(a -> a.getAuthority() == Authority.ADMIN || a.getAuthority() == Authority.MANAGER);
+         return isLogin() &&
+                    getMember().getAuthorities().stream()
+                            .anyMatch(a -> a.getAuthority() == Authority.ADMIN || a.getAuthority() == Authority.MANAGER);
     }
 
     /**

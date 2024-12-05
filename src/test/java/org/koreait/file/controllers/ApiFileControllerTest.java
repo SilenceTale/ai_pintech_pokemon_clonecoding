@@ -38,12 +38,13 @@ public class ApiFileControllerTest {
  */
         MockMultipartFile file1 = new MockMultipartFile("file", "test1.png", MediaType.IMAGE_PNG_VALUE, new byte[]{1, 2, 3});
         MockMultipartFile file2 = new MockMultipartFile("file", "test2.png", MediaType.IMAGE_PNG_VALUE, new byte[]{1, 2, 3});
+
         mockMvc.perform(multipart("/api/file/upload")
-                        .with(csrf().asHeader())
                         .file(file1)
                         .file(file2)
                         .param("gid", "testId")
-                        .param("location", "testlocation"))
+                        .param("location", "testlocation")
+                        .with(csrf().asHeader()))
                 .andDo(print());
     }
 }

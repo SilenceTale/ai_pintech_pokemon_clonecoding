@@ -7,8 +7,6 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import lombok.RequiredArgsConstructor;
 import org.koreait.file.entities.FileInfo;
 import org.koreait.file.services.FileUploadService;
 import org.koreait.global.exceptions.BadRequestException;
@@ -49,7 +47,7 @@ public class ApiFileController {
     })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/upload")
-    public JSONData upload(@RequestPart MultipartFile[] files, @Valid RequestUpload form, Errors errors) {
+    public JSONData upload(@RequestPart("file") MultipartFile[] files, @Valid RequestUpload form, Errors errors) {
         if (errors.hasErrors()) {
             throw new BadRequestException(utils.getErrorMessages(errors));
         }

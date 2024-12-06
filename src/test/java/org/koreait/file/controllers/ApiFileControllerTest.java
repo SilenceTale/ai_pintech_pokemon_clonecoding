@@ -4,26 +4,22 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.koreait.file.entities.FileInfo;
 import org.koreait.file.repositories.FileInfoRepository;
-import org.koreait.member.constants.Gender;
-import org.koreait.member.controllers.RequestJoin;
+import org.koreait.file.services.FileInfoService;
 import org.koreait.member.services.MemberUpdateService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockMultipartFile;
-import org.springframework.security.test.context.support.WithUserDetails;
-import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.web.servlet.MockMvc;
 
-import java.time.LocalDate;
 import java.util.List;
 
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.multipart;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 @SpringBootTest
-@ActiveProfiles({"default", "test"})
+//@ActiveProfiles({"default", "test"})
 @AutoConfigureMockMvc
 public class ApiFileControllerTest {
 
@@ -36,8 +32,12 @@ public class ApiFileControllerTest {
     @Autowired
     private MemberUpdateService updateService;
 
+    @Autowired
+    private FileInfoService infoService;
+
     @BeforeEach
     void setup() {
+        /*
         //mockMvc = MockMvcBuilders.standaloneSetup(ApiFileController.class).build();
         RequestJoin form = new RequestJoin();
         form.setEmail("user01@test.org");
@@ -50,11 +50,13 @@ public class ApiFileControllerTest {
         form.setAddress("주소!");
 
         updateService.process(form);
+
+        */
     }
 
     @Test
     //@WithMockUser(username = "user01@test.org", authorities = "USER")
-    @WithUserDetails(value="user01@test.org", userDetailsServiceBeanName = "memberInfoService")
+    //@WithUserDetails(value="user01@test.org", userDetailsServiceBeanName = "memberInfoService")
     void test1() throws Exception {
         /**
          * MockMultipartFile
@@ -71,10 +73,19 @@ public class ApiFileControllerTest {
                 .andDo(print());
 
         Thread.sleep(5000);
-
+        /*
         List<FileInfo> items = repository.getList("testgid");
         for (FileInfo item : items) {
             System.out.println(item.getCreatedBy());
-        }
+        } */
+    }
+
+    @Test
+    void test2() {
+        FileInfo item = infoService.get(1L);
+        System.out.println(item);
+
+        List<FileInfo> items = infoService.getList("testgid", null, null);
+        items.forEach(System.out::println);
     }
 }

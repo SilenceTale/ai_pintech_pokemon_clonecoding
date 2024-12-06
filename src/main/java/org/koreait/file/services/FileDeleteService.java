@@ -32,7 +32,6 @@ public class FileDeleteService {
             throw new UnAuthorizedException();
         }
 
-
         // 1. DB에서 정보를 제거합니다.
         infoRepository.delete(item);
         infoRepository.flush();

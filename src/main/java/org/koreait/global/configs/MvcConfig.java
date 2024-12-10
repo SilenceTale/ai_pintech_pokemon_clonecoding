@@ -27,6 +27,7 @@ public class MvcConfig implements WebMvcConfigurer {
      * <form method='POST' ...>
      *      <input type='hidden' name='_method' value='PATCH'>
      * </form>
+     * @return
      */
     @Bean
     public HiddenHttpMethodFilter hiddenHttpMethodFilter() {

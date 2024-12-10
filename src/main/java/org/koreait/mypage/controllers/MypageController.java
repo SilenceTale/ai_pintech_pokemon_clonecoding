@@ -47,7 +47,7 @@ public class MypageController {
 
         Member member = memberUtil.getMember();
         form.setName(member.getName());
-        form.setNickname(member.getNickName());
+        form.setNickName(member.getNickName());
 
         return utils.tpl("mypage/profile");
     }

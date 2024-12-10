@@ -1,4 +1,3 @@
-
 package org.koreait.file.services;
 
 import com.querydsl.core.BooleanBuilder;
@@ -56,9 +55,9 @@ public class FileInfoService  {
             andBuilder.and(fileInfo.done.eq(status == FileStatus.DONE));
         }
 
-        List<FileInfo> items = (List<FileInfo>)infoRepository.findAll(andBuilder,Sort.by(asc("createdAt")));
+        List<FileInfo> items = (List<FileInfo>)infoRepository.findAll(andBuilder, Sort.by(asc("createdAt")));
 
-        //추가 정보 정리
+        // 추가 정보 처리
         items.forEach(this::addInfo);
 
         return items;
@@ -83,6 +82,11 @@ public class FileInfoService  {
 
         // fileUrl - 접근할 수 있는 주소(브라우저)
         item.setFileUrl(getFileUrl(item));
+
+        // thumbUrl - 이미지 형식인 경우
+        if (item.getContentType().contains("image/")) {
+            item.setThumbUrl(String.format("%s/api/file/thumb?seq=%d", request.getContextPath(), item.getSeq()));
+        }
     }
 
     public String getFilePath(FileInfo item) {
@@ -110,4 +114,5 @@ public class FileInfoService  {
     private long getFolder(long seq) {
         return seq % 10L;
     }
+
 }

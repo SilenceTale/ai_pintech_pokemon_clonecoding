@@ -111,14 +111,27 @@ public class Utils {
     public String showImage(Long seq, String url, int width, int height, String mode) {
 
         try {
+            String imageurl = null;
             if (seq != null && seq > 0L) {
                 FileInfo item = fileInfoService.get(seq);
+                if (!item.isImage()) {
+                    return "";
+                }
+
+                imageurl = String.format("%s&width=%d&height=%d", item.getThumbUrl(), width, height);
 
             } else if (StringUtils.hasText(url)) {
-
+                imageurl = String.format("%s/api/file/thumb?url=%s&width=%d&height=%d", request.getContextPath(), url, width, height);
             }
 
+            if (StringUtils.hasText(imageurl)) return "";
+
             mode = Objects.requireNonNullElse(mode, "image");
+            if (mode.equals("background")) { // 배경 이미지
+
+            } else { // 이미지 태그
+                return String.format("<img src='%s' class='%s' />");
+            }
         } catch (Exception e) {}
 
         return "";

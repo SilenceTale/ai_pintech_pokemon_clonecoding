@@ -39,7 +39,7 @@ public class MemberInfoService implements UserDetailsService {
 
         List<SimpleGrantedAuthority> authorities = items.stream().map(a -> new SimpleGrantedAuthority(a.getAuthority().name())).toList();
 
-
+        // 추가 정보 처리
         addInfo(member);
 
         return MemberInfo.builder()

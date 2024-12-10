@@ -88,6 +88,7 @@ public class MemberUpdateService {
         if (StringUtils.hasText(password)) {
             String hash = passwordEncoder.encode(password);
             member.setPassword(hash);
+            member.setCredentialChangedAt(LocalDateTime.now());
         }
 
         /**
@@ -97,10 +98,10 @@ public class MemberUpdateService {
         List<Authorities> _authorities = null;
         if (authorities != null && memberUtil.isAdmin()) {
             _authorities = authorities.stream().map(a -> {
-                Authorities auth = new Authorities();
-                auth.setAuthority(a);
-                auth.setMember(member);
-                return auth;
+               Authorities auth = new Authorities();
+               auth.setAuthority(a);
+               auth.setMember(member);
+               return auth;
             }).toList();
         }
 
@@ -125,8 +126,8 @@ public class MemberUpdateService {
             QAuthorities qAuthorities = QAuthorities.authorities;
             List<Authorities> items = (List<Authorities>) authoritiesRepository.findAll(qAuthorities.member.eq(member));
             if (items != null) {
-                authoritiesRepository.deleteAll(items);
-                authoritiesRepository.flush();
+               authoritiesRepository.deleteAll(items);
+               authoritiesRepository.flush();
             }
 
 

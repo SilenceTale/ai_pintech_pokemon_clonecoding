@@ -27,13 +27,11 @@ public class BeansConfig {
         return mapper;
     }
 
-
-
     @Lazy
     @Bean
     public ObjectMapper objectMapper() {
         ObjectMapper om = new ObjectMapper();
-        om.registerModule(new JavaTimeModule()) ; // java8 data & time api - java.time 패키지
+        om.registerModule(new JavaTimeModule()); // java8 data & time api - java.time 패키지
 
         return om;
     }

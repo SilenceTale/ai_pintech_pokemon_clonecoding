@@ -1,3 +1,4 @@
+
 package org.koreait.wishlist.entities;
 
 import jakarta.persistence.*;
@@ -7,13 +8,14 @@ import org.koreait.wishlist.constants.WishType;
 
 @Data
 @Entity
+@IdClass(WishId.class)
 public class Wish {
     @Id
     private Long seq;
 
     @Id
     @Enumerated(EnumType.STRING)
-    @Column(length = 15, name = "_type")
+    @Column(length=15, name="_type")
     private WishType type;
 
     @Id

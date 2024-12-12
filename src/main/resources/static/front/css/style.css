@@ -147,7 +147,7 @@ header .icon.search {
 
 header > .right {
     display: flex;
-    width: 500px;
+    width: 520px;
     justify-content: flex-end;
 }
 
@@ -215,4 +215,6 @@ header .move-to-store::after {
     background: #000;
     color: #fff;
 }
+
+
 /* 페이지네이션(pagination) E */

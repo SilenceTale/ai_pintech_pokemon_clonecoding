@@ -35,7 +35,7 @@ public class PythonRunTest {
     void test2() throws Exception {
         //python predict.py "[[ 1.23151481,  0.88790998,  1.6140196,   0.94127238,  1.6784415,   1.38504672, -1.57161094, -0.65513703,  0.99961796 , -0.80484811]]"
 
-        ProcessBuilder builder = new ProcessBuilder("C:\\Users\\admin\\AppData\\Local\\Programs\\Python\\Python39\\python.exe", "D:/recommend/predict.py", "[[ 1.23151481,  0.88790998,  1.6140196,   0.94127238,  1.6784415,   1.38504672, -1.57161094, -0.65513703,  0.99961796 , -0.80484811]]");
+        ProcessBuilder builder = new ProcessBuilder("C:\\Users\\user\\AppData\\Local\\Programs\\Python\\Python39\\python.exe", "C:/recommend/predict.py", "[[ 1.23151481,  0.88790998,  1.6140196,   0.94127238,  1.6784415,   1.38504672, -1.57161094, -0.65513703,  0.99961796 , -0.80484811]]");
         Process process = builder.start();
         BufferedReader reader = process.inputReader();
         reader.lines().forEach(System.out::println);

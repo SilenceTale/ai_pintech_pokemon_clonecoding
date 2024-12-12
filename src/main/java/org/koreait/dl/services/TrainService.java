@@ -8,7 +8,6 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.context.annotation.Profile;
 import org.springframework.data.domain.Sort;
-import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDate;
@@ -35,12 +34,13 @@ public class TrainService {
     @Value("${python.data.url}")
     private String dataUrl;
 
-    @Scheduled(cron="0 0 1 * * *") // 새벽 1시 마다 훈련
+    //@Scheduled(cron="0 0 1 * * *") // 새벽 1시 마다 훈련
     public void process() {
         try {
             ProcessBuilder builder = new ProcessBuilder(runPath, scriptPath + "train.py", dataUrl + "?mode=ALL", dataUrl);
             Process process = builder.start();
             int exitCode = process.waitFor();
+            System.out.println(exitCode);
 
         } catch (Exception e) {}
     }

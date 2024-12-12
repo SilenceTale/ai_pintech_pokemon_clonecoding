@@ -13,10 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PatchMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -26,6 +23,7 @@ import java.util.List;
 @ApplyErrorPage
 @RequestMapping("/mypage")
 @RequiredArgsConstructor
+@SessionAttributes("profile")
 public class MypageController {
     private final Utils utils;
     private final MemberUtil memberUtil;
@@ -77,6 +75,9 @@ public class MypageController {
         }
 
         updateService.process(form);
+
+        // 프로필 속성 변경
+        model.addAttribute("profile", memberUtil.getMember());
 
         return "redirect:/mypage"; // 회원 정보 수정 완료 후 마이페이지 메인 이동
     }

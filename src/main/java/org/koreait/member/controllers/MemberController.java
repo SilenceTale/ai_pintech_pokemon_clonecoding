@@ -135,7 +135,7 @@ public class MemberController {
 
     @ResponseBody
     @GetMapping("/refresh")
-    @PreAuthorize("isAuthenticated()")
+    @PreAuthorize("isAuthenticated()") // 이 메서드를 실행 시키기 전에 권한을 확인하는 어노테이션
     public void refresh(Principal principal) {
 
         MemberInfo memberInfo = (MemberInfo)infoService.loadUserByUsername(principal.getName());

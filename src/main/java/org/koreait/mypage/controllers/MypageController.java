@@ -27,7 +27,7 @@ import java.util.List;
 @ApplyErrorPage
 @RequestMapping("/mypage")
 @RequiredArgsConstructor
-@SessionAttributes("profile")
+@SessionAttributes("profile") // 데이터를 공유하기 위해서, 요청범위가 아닌 세션 범위로
 public class MypageController {
     private final Utils utils;
     private final MemberUtil memberUtil;
@@ -36,7 +36,7 @@ public class MypageController {
     private final ProfileValidator profileValidator;
     private final MemberInfoService infoService;
 
-    @ModelAttribute("profile")
+    @ModelAttribute("profile") // 프로필 정보를 모델 속성으로 추가한 이유는 세션 속성값에 넣기 위해.
     public Member getMember() {
         return memberUtil.getMember();
     }
@@ -55,7 +55,7 @@ public class MypageController {
 
     @GetMapping("/profile")
     public String profile(Model model) {
-        commonProcess("profile", model);
+        commonProcess("profile", model); // 동일한 자바스크립트 사용!
 
         Member member = memberUtil.getMember();
         RequestProfile form = modelMapper.map(member, RequestProfile.class);
@@ -71,9 +71,9 @@ public class MypageController {
 
     @PatchMapping("/profile")
     public String updateProfile(@Valid RequestProfile form, Errors errors, Model model) {
-        commonProcess("profile", model);
+        commonProcess("profile", model); // 58번 줄의 설명과 동일, 동일한 자바스크립트 사용!
 
-        profileValidator.validate(form, errors);
+        profileValidator.validate(form, errors); // @Valid 로 1차검증에 이상이 있을시 2차로 다시 검증한다.
 
         if (errors.hasErrors()) {
             return utils.tpl("mypage/profile");
@@ -116,7 +116,7 @@ public class MypageController {
             addCommonScript.add("address");
             addScript.add("mypage/profile");
             pageTitle = utils.getMessage("회원정보_수정");
-        }
+        }/* 분리하여서 따로 속성값으로스크립트를 추가하였음. */
 
         model.addAttribute("addCommonScript", addCommonScript);
         model.addAttribute("addScript", addScript);

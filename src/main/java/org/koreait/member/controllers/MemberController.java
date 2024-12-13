@@ -125,9 +125,9 @@ public class MemberController {
         form.setRequiredTerms3(agree.isRequiredTerms3());
         form.setOptionalTerms(agree.getOptionalTerms());
 
-        updateService.process(form);
+        updateService.process(form); // 프로세스에 넣어서 업데이트를 진행
 
-        status.setComplete();
+        status.setComplete(); // 세션값을 출력하지 않겠다
 
         // 회원가입 처리 완료 후 - 로그인 페이지로 이동
         return "redirect:/member/login";

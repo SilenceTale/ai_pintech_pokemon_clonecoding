@@ -101,7 +101,7 @@ public class Pagination {
         List<String[]> pages = new ArrayList<>();
         for (int i = firstRangePage; i <= lastRangePage; i++) {
             String url = baseUrl + i;
-            pages.add(new String[] {"" + i, url});
+            pages.add(new String[] {"" + i, url}); // 기초 데이터 생성
         }
 
         return pages;

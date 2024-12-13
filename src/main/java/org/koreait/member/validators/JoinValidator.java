@@ -57,7 +57,7 @@ public class JoinValidator implements Validator, PasswordValidator {
 
         if (!form.isRequiredTerms3()) {
             errors.rejectValue("requiredTerms3", "AssertTrue");
-        }
+        } // 필수 항목 검증! 얘내를 통과하지 못하면 회원 가입이 불가능!
     }
 
     /**

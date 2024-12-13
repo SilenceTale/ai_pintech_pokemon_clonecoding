@@ -22,19 +22,20 @@ import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 public class SecurityConfig {
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception { // 이쪽 기능이 제일 중요함.
+        // 왜? -> 필터체인을 걸어서 인증 설정을 볼 수 있음.
 
         /* 인증 설정 S - 로그인, 로그아웃 */
         http.formLogin(c -> {
            c.loginPage("/member/login") // 로그인 양식을 처리할 주소
-                   .usernameParameter("email")
+                   .usernameParameter("email") // 바뀔 수 있으므로 설정이 가능함. id, account, email 등으로 설정이 가능하듯...
                    .passwordParameter("password")
                    .failureHandler(new LoginFailureHandler())
                    .successHandler(new LoginSuccessHandler());
         });
 
         http.logout(c -> {
-           c.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout"))
+           c.logoutRequestMatcher(new AntPathRequestMatcher("/member/logout")) // 주소를 입력하면 입력한 주소로 로그아웃을 진행
                    .logoutSuccessUrl("/member/login");
         });
         /* 인증 설정 E */
@@ -60,14 +61,14 @@ public class SecurityConfig {
 
         http.exceptionHandling(c -> {
             c.authenticationEntryPoint(new MemberAuthenticationExceptionHandler())  // 미로그인시 인가 실패
-                    .accessDeniedHandler(new MemberAccessDeniedHandler()); // 로그인 이후 인가 실패
+                    .accessDeniedHandler(new MemberAccessDeniedHandler()); // 로그인 이후 인가 실패 -> 403에러가 떠야하지만 우리는 401 에러가 뜨도록 설정함.
 
         });
 
         /* 인가 설정 E */
 
 
-        return http.build(); // 설정 무력화
+        return http.build(); // 처음 코드 사용시 설정 무력화였지만 지금은 설정 객체를 빌드로 만들어서 내보내는 역할.
     }
 
     @Bean

@@ -57,7 +57,7 @@ public class PokemonInfoService {
         }
         /* 검색 처리 E */
 
-        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(asc("seq")));
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(asc("seq"))); // 반환값은 무족건 page!
 
         Page<Pokemon> data = pokemonRepository.findAll(andBuilder, pageable);
         List<Pokemon> items = data.getContent(); // 조회된 목록

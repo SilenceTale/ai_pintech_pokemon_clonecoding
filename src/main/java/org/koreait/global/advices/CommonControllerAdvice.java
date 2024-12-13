@@ -16,12 +16,12 @@ import org.springframework.web.servlet.ModelAndView;
 import java.util.HashMap;
 import java.util.Map;
 
-@ControllerAdvice(annotations = ApplyErrorPage.class)
+@ControllerAdvice(annotations = ApplyErrorPage.class) // 예외가 발생하게돼면 정의된 공통되어있는 어떤 값과 화면의 에러출력 페이지로 넘어어가도록 설정함.
 @RequiredArgsConstructor
 public class CommonControllerAdvice {
     private final Utils utils;
 
-    @ExceptionHandler(Exception.class)
+    @ExceptionHandler(Exception.class) // 이 매개변수 자체가 에러페이지 처리에 관한 공통 페이지를 처리함.
     public ModelAndView errorHandler(Exception e, HttpServletRequest request) {
         Map<String, Object> data = new HashMap<>();
 
@@ -33,6 +33,7 @@ public class CommonControllerAdvice {
         data.put("path", request.getContextPath() + request.getRequestURI());
         data.put("querystring", request.getQueryString());
         data.put("exception", e);
+        // 출력 정보가 필요할 수 있기때문에 String tpl로 데이터를 정의하였다.
 
         if (e instanceof CommonException commonException) {
             status = commonException.getStatus();
@@ -64,8 +65,8 @@ public class CommonControllerAdvice {
         data.put("_status", status);
         data.put("message", message);
         ModelAndView mv = new ModelAndView();
-        mv.setStatus(status);
-        mv.addAllObjects(data);
+        mv.setStatus(status); // 응답 코드 추가.
+        mv.addAllObjects(data); // 오브젝트 값 넣기
         mv.setViewName(tpl);
         return mv;
     }

@@ -58,7 +58,7 @@ public class FileUploadService {
             item.setExtension(extension);
             item.setContentType(contentType);
 
-            fileInfoRepository.saveAndFlush(item);
+            fileInfoRepository.saveAndFlush(item); // DB에 기록하고 전부 반영함.
 
             // 1. 파일 업로드 정보 - DB에 기록 E
 
@@ -68,13 +68,13 @@ public class FileUploadService {
             long folder = seq % 10L; // 0 ~ 9
             File dir = new File(rootPath + folder);
             // 디렉토리가 존재 하지 않거나 파일로만 있는 경우 생성
-            if (!dir.exists() || !dir.isDirectory()) {
-                dir.mkdirs();
+            if (!dir.exists() || !dir.isDirectory()) { // 파일 경로가 없가 없을경우
+                dir.mkdirs(); // 새 파일 경로를 생성하겠다.
             }
 
             File _file = new File(dir, uploadFileName);
             try {
-                file.transferTo(_file);
+                file.transferTo(_file); // 해당 파일을 이전시킨다.
 
                 // 추가 정보 처리
                 infoService.addInfo(item);
@@ -90,6 +90,6 @@ public class FileUploadService {
         }
 
 
-        return uploadedItems;
+        return uploadedItems; // 서비스를 사용하는 컨트롤러쪽에서 JSON데이터로 프론트에서 ajax 내에서 볼 수 있는 값으로 변경
     }
 }

@@ -9,3 +9,4 @@ public class FileProperties {
     private String path;
     private String url;
 }
+// 범주화해서 설정파일을 사용하기 위해서 만든 클래스.

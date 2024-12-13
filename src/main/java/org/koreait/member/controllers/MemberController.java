@@ -27,7 +27,7 @@ import java.util.List;
 @ApplyErrorPage
 @RequestMapping("/member")
 @RequiredArgsConstructor
-@SessionAttributes({"requestAgree", "requestLogin"})
+@SessionAttributes({"requestAgree", "requestLogin"}) // 모델로 add했을때 requestLogin도 동일하게 session범위로 변경하여 처리하게됀다.
 public class MemberController {
     
     private final Utils utils;
@@ -44,7 +44,7 @@ public class MemberController {
     @ModelAttribute("requestLogin")
     public RequestLogin requestLogin() {
         return new RequestLogin();
-    }
+    } // sessionAttribute를 사용하기 위해 매개변수위에 ModelAttribute를 통해서 유지를 시킴으로써 사용할 수 있도록.
 
     /* 회원 페이지 CSS */
     @ModelAttribute("addCss")
@@ -53,7 +53,7 @@ public class MemberController {
     }
 
     @GetMapping("/login")
-    public String login(@ModelAttribute RequestLogin form, Errors errors, Model model) {
+    public String login(@ModelAttribute RequestLogin form, Errors errors, Model model) { // 검증은 @ModelAttribute RequestLogin form으로 시도.)
         commonProcess("login", model); // 로그인 페이지 공통 처리
 
         if (form.getErrorCodes() != null) { // 검증 실패
@@ -67,7 +67,7 @@ public class MemberController {
                     });
         }
 
-        return utils.tpl("member/login");
+        return utils.tpl("member/login"); // 모바일과 PC를 분리하는 템플릿에 주소값을 넣음.
     }
 
 

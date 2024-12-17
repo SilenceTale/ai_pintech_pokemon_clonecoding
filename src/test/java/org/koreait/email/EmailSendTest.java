@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @SpringBootTest
-@ActiveProfiles({"default", "test", "email"})
+@ActiveProfiles({"default", "test", "templates/email"})
 public class EmailSendTest {
     @Autowired
     private JavaMailSender javaMailSender;
@@ -48,7 +48,7 @@ public class EmailSendTest {
         Context context = new Context();
         context.setVariable("subject", "테스트 제목...");
 
-        String text = templateEngine.process("email/auth", context);
+        String text = templateEngine.process("templates/email/auth", context);
 
         System.out.println(text);
     }

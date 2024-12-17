@@ -82,7 +82,7 @@ public class JoinValidator implements Validator, PasswordValidator {
 
         // 1. 이메일 중복 여부 체크
         if (memberRepository.exists(email)) {
-            errors.rejectValue("email", "Duplicated");
+            errors.rejectValue("templates/email", "Duplicated");
         }
 
         // 2. 비밀번호 복잡성 S

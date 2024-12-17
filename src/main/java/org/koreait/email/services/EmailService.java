@@ -3,6 +3,7 @@ package org.koreait.email.services;
 import jakarta.mail.internet.MimeMessage;
 import lombok.RequiredArgsConstructor;
 import org.koreait.email.controllers.RequestEmail;
+import org.springframework.context.annotation.Profile;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.MimeMessageHelper;
 import org.springframework.stereotype.Service;
@@ -15,6 +16,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Service
+@Profile("templates/email")
 @RequiredArgsConstructor
 public class EmailService {
 
@@ -48,7 +50,7 @@ public class EmailService {
 
             context.setVariables(tplData);
 
-            String html = templateEngine.process("email/" + tpl, context);
+            String html = templateEngine.process("templates/email/" + tpl, context);
 
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, false, "UTF-8");
@@ -73,5 +75,18 @@ public class EmailService {
         }
 
         return false;
+    }
+
+    public boolean sendEmail(RequestEmail form, String tpl) { // 메서드 오버로드로 지정
+        return sendEmail(form, tpl, null);
+    }
+
+    public boolean sendEmail(String to, String subject, String content) {
+        RequestEmail form = new RequestEmail();
+        form.setTo(List.of(to));
+        form.setSubject(subject);
+        form.setContent(content);
+
+        return sendEmail(form, "general"); // 일반적인 형식으로 tpl 을 general 로 지정
     }
 }

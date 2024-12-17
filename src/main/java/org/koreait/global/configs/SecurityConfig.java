@@ -29,7 +29,7 @@ public class SecurityConfig {
         /* 인증 설정 S - 로그인, 로그아웃 */
         http.formLogin(c -> {
            c.loginPage("/member/login") // 로그인 양식을 처리할 주소
-                   .usernameParameter("email") // 바뀔 수 있으므로 설정이 가능함. id, account, email 등으로 설정이 가능하듯...
+                   .usernameParameter("templates/email") // 바뀔 수 있으므로 설정이 가능함. id, account, email 등으로 설정이 가능하듯...
                    .passwordParameter("password")
                    .failureHandler(new LoginFailureHandler())
                    .successHandler(new LoginSuccessHandler());

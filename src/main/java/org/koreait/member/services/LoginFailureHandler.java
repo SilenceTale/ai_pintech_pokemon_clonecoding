@@ -28,7 +28,7 @@ public class LoginFailureHandler implements AuthenticationFailureHandler {
         // 추가한 이유는 커맨드 객체 검증을 최대한 활용하기 위해서 밑에 로그인은 세션쪽으로 넘어가도록 설정함.
         // MemberController로 넘어가면 @SessionAttribute 안에 "requestLogin"이 들어가 있음.
 
-        String email = request.getParameter("email"); // 검증을 위해서 데이터를 추가함.
+        String email = request.getParameter("templates/email"); // 검증을 위해서 데이터를 추가함.
         String password = request.getParameter("password"); // 검증을 위해서 데이터를 추가함.
 
         form.setEmail(email);

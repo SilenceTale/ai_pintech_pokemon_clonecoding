@@ -16,7 +16,7 @@ import java.util.Map;
 import java.util.Objects;
 
 @Service
-@Profile("templates/email")
+@Profile("email")
 @RequiredArgsConstructor
 public class EmailService {
 
@@ -50,7 +50,7 @@ public class EmailService {
 
             context.setVariables(tplData);
 
-            String html = templateEngine.process("templates/email/" + tpl, context);
+            String html = templateEngine.process("email/" + tpl, context);
 
             MimeMessage message = javaMailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, false, "UTF-8");
@@ -77,7 +77,7 @@ public class EmailService {
         return false;
     }
 
-    public boolean sendEmail(RequestEmail form, String tpl) { // 메서드 오버로드로 지정
+    public boolean sendEmail(RequestEmail form, String tpl) {
         return sendEmail(form, tpl, null);
     }
 
@@ -87,6 +87,6 @@ public class EmailService {
         form.setSubject(subject);
         form.setContent(content);
 
-        return sendEmail(form, "general"); // 일반적인 형식으로 tpl 을 general 로 지정
+        return sendEmail(form, "general");
     }
 }

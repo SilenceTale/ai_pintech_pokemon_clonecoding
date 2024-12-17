@@ -4,13 +4,13 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.koreait.email.controllers.RequestEmail;
 import org.koreait.email.exceptions.AuthCodeExpiredException;
+import org.koreait.email.exceptions.AuthCodeMismatchException;
 import org.koreait.global.exceptions.BadRequestException;
 import org.koreait.global.libs.Utils;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
-import java.time.Instant;
+import java.time.LocalDateTime;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -27,7 +27,7 @@ public class EmailAuthService {
 
     /**
      *
-     * @param to : 수신 쪽 이메일 주소
+     * @param to : 수신쪽 이메일 주소
      * @return
      */
     public boolean sendCode(String to) {
@@ -36,15 +36,16 @@ public class EmailAuthService {
 
         /**
          * 인증 코드는 5자리 정수
-         * 만료 시간을 3분으로 기록
-         * 사용자의 입력을 검증하기 위해서 세션에 인증 코드와 완료시간을 기록
+         * 만료시간을 3분으로 기록
+         * 사용자의 입력을 검증하기 위해서 세션에 인증 코드와 만료시간을 기록
          */
-        int authCode = random.nextInt(99999);
+        Integer authCode = random.nextInt(99999);
 
-        long expired = Instant.EPOCH.getEpochSecond() + 60 * 3; // 만료시간 3분대로 설정
+        LocalDateTime expired = LocalDateTime.now().plusMinutes(3L);
 
         session.setAttribute("authCode", authCode);
-        session.setAttribute("expiredTIme", expired);
+        session.setAttribute("expiredTime", expired);
+        session.setAttribute("authCodeVerified", true);
 
         Map<String, Object> tplData = new HashMap<>();
         tplData.put("authCode", authCode);
@@ -57,21 +58,32 @@ public class EmailAuthService {
     }
 
     /**
-     * 인증 코드 검증
+     * 인증코드 검증
      *
-     * @param code : 사용자가 입력한 인증 코드!
+     * @param code : 사용자가 입력한 인증 코드
      */
-    public void verify(String code) {
-        if (!StringUtils.hasText(code)) {
+    public void verify(Integer code) {
+        if (code == null) {
             throw new BadRequestException(utils.getMessage("NotBlank.authCode"));
         }
 
-        long expired = (long)session.getAttribute("expiredTime");
-        int authCode = (int)session.getAttribute("authCode");
+        LocalDateTime expired = (LocalDateTime)session.getAttribute("expiredTime");
+        Integer authCode = (Integer)session.getAttribute("authCode");
+        // Integer -> intValue() -> int
 
-        long now = Instant.EPOCH.getEpochSecond();
-        if (expired < now) { // 코드가 만료된 경우
+        if (expired != null && expired.isBefore(LocalDateTime.now())) { // 코드가 만료된 경우
             throw new AuthCodeExpiredException();
         }
+
+        if (authCode == null) {
+            throw new BadRequestException();
+        }
+
+        if (!code.equals(authCode)) { // 인증 코드가 일치하지 않는 경우
+            throw new AuthCodeMismatchException();
+        }
+
+        // 인증 성공 상태 세선에 기록
+        session.setAttribute("authCodeVerified", true);
     }
 }

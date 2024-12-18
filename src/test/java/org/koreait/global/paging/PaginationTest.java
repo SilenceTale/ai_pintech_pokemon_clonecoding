@@ -8,8 +8,6 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.ActiveProfiles;
 
 import java.util.Arrays;
-
-import static org.mockito.BDDMockito.given;
 import static org.mockito.BDDMockito.*;
 
 @SpringBootTest
@@ -29,6 +27,7 @@ public class PaginationTest {
     @Test
     void test1() {
         // Pagination(int page, int total, int ranges, int limit)
+        Pagination pagination = new Pagination(23, 9999, 10, 20, request);
         System.out.println(pagination);
 
         pagination.getPages().forEach(s -> System.out.println(Arrays.toString(s)));

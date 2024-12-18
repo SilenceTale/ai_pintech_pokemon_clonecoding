@@ -59,4 +59,6 @@ public class Member extends BaseEntity {
 
     // 비밀번호 변경 일시
     private LocalDateTime credentialChangedAt;
+
+
 }

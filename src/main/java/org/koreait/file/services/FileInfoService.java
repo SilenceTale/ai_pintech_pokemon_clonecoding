@@ -32,7 +32,7 @@ public class FileInfoService  {
     private final HttpServletRequest request;
 
     public FileInfo get(Long seq) {
-        FileInfo item = infoRepository.findById(seq).orElseThrow(FileNotFoundException::new); // 단일 조회와 복수개 조회 2가지를 추가함.
+        FileInfo item = infoRepository.findById(seq).orElseThrow(FileNotFoundException::new);
 
         addInfo(item); // 추가 정보 처리
 

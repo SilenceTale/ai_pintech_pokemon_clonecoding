@@ -57,7 +57,7 @@ public class JoinValidator implements Validator, PasswordValidator {
 
         if (!form.isRequiredTerms3()) {
             errors.rejectValue("requiredTerms3", "AssertTrue");
-        } // 필수 항목 검증! 얘내를 통과하지 못하면 회원 가입이 불가능!
+        }
     }
 
     /**
@@ -82,7 +82,7 @@ public class JoinValidator implements Validator, PasswordValidator {
 
         // 1. 이메일 중복 여부 체크
         if (memberRepository.exists(email)) {
-            errors.rejectValue("templates/email", "Duplicated");
+            errors.rejectValue("email", "Duplicated");
         }
 
         // 2. 비밀번호 복잡성 S

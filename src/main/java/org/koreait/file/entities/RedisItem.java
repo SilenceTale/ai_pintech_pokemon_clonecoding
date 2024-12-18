@@ -7,7 +7,7 @@ import org.springframework.data.redis.core.RedisHash;
 import java.io.Serializable;
 
 @Data
-@RedisHash(value = "test_hash", timeToLive = 300)
+@RedisHash(value="test_hash", timeToLive = 300)
 public class RedisItem implements Serializable {
     @Id
     private String key;

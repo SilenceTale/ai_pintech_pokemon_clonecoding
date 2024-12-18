@@ -1,4 +1,3 @@
-
 package org.koreait.wishlist.entities;
 
 import jakarta.persistence.*;

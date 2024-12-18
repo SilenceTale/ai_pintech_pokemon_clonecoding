@@ -32,7 +32,7 @@ public class Pagination {
      * @param page : 현재 페이지 번호
      * @param total : 총 레코드 갯수
      * @param ranges : 페이지 구간 갯수
-     * @param limit : 한 페이지 당 출력될 레코드 갯수
+     * @param limit : 한 페이지당 출력될 레코드 갯수
      */
     public Pagination(int page, int total, int ranges, int limit) {
         this(page, total, ranges, limit, null);
@@ -41,8 +41,8 @@ public class Pagination {
     public Pagination(int page, int total, int ranges, int limit, HttpServletRequest request) {
         // 페이징 기본값 처리
         page = Math.max(page, 1);
-        total = Math.max(total, 0); // total 갯수가 없으면 페이지를 만들 수 없다.
-        ranges = ranges < 1 ? 10 : ranges; // 페이지 밑에 보일 갯수를 설정한다.
+        total = Math.max(total, 0);
+        ranges = ranges < 1 ? 10 : ranges;
         limit = limit < 1 ? 20 : limit;
 
         if (total == 0) {
@@ -50,12 +50,12 @@ public class Pagination {
         }
 
         // 전체 페이지 갯수
-        int totalPages = (int)Math.ceil(total / (double)limit); // 이부분은 12-11 오후 12:09분으로 다시 주석으로 설명하자.
+        int totalPages = (int)Math.ceil(total / (double)limit);
 
         // 구간 번호 - 0, 1, 2
         int rangeCnt = (page - 1) / ranges;
         int firstRangePage = rangeCnt * ranges + 1; // 현재 구간의 시작 페이지 번호
-        int lastRangePage = firstRangePage + ranges - 1; // 현재 구간의 종료번호, 마지막 페이지 번호
+        int lastRangePage = firstRangePage + ranges - 1; // 현재 구간의 마지막 페이지 번호
         lastRangePage = Math.min(lastRangePage, totalPages);
 
         int prevRangeLastPage = 0, nextRangeFirstPage = 0; // 이전 구간 시작 페이지 번호, 다음 구간 시작 페이지 번호
@@ -64,31 +64,33 @@ public class Pagination {
         }
 
         // 마지막 페이지 구간
-        int lastRangegCnt = (totalPages - 1) / ranges;
-        if (rangeCnt < lastRangegCnt) {
+        int lastRangeCnt = (totalPages - 1) / ranges;
+        if (rangeCnt < lastRangeCnt) {
             nextRangeFirstPage = (rangeCnt + 1) * ranges + 1;
         }
+
         /* 쿼리스트링 값 처리 S */
         String qs = request.getQueryString();
         baseUrl = "?";
         if (StringUtils.hasText(qs)) {
             baseUrl += Arrays.stream(qs.split("&"))
-                    .filter(s -> !s.contains("page="))
+                        .filter(s -> !s.contains("page="))
                     .collect(Collectors.joining("&")) + "&";
         }
         baseUrl += "page=";
-        /* 쿼리 스트링 값 처리 E */
+        /* 쿼리스트링 값 처리 E */
 
         this.page = page;
-        this.total = total;
         this.ranges = ranges;
         this.limit = limit;
+        this.total = total;
         this.totalPages = totalPages;
         this.firstRangePage = firstRangePage;
         this.lastRangePage = lastRangePage;
         this.prevRangeLastPage = prevRangeLastPage;
         this.nextRangeFirstPage = nextRangeFirstPage;
     }
+
     /**
      * String 배열의 0번째 - 페이지 번호 숫자, 1번째 - 페이지 URL
      * @return
@@ -100,8 +102,8 @@ public class Pagination {
 
         List<String[]> pages = new ArrayList<>();
         for (int i = firstRangePage; i <= lastRangePage; i++) {
-            String url = baseUrl + i;
-            pages.add(new String[] {"" + i, url}); // 기초 데이터 생성
+            String url =  baseUrl + i;
+            pages.add(new String[] {"" + i, url});
         }
 
         return pages;

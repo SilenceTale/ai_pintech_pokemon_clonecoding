@@ -10,14 +10,14 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 
 @Configuration
 public class RedisConfig {
-    @Value("${spring.data.redis.host}") // 설정파일을 가져옴. 그 설정파일은 application.yml에 지정되어있음.
+    @Value("${spring.data.redis.host}")
     private String host;
 
-    @Value("${spring.data.redis.port}") // 설정파일을 가져옴. 그 설정파일은 application.yml에 지정되어있음.
+    @Value("${spring.data.redis.port}")
     private int port;
 
     @Bean
-    public RedisConnectionFactory redisConnectionFactory() { // ConnectionFactory가 없다면 사용할 수가 없으므로 꼭 필수적으로 만들어야한다.
+    public RedisConnectionFactory redisConnectionFactory() {
         return new LettuceConnectionFactory(host, port);
     }
 

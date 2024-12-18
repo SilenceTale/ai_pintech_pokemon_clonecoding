@@ -18,44 +18,41 @@ import java.util.List;
 import java.util.Objects;
 
 public class LoginFailureHandler implements AuthenticationFailureHandler {
-    // AuthenticationFailureHandler 인터페이스는 설정 인터페이스.
     @Override
     public void onAuthenticationFailure(HttpServletRequest request, HttpServletResponse response, AuthenticationException exception) throws IOException, ServletException {
 
         HttpSession session = request.getSession();
         RequestLogin form = Objects.requireNonNullElse((RequestLogin)session.getAttribute("requestLogin"), new RequestLogin());
-        form.setErrorCodes(null); // 처음에 에러코드를 초기화를 시킨다, 왜? 세션범이로 바꿧기때문에 유지가 돼기에, 다시 들어오면 기존 데이터가 남아서 다시 검증하기 때문에 그 코드를 초기화.
-        // 추가한 이유는 커맨드 객체 검증을 최대한 활용하기 위해서 밑에 로그인은 세션쪽으로 넘어가도록 설정함.
-        // MemberController로 넘어가면 @SessionAttribute 안에 "requestLogin"이 들어가 있음.
+        form.setErrorCodes(null);
 
-        String email = request.getParameter("templates/email"); // 검증을 위해서 데이터를 추가함.
-        String password = request.getParameter("password"); // 검증을 위해서 데이터를 추가함.
+        String email = request.getParameter("email");
+        String password = request.getParameter("password");
 
         form.setEmail(email);
         form.setPassword(password);
 
-        String redirectUrl = request.getContextPath() + "/member/login"; // 오류가 발생한다면 로그인 페이지로 넘억도록 설정. 그것을 ContextPath() 문장으로 완성. 즉 검증 준비단계를 완료시키기 위해서.
+        String redirectUrl = request.getContextPath() + "/member/login";
 
         // 아이디 또는 비밀번호를 입력하지 않은 경우, 아이디로 조회 X, 비번이 일치하지 않는 경우
-        if (exception instanceof BadCredentialsException) { // badcredentialsException은 AuthenticationException의 하위 객체.
+        if (exception instanceof BadCredentialsException) {
             List<String> errorCodes = Objects.requireNonNullElse(form.getErrorCodes(), new ArrayList<>());
 
             if (!StringUtils.hasText(email)) {
-                errorCodes.add("NotBlank_email"); // 이 코드가 추가돼어 있다면 필수 항목을 검증한다.
+                errorCodes.add("NotBlank_email");
             }
 
             if (!StringUtils.hasText(password)) {
-                errorCodes.add("NotBlank_password"); // 이 코드가 추가돼어 있다면 필수 항목을 검증한다.
+                errorCodes.add("NotBlank_password");
             }
 
 
             if (errorCodes.isEmpty()) {
-                errorCodes.add("Failure.validate.login"); // 이메일 이고, 비번이 있는데 틀린다면? 다시 검증을 통해 에러 코드를 validate에 넣어서 보여준다.
+                errorCodes.add("Failure.validate.login");
             }
 
             form.setErrorCodes(errorCodes);
         } else if (exception instanceof CredentialsExpiredException) { //  비밀번호가 만료된 경우
-            redirectUrl = request.getContextPath() + "/member/password/change"; // credentialChange가 발생한다면 비밀번호 변경을 하라고 전달하기 위해 주소를 추가함.
+            redirectUrl = request.getContextPath() + "/member/password/change";
         } else if (exception instanceof DisabledException) { // 탈퇴한 회원
             form.setErrorCodes(List.of("Failure.disabled.login"));
         }

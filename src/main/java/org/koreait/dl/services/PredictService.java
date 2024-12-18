@@ -33,7 +33,7 @@ public class PredictService {
             ProcessBuilder builder = new ProcessBuilder(runPath, scriptPath + "predict.py", dataUrl + "?mode=ALL", data);
             Process process = builder.start();
             InputStream in = process.getInputStream();
-            return om.readValue(in.readAllBytes(), int[].class); // 뭐가 들어올지 모르기때문에 Class클래스 객체가 매개변수로 꼭 필요하다.
+            return om.readValue(in.readAllBytes(), int[].class);
 
         } catch (Exception e) {
             e.printStackTrace();

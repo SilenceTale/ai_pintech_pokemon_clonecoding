@@ -51,12 +51,12 @@ public class MemberUpdateService {
         // 비밀번호 해시화 - BCrypt
         String hash = passwordEncoder.encode(form.getPassword());
         member.setPassword(hash);
-        member.setCredentialChangedAt(LocalDateTime.now()); // 처음변경할때는 비밀번호는 NULL값이 아님!
+        member.setCredentialChangedAt(LocalDateTime.now());
 
         // 회원 권한
         Authorities auth = new Authorities();
         auth.setMember(member);
-        auth.setAuthority(Authority.USER);  // 회원 권한이 없는 경우 - 회원 가입시, 기본 권한 USER을 넣음
+        auth.setAuthority(Authority.USER);  // 회원 권한이 없는 경우 - 회원 가입시, 기본 권한 USER
 
         save(member, List.of(auth)); // 회원 저장 처리
     }
@@ -86,10 +86,10 @@ public class MemberUpdateService {
 
         // 회원정보 수정일때는 비밀번호가 입력 된 경우만 저장
         String password = form.getPassword();
-        if (StringUtils.hasText(password)) { // 비밀번호 값을 입력했을때만 변경이 돼도록 설정.
+        if (StringUtils.hasText(password)) {
             String hash = passwordEncoder.encode(password);
             member.setPassword(hash);
-            member.setCredentialChangedAt(LocalDateTime.now()); // 비밀번호가 변경이 됀 시점. 이후 30일 뒤 다시 비밀번호 변경해달라고 요청
+            member.setCredentialChangedAt(LocalDateTime.now());
         }
 
         /**
@@ -97,7 +97,7 @@ public class MemberUpdateService {
          *
          */
         List<Authorities> _authorities = null;
-        if (authorities != null && memberUtil.isAdmin()) { // 권한 변경은 관리자만 가능하도록 설정
+        if (authorities != null && memberUtil.isAdmin()) {
             _authorities = authorities.stream().map(a -> {
                Authorities auth = new Authorities();
                auth.setAuthority(a);
@@ -129,7 +129,7 @@ public class MemberUpdateService {
             if (items != null) {
                authoritiesRepository.deleteAll(items);
                authoritiesRepository.flush();
-            } // 새로 NULL값이 아닐때 다시 추가함.
+            }
 
 
             authoritiesRepository.saveAllAndFlush(authorities);
@@ -138,8 +138,10 @@ public class MemberUpdateService {
         // 회원 권한 업데이트 처리 E
 
         // 로그인 회원 정보 업데이트
-        infoService.addInfo(member);
-        memberUtil.setMember(member);
+        member = memberRepository.findByEmail(member.getEmail()).orElse(null);
+        if (member != null) {
+            infoService.addInfo(member);
+            memberUtil.setMember(member);
+        }
     }
-
 }

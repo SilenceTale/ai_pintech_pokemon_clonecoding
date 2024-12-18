@@ -16,17 +16,17 @@ import java.util.stream.Collectors;
 
 @Component
 @RequiredArgsConstructor
-public class Utils { // 편의기능 클래스
+public class Utils {
 
     private final HttpServletRequest request;
-    private final MessageSource messageSource; // 2. 그렇게 사용하기 위해 messageSource를 주입함.
+    private final MessageSource messageSource;
     private final FileInfoService fileInfoService;
 
     public boolean isMobile() {
 
         // 요청 헤더 - User-Agent / 브라우저 정보
-        String ua = request.getHeader("User-Agent"); // 브라우저의 정보를 요청 헤더를 통해 확인.
-        String pattern = ".*(iPhone|iPod|iPad|BlackBerry|Android|Windows CE|LG|MOT|SAMSUNG|SonyEricsson).*"; //isMobile을 구현하는 패턴
+        String ua = request.getHeader("User-Agent");
+        String pattern = ".*(iPhone|iPod|iPad|BlackBerry|Android|Windows CE|LG|MOT|SAMSUNG|SonyEricsson).*";
 
 
         return StringUtils.hasText(ua) && ua.matches(pattern);
@@ -39,7 +39,7 @@ public class Utils { // 편의기능 클래스
      * @return
      */
     public String tpl(String path) {
-        String prefix = isMobile() ? "mobile" : "front"; // 모바일인지 PC인지 구분짓도록 조건식을 걺
+        String prefix = isMobile() ? "mobile" : "front";
 
         return String.format("%s/%s", prefix, path);
     }
@@ -52,19 +52,19 @@ public class Utils { // 편의기능 클래스
      */
     public String getMessage(String code) {
         Locale lo = request.getLocale(); // 사용자 요청 헤더(Accept-Language)
-        //요청헤더(Accept-Language)의 정보를 바탕으로 브라우저의 언어설정을 가져옴
-        return messageSource.getMessage(code, null, lo); // 메세지 코드 형식으로 전달을 하기 위해 반환값을 messageSource로 지정.
+
+        return messageSource.getMessage(code, null, lo);
     }
 
-    public List<String> getMessages(String[] codes) { // 코드가 여러개 있을때 한꺼번에 처리하기 위해서 getMessages사용!
+    public List<String> getMessages(String[] codes) {
 
-        return Arrays.stream(codes).map(c -> {
-            try {
-                return getMessage(c);
-            } catch (Exception e) {
-                return "";
-            }
-        }).filter(s -> !s.isBlank()).toList(); // 필터로 거르고 리스트를 설정함.
+            return Arrays.stream(codes).map(c -> {
+                try {
+                    return getMessage(c);
+                } catch (Exception e) {
+                    return "";
+                }
+            }).filter(s -> !s.isBlank()).toList();
 
     }
 
@@ -76,7 +76,7 @@ public class Utils { // 편의기능 클래스
      */
     public Map<String, List<String>> getErrorMessages(Errors errors) {
         ResourceBundleMessageSource ms = (ResourceBundleMessageSource) messageSource;
-        ms.setUseCodeAsDefaultMessage(false); // 에러형태의 메세지만 보려고하기에 false값으로 설정.
+        ms.setUseCodeAsDefaultMessage(false);
         try {
             // 필드별 에러코드 - getFieldErrors()
             // Collectors.toMap
@@ -96,7 +96,7 @@ public class Utils { // 편의기능 클래스
 
             return messages;
         } finally {
-            ms.setUseCodeAsDefaultMessage(true); // 싱글턴 객체로인해서 다 사용했기에 다시 true값으로 반환시키겠끔.
+            ms.setUseCodeAsDefaultMessage(true);
         }
     }
 
@@ -145,7 +145,7 @@ public class Utils { // 편의기능 클래스
                 imageUrl = String.format("%s&width=%d&height=%d", item.getThumbUrl(), width, height);
 
             } else if (StringUtils.hasText(url)) {
-                imageUrl = String.format("%s/api/file/thumb?url=%s&width=%d&height=%d", request.getContextPath(), url, width, height); // 원격 이미지 주소를 받고 ??
+                imageUrl = String.format("%s/api/file/thumb?url=%s&width=%d&height=%d", request.getContextPath(), url, width, height);
             }
 
             if (!StringUtils.hasText(imageUrl)) return "";
@@ -154,7 +154,7 @@ public class Utils { // 편의기능 클래스
             className = Objects.requireNonNullElse(className, "image");
             if (mode.equals("background")) { // 배경 이미지
 
-                return String.format("<div style='width: %dpx; height: %dpx; background:url(\"%s\") no-repeat center center; background-size:cover; class='%s'></div>", width, height, imageUrl, className);
+                return String.format("<div style='width: %dpx; height: %dpx; background:url(\"%s\") no-repeat center center; background-size:cover;' class='%s'></div>", width, height, imageUrl, className);
             } else { // 이미지 태그
                 return String.format("<img src='%s' class='%s'>", imageUrl, className);
             }

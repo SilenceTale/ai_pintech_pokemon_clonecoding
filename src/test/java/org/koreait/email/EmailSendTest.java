@@ -17,7 +17,7 @@ import java.util.List;
 import java.util.Map;
 
 @SpringBootTest
-@ActiveProfiles({"default", "test", "templates/email"})
+@ActiveProfiles({"default", "test", "email"})
 public class EmailSendTest {
     @Autowired
     private JavaMailSender javaMailSender;
@@ -37,7 +37,7 @@ public class EmailSendTest {
          */
         MimeMessage message = javaMailSender.createMimeMessage();
         MimeMessageHelper helper = new MimeMessageHelper(message, false, "UTF-8");
-        helper.setTo("chomn55@gmail.com");
+        helper.setTo("yonggyo00@kakao.com");
         helper.setSubject("테스트 이메일 제목...");
         helper.setText("테스트 이메일 내용...");
         javaMailSender.send(message);
@@ -48,7 +48,7 @@ public class EmailSendTest {
         Context context = new Context();
         context.setVariable("subject", "테스트 제목...");
 
-        String text = templateEngine.process("templates/email/auth", context);
+        String text = templateEngine.process("email/auth", context);
 
         System.out.println(text);
     }
@@ -56,9 +56,9 @@ public class EmailSendTest {
     @Test
     void test3() {
         RequestEmail form = new RequestEmail();
-        form.setTo(List.of("chomn55@gmail.com", "chomn55@gmail.com"));
-        form.setCc(List.of("chomn55@gmail.com"));
-        form.setBcc(List.of("chomn55@gmail.com"));
+        form.setTo(List.of("yonggyo00@kakao.com", "yonggyo00@kakao.com"));
+        form.setCc(List.of("yonggyo1981@gmail.com"));
+        form.setBcc(List.of("yonggyo1981@gmail.com"));
         form.setSubject("테스트 이메일 제목...");
         form.setContent("<h1>테스트 이메일 내용...</h1>");
 

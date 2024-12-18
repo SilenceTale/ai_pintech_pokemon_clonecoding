@@ -74,8 +74,8 @@ public class ApiUpdateService {
             pokemon.setFlavorText(flavorText);
 
             // 포켓몬 분류
-            String genus = data2.getGenera().stream().
-                    filter(d -> d.getLanguage().getName().equals("ko"))
+            String genus = data2.getGenera().stream()
+                    .filter(d -> d.getLanguage().getName().equals("ko"))
                             .map(d -> d.getGenus()).collect(Collectors.joining());
             pokemon.setGenus(genus);
 

@@ -27,7 +27,7 @@ import java.util.List;
 @ApplyErrorPage
 @RequestMapping("/member")
 @RequiredArgsConstructor
-@SessionAttributes({"requestAgree", "requestLogin"}) // 모델로 add했을때 requestLogin도 동일하게 session범위로 변경하여 처리하게됀다.
+@SessionAttributes({"requestAgree", "requestLogin"})
 public class MemberController {
     
     private final Utils utils;
@@ -44,7 +44,7 @@ public class MemberController {
     @ModelAttribute("requestLogin")
     public RequestLogin requestLogin() {
         return new RequestLogin();
-    } // sessionAttribute를 사용하기 위해 매개변수위에 ModelAttribute를 통해서 유지를 시킴으로써 사용할 수 있도록.
+    }
 
     /* 회원 페이지 CSS */
     @ModelAttribute("addCss")
@@ -53,7 +53,7 @@ public class MemberController {
     }
 
     @GetMapping("/login")
-    public String login(@ModelAttribute RequestLogin form, Errors errors, Model model) { // 검증은 @ModelAttribute RequestLogin form으로 시도.)
+    public String login(@ModelAttribute RequestLogin form, Errors errors, Model model) {
         commonProcess("login", model); // 로그인 페이지 공통 처리
 
         if (form.getErrorCodes() != null) { // 검증 실패
@@ -67,7 +67,7 @@ public class MemberController {
                     });
         }
 
-        return utils.tpl("member/login"); // 모바일과 PC를 분리하는 템플릿에 주소값을 넣음.
+        return utils.tpl("member/login");
     }
 
 
@@ -125,9 +125,9 @@ public class MemberController {
         form.setRequiredTerms3(agree.isRequiredTerms3());
         form.setOptionalTerms(agree.getOptionalTerms());
 
-        updateService.process(form); // 프로세스에 넣어서 업데이트를 진행
+        updateService.process(form);
 
-        status.setComplete(); // 세션값을 출력하지 않겠다
+        status.setComplete();
 
         // 회원가입 처리 완료 후 - 로그인 페이지로 이동
         return "redirect:/member/login";
@@ -135,10 +135,10 @@ public class MemberController {
 
     @ResponseBody
     @GetMapping("/refresh")
-    @PreAuthorize("isAuthenticated()") // 이 메서드를 실행 시키기 전에 권한을 확인하는 어노테이션
+    @PreAuthorize("isAuthenticated()")
     public void refresh(Principal principal) {
 
-        MemberInfo memberInfo = (MemberInfo)infoService.loadUserByUsername(principal.getName());
+        MemberInfo memberInfo = (MemberInfo) infoService.loadUserByUsername(principal.getName());
         memberUtil.setMember(memberInfo.getMember());
     }
 

@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 @Profile("email")
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/email")
+@RequestMapping("/api/email")
 public class EmailController {
     private final EmailAuthService authService;
 

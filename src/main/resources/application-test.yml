@@ -1,5 +1,5 @@
 spring:
-  # 레디스(redis) 설정
+  # 레디스 설정
   data:
     redis:
       host: localhost
@@ -17,5 +17,5 @@ spring:
 
 # 파일 업로드 경로
 file:
-  upload.path: C:/uploads/
+  upload.path: D:/uploads/
   upload.url: /uploads/

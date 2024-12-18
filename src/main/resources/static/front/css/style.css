@@ -190,11 +190,10 @@ header .move-to-store::after {
 }
 /* 사이트 상단 헤더 E */
 
-/* 페이지네이션(pagination) S */
+/* 페이지네이션 S */
 .pagination {
     text-align: center;
     margin: 20px 0;
-
 }
 
 .pagination a {
@@ -215,6 +214,4 @@ header .move-to-store::after {
     background: #000;
     color: #fff;
 }
-
-
-/* 페이지네이션(pagination) E */
+/* 페이지네이션 E */

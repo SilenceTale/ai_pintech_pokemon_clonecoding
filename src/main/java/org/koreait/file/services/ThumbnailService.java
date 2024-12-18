@@ -38,7 +38,7 @@ public class ThumbnailService {
         String thumbPath = getThumbPath(seq, url, width, height);
         File file = new File(thumbPath);
         if (file.exists()) { // 이미 Thumbnail 이미지를 만든 경우
-            return thumbPath; // 썸네일 주소값을 반환
+            return thumbPath;
         }
 
         try {

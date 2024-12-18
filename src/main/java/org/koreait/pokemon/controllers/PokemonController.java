@@ -26,7 +26,6 @@ public class PokemonController {
     private final Utils utils;
     private final PokemonInfoService infoService;
 
-
     @GetMapping("/list")
     public String list(@ModelAttribute PokemonSearch search, Model model) {
         commonProcess("list", model);
@@ -57,10 +56,10 @@ public class PokemonController {
         if (mode.equals("list")) {
             addCss.add("pokemon/list"); // 목록쪽에만 적용되는 스타일
         } else if (mode.equals("view")) {
-            addCss.add("pokemon/view"); // 포켓몬 상세쪽에만 적용되는 스타일.
+            addCss.add("pokemon/view"); // 상세쪽에만 적용되는 스타일
 
-            // 상세 보기에선는 포켓몬 이름으로 제목을 완성
-            Pokemon item = (Pokemon)model.getAttribute("item");
+            // 상세 보기에서는 포켓몬 이름으로 제목을 완성
+            Pokemon item = (Pokemon) model.getAttribute("item");
             if (item != null) {
                 pageTitle = String.format("%s - %s", item.getName(), pageTitle);
             }

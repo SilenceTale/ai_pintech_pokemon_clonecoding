@@ -57,7 +57,7 @@ commonLib.ajaxLoad = function(url, callback, method = 'GET', data, headers) {
                         callback(json.data);
                    }
 
-                   resolve(json); // 성공시 resolve 로 JSONData 반환.
+                   resolve(json);
 
                    return;
                 }

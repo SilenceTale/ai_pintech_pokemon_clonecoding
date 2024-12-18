@@ -24,7 +24,7 @@ import java.io.*;
 import java.nio.file.Files;
 import java.util.List;
 
-@Tag(name="파일 API", description = "파일 업로드, 조회, 다운로드, 삭제 기능 제공합니다.") // 같은 API 태그를 묶어준다.
+@Tag(name="파일 API", description = "파일 업로드, 조회, 다운로드, 삭제 기능 제공합니다.")
 @RestController
 @RequestMapping("/api/file")
 @RequiredArgsConstructor
@@ -48,19 +48,18 @@ public class ApiFileController {
      * 파일 업로드
      *
      */
-    @Operation(summary = "파일 업로드 처리") // 설명을 더 달고싶을때.
+    @Operation(summary = "파일 업로드 처리")
     @ApiResponse(responseCode = "201", description = "파일 업로드 처리, 업로드 성공시에는 업로드 완료된 파일 목록을 반환한다. 요청시 반드시 요청헤더에 multipart/form-data 형식으로 전송")
     @Parameters({
             @Parameter(name="gid", description = "파일 그룹 ID", required = true),
             @Parameter(name="location", description = "파일 그룹 내에서 위치 코드"),
-            @Parameter(name="file", description = "업로드 파일, 복수개 전송 가능", required = true) // 파라미터로도 설명을 추가가 가능하다.
+            @Parameter(name="file", description = "업로드 파일, 복수개 전송 가능", required = true)
     })
     @ResponseStatus(HttpStatus.CREATED)
     @PostMapping("/upload")
     public JSONData upload(@RequestPart("file") MultipartFile[] files, @Valid RequestUpload form, Errors errors) {
         if (errors.hasErrors()) {
-            throw new BadRequestException(utils.getErrorMessages(errors)); // 이 부분이 CommonRestControllerAdvice의 Map<String, List<String>> errorMessages = commonException.getErrorMessages();을 처리하는 담당.
-            //그중 (getErrorMessages(errors)) 이 형태로 가공을해서 메세지를 건내겠다는 뜻.
+            throw new BadRequestException(utils.getErrorMessages(errors));
         }
 
         form.setFiles(files);
@@ -81,13 +80,12 @@ public class ApiFileController {
         }
 
         JSONData data = new JSONData(uploadedFiles);
-        data.setStatus(HttpStatus.CREATED); // 상태코드 201로!
+        data.setStatus(HttpStatus.CREATED);
 
         return data;
     }
 
     // 파일 다운로드
-    // Content-disposition이 필수
     @GetMapping("/download/{seq}")
     public void download(@PathVariable("seq") Long seq) {
         downloadService.process(seq);

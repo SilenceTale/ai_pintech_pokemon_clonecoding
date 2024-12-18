@@ -20,7 +20,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.util.*;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import static org.springframework.data.domain.Sort.Order.asc;
 
@@ -36,12 +39,13 @@ public class PokemonInfoService {
 
     /**
      * 포켓몬 목록 조회
+     *
      * @param search
      * @return
      */
     public ListData<Pokemon> getList(PokemonSearch search) {
-        int page = Math.max(search.getPage(), 1); // 페이지 번호 ( 무족건 1부터 시작하도록 )
-        int limit = search.getLimit(); // 1 페이지 당 출력 갯수 ( 레코드 갯수 )
+        int page = Math.max(search.getPage(), 1); // 페이지 번호
+        int limit = search.getLimit(); // 한페이지 당 레코드 갯수
         limit = limit < 1 ? 18 : limit;
 
         QPokemon pokemon = QPokemon.pokemon;
@@ -53,19 +57,17 @@ public class PokemonInfoService {
             andBuilder.and(pokemon.name
                     .concat(pokemon.nameEn)
                     .concat(pokemon.flavorText).contains(skey));
-
         }
         /* 검색 처리 E */
 
-        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(asc("seq"))); // 반환값은 무족건 page!
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(asc("seq")));
 
         Page<Pokemon> data = pokemonRepository.findAll(andBuilder, pageable);
         List<Pokemon> items = data.getContent(); // 조회된 목록
 
         // 추가 정보 처리
-        items.forEach(this::addInfo); // 메서드 참조를 이용했음
+        items.forEach(this::addInfo);
 
-        // Pagination(int page, int total, int ranges, int limit, HttpServletRequest request)
         int ranges = utils.isMobile() ? 5 : 10;
         Pagination pagination = new Pagination(page, (int)data.getTotalElements(), ranges, limit, request);
 
@@ -94,13 +96,13 @@ public class PokemonInfoService {
      * @param item
      */
     private void addInfo(Pokemon item) {
-        // Abilities
+        // abilities
         String abilities = item.getAbilities();
         if (StringUtils.hasText(abilities)) {
             item.set_abilities(Arrays.stream(abilities.split("\\|\\|")).toList());
         }
 
-        //types
+        // types
         String types = item.getTypes();
         if (StringUtils.hasText(types)) {
             item.set_types(Arrays.stream(types.split("\\|\\|")).toList());
@@ -145,7 +147,7 @@ public class PokemonInfoService {
         QPokemon pokemon = QPokemon.pokemon;
 
         return queryFactory.select(pokemon.seq.max())
-                .from(pokemon)
-                .fetchFirst();
+                    .from(pokemon)
+                    .fetchFirst();
     }
 }

@@ -7,21 +7,25 @@
     <th:block th:replace="~{/front/pokemon/_navigator::navigator}"></th:block>
 
     <section class="details" th:object="${item}">
-        <div class="left" th:utext="*{@utils.showImage(frontImage, 390, 390, 'image')}"></div>
+        <div class="left"
+             th:utext="*{@utils.showImage(frontImage, 390, 390, 'image')}"></div>
         <div class="right">
-            <div class="item-no" th:text="*{#strings.concat('No', #numbers.formatInteger(seq, 4))}"></div>
+            <div class="item-no"
+                 th:text="*{#strings.concat('No.', #numbers.formatInteger(seq, 4))}"></div>
             <div class="item-nm" th:text="*{name}"></div>
             <div class="flavor-text" th:text="*{flavorText}"></div>
 
-            <div class="s[ec-info">
+            <div class="spec-info">
                 <ul>
                     <li>
                         <div class="tit" th:text="#{타입}"></div>
                         <div class="text">
-                            <span th:each="type : *{_types}" th:text="${#messages.msg(type)}"></span>
+                            <span th:each="type : *{_types}"
+                                      th:text="${#messages.msg(type)}"></span>
                         </div>
                     </li>
                     <li>
+
                         <div class="tit" th:text="#{키}"></div>
                         <div class="text" th:text="*{#strings.concat(height / 10.0, 'm')}"></div>
                     </li>
@@ -37,7 +41,8 @@
                     </li>
                     <li>
                         <div class="tit" th:text="#{몸무게}"></div>
-                        <div class="text" th:text="*{#strings.concat(weight / 10.0, 'kg')}"></div>
+                        <div class="text"
+                             th:text="*{#strings.concat(weight / 10.0, 'kg')}"></div>
                     </li>
                     <li>
                         <div class="tit" th:text="#{특성}"></div>
@@ -46,13 +51,13 @@
                         </div>
                     </li>
                 </ul>
-            </div> <!--// specInfo -->
+            </div> <!--// spec-info -->
             <a href="#" target="_blank" class="go-link">
                 <th:block th:text="*{name}"></th:block>
                 <th:block th:text="#{상품 보러가기}"></th:block>
                 <i class="xi-angle-right"></i>
             </a>
-        </div> <!-- //right -->
+        </div> <!--// right -->
     </section>
 </main>
 </html>

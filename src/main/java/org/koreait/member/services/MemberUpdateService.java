@@ -107,7 +107,15 @@ public class MemberUpdateService {
         }
 
         save(member, _authorities);
+
+        // 로그인 회원 정보 업데이트
+        Member _member = memberRepository.findByEmail(member.getEmail()).orElse(null);
+        if (member != null) {
+            infoService.addInfo(member);
+            memberUtil.setMember(member);
+        }
     }
+
 
     /**
      * 회원정보 추가 또는 수정 처리
@@ -137,11 +145,5 @@ public class MemberUpdateService {
 
         // 회원 권한 업데이트 처리 E
 
-        // 로그인 회원 정보 업데이트
-        member = memberRepository.findByEmail(member.getEmail()).orElse(null);
-        if (member != null) {
-            infoService.addInfo(member);
-            memberUtil.setMember(member);
-        }
     }
 }

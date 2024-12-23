@@ -17,9 +17,9 @@ input[type='password'],
 input[type='email'],
 input[type='date'],
 select {
-    border: 1px, solid #f8f8f8;
+    border: 1px solid #f8f8f8;
     height: 40px;
-    padding 0 10px;
+    padding: 0 10px;
     border-radius: 3px;
     width: 100%;
 }
@@ -37,7 +37,7 @@ textarea {
     width: 100%;
 }
 
-/* 공통 입력 항목 E */
+/*  공통 입력 항목 E */
 
 /* 테이블 공통 S */
 .table-cols {
@@ -55,7 +55,27 @@ textarea {
     padding: 10px;
     border-bottom: 1px solid #ccc;
 }
+
+.table-cols tr:first-of-type th,
+.table-cols tr:first-of-type td {
+    border-top: 1px solid #ccc;
+}
 /* 테이블 공통 E */
+.mb10 {
+    margin-bottom: 10px !important;
+}
+
+.mb20 {
+    margin-bottom: 20px !important;
+}
+
+.mb30 {
+    margin-bottom: 30px !important;
+}
+
+/* 여백 공통 S */
+
+/* 여백 공통 E */
 
 /* 헤더 영역 S */
 header {
@@ -107,17 +127,15 @@ main > section {
 /* 부 메뉴 */
 main > section > nav {
     display: flex;
-    height: 45px;
+    height: 55px;
     background: #fff;
     border-radius: 5px;
     box-shadow: 2px 2px 5px #7a7a7a;
     margin-bottom: 35px;
 }
-/* 내용 구조 영역 E */
-
 main > section > nav .menu {
     line-height: 55px;
-    padding: 0 30px;
+    padding: 0 35px;
     font-size: 1.25rem;
 }
 
@@ -127,9 +145,9 @@ main > section > nav .menu.on {
 }
 /* 내용 구조 영역 E */
 
-/* 제목 S*/
+/* 제목 S */
 h1 {
-    margin 0 10px 25px;
+    margin: 0 10px 25px;
     padding-bottom: 10px;
     border-bottom: 2px solid #000;
     font-size: 1.75rem;

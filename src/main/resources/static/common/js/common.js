@@ -13,12 +13,12 @@ commonLib.getMeta = function(mode) {
 };
 
 /**
-* 자바스크립트에서 만든 주소에 컨텍스트 경로 추가
+* 자바스크립트에서 만든 주소에 컨택스트 경로 추가
 *
 */
 commonLib.url = function(url) {
     return `${commonLib.getMeta('rootUrl').replace("/", "")}${url}`;
-}
+};
 
 /**
 * Ajax 요청 처리

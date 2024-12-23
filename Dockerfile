@@ -1,4 +1,4 @@
-FROM chomn55/ubuntu
+FROM yonggyo00/ubuntu
 ARG JAR_PATH=build/libs/pokemon-0.0.1-SNAPSHOT.jar
 ARG PORT=3000
 COPY ${JAR_PATH} app.jar

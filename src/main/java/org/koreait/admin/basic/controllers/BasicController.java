@@ -1,8 +1,8 @@
 package org.koreait.admin.basic.controllers;
 
 import lombok.RequiredArgsConstructor;
-import org.koreait.admin.global.Menu.MenuDetail;
-import org.koreait.admin.global.Menu.Menus;
+import org.koreait.admin.global.menu.MenuDetail;
+import org.koreait.admin.global.menu.Menus;
 import org.koreait.global.annotations.ApplyErrorPage;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -18,6 +18,7 @@ import java.util.List;
 @RequestMapping("/admin/basic")
 public class BasicController {
 
+    @ModelAttribute("menuCode")
     public String menuCode() {
         return "basic";
     }
@@ -31,11 +32,11 @@ public class BasicController {
     public String siteConfig(Model model) {
         commonProcess("siteConfig", model);
 
-        return "admin/basic/site_config";
+        return "admin/basic/siteConfig";
     }
 
     /**
-     * 기본 설정 공통 처리 부분
+     * 기본설정 공통 처리 부분
      *
      * @param mode
      * @param model

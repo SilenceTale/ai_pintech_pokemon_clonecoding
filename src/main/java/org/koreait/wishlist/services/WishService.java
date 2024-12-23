@@ -38,7 +38,7 @@ public class WishService {
 
         mode = StringUtils.hasText(mode) ? mode : "add";
         Member member = memberUtil.getMember();
-        member = memberRepository.findByEmail(member.getEmail()).orElse(null); // 임시로 영속성 해결함.
+        member = memberRepository.findByEmail(member.getEmail()).orElse(null);
         try {
             if (mode.equals("remove")) { // 찜 해제
                 WishId wishId = new WishId(seq, type, member);
@@ -87,7 +87,7 @@ public class WishService {
 
         Context context = new Context();
         context.setVariable("seq", seq);
-        context.setVariable("type", WishType.valueOf(type));
+        context.setVariable("type", _type);
         context.setVariable("myWishes", myWishes);
         context.setVariable("isMine", myWishes.contains(seq));
         context.setVariable("isLogin", memberUtil.isLogin());

@@ -57,7 +57,7 @@ window.addEventListener("DOMContentLoaded", function() {
             const sec = seconds - min * 60;
             timeStr = `${('' + min).padStart(2, '0')}:${('' + sec).padStart(2, '0')}`;
         } else { // 타이머가 0이 되면 다시 이메일 변경 가능하게 처리, 인증 코드 입력 불가 처리, 인증하기 버튼 감추기
-            timerStr = "00:00";
+            timeStr = "00:00";
             frmJoin.email.removeAttribute("readonly");
             authCodeEl.value = "";
             authCodeEl.disabled = true;
@@ -80,24 +80,23 @@ window.addEventListener("DOMContentLoaded", function() {
             return;
         }
 
-        const el = document.querySelector(".auth-box .error");
-        el.classList.remove("dn");
+       const el = document.querySelector(".auth-box .message");
+       el.classList.remove("dn");
 
-        emailAuth.verify(authCode, () => {
+       emailAuth.verify(authCode, () => {
             // 인증 성공시
             /**
-            * 1. "인증되었습니다." 메시지를 출력
+            * 1. "인증되었습니다." 메세지를 출력
             * 2. authCodeEl, verifyButton, sendButton, timer 제거
             */
             el.innerText = "인증되었습니다.";
-            const authBoxEl = document.querySelector("auth-box").children[0];
+            const authBoxEl = document.querySelector(".auth-box").children[0];
             authBoxEl.parentElement.removeChild(authBoxEl);
 
-        }, (err) => {
-            //인증 실패시
-            el.classList.remove("dn");
-        });
-
+       }, (err) => {
+            // 인증 실패시
+            el.innerText = err.message;
+       });
 
 
     });

@@ -22,7 +22,7 @@ public class Member extends BaseEntity implements Serializable {
     private String email; // 이메일
 
     @Column(length=65, nullable = false)
-    private String password;
+    private String password; // 패스워드
 
     @Column(length=40, nullable = false)
     private String name;

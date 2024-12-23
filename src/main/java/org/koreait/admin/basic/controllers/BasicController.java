@@ -29,7 +29,7 @@ public class BasicController {
 
     @GetMapping({"", "/siteConfig"})
     public String siteConfig(Model model) {
-        commonProcess("siteCOnfig", model);
+        commonProcess("siteConfig", model);
 
         return "admin/basic/site_config";
     }

@@ -23,9 +23,10 @@ public class Menus {
 
         // 게시판 관리
         submenus.put("board", List.of(
-                new MenuDetail("list", "게시판 목록", "/admin/board/list"),
+                new MenuDetail("list", "게시판목록", "/admin/board/list"),
                 new MenuDetail("add", "게시판등록", "/admin/board/add"),
-                new MenuDetail("posts", "게시글관리", "/admin/board/posts")
+                new MenuDetail("posts", "게시글관리", "/admin/board/posts"),
+                new MenuDetail("profile", "프로필설정", "mypage/profile")
         ));
 
     }

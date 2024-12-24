@@ -15,9 +15,9 @@ import lombok.NoArgsConstructor;
 public class CodeValue {
     @Id
     @Column(name="_CODE", length=45)
-    private String code;
+    private String code; // 범용적 형태의 저장공간을 만들었음.
 
     @Lob
     @Column(name="_VALUE")
-    private String value;
+    private String value; // 범용적 형태의 저장공간을 만들었음. JSON 형태의 문자로 변환
 }

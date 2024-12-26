@@ -4,7 +4,7 @@
       layout:decorate="~{admin/layouts/main}">
 <div layout:fragment="content">
     <h1>약관 등록</h1>
-    [[${terms}]]
+    [[${items}]]
     <form name="frmTerms" method="POST" th:action="@{/admin/basic/terms}" autocomplete="off" th:object="${terms}" target="ifrmProcess">
         <div class="error global" th:each="err : ${#fields.globalErrors()}" th:text="${err}"></div>
         <table class="table-cols">
@@ -32,7 +32,6 @@
         </table>
         <button type="submit" class="submit-btn">등록하기</button>
     </form>
-
 
     <h2>약관 목록</h2>
 </div>

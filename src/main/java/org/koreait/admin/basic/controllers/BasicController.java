@@ -43,12 +43,11 @@ public class BasicController {
     }
 
     /**
-     * 사이트 기본 정보 설정 처리
+     * 사이트 기본 정보 설정
      *
      * @param model
      * @return
      */
-
     @GetMapping({"", "/siteConfig"})
     public String siteConfig(Model model) {
         commonProcess("siteConfig", model);
@@ -60,6 +59,13 @@ public class BasicController {
         return "admin/basic/siteConfig";
     }
 
+    /**
+     * 사이트 기본 정보 설정 처리
+     *
+     * @param form
+     * @param model
+     * @return
+     */
     @PatchMapping("/siteConfig")
     public String siteConfigPs(SiteConfig form, Model model) {
         commonProcess("siteConfig", model);
@@ -94,6 +100,7 @@ public class BasicController {
         termsUpdateService.save(form);
 
         model.addAttribute("script", "parent.location.reload();");
+
         return "common/_execute_script";
     }
 
@@ -108,7 +115,7 @@ public class BasicController {
         mode = StringUtils.hasText(mode) ? mode : "siteConfig";
         String pageTitle = null;
         if (mode.equals("siteConfig")) {
-            pageTitle = "사이트 기본 정보";
+            pageTitle = "사이트 기본정보";
         } else if (mode.equals("terms")) {
             pageTitle = "약관 관리";
         }

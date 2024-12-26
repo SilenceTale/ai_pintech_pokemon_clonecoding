@@ -17,6 +17,7 @@ public class Terms {
 
     @NotBlank
     private String subject; // 약관 제목
+
     @NotBlank
     private String content; // 약관 내용
 }

@@ -1,4 +1,4 @@
-package org.koreait.admin.global.advice;
+package org.koreait.admin.global.advices;
 
 import lombok.RequiredArgsConstructor;
 import org.koreait.member.entities.Member;

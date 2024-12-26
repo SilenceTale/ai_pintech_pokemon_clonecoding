@@ -3,12 +3,12 @@
     <header th:fragment="common">
         <div class="left">
             <a th:href="@{/admin}" class="logo">
-                <img th:src="@{/admin/images/logo2.png}">
+                <img th:src="@{/admin/images/logo.png}">
             </a>
         </div>
         <div class="right">
             <span class="welcome" th:text="${#messages.msg('LOGIN_MSG', profile.name, profile.email)}"></span>
-            <a  th:href="@{/member/logout}">
+            <a th:href="@{/member/logout}">
                 <i class="xi-log-out"></i>
                 로그아웃
             </a>

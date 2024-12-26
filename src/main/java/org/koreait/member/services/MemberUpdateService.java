@@ -114,7 +114,7 @@ public class MemberUpdateService {
         Member _member = memberRepository.findByEmail(member.getEmail()).orElse(null);
         if (_member != null) {
             infoService.addInfo(_member);
-            session.setAttribute("member", member);
+            session.setAttribute("member", _member);
         }
     }
 

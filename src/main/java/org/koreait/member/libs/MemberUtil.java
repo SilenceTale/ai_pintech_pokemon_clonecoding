@@ -1,7 +1,6 @@
 package org.koreait.member.libs;
 
 import jakarta.servlet.http.HttpSession;
-import lombok.Setter;
 import org.koreait.member.MemberInfo;
 import org.koreait.member.constants.Authority;
 import org.koreait.member.entities.Member;

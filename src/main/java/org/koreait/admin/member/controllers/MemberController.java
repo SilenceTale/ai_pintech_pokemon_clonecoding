@@ -29,7 +29,7 @@ public class MemberController implements SubMenus {
         return "member";
     }
 
-    @ModelAttribute("Authorities")
+    @ModelAttribute("authorities")
     public Authority[] authorities() {
         return Authority.values();
     }
@@ -72,13 +72,13 @@ public class MemberController implements SubMenus {
      * @param model
      */
     private void commonProcess(String mode, Model model) {
-        mode = StringUtils.hasText(mode) ? mode : "list"; // mode 가 없을경우 리스트로 생성
+        mode = StringUtils.hasText(mode) ? mode : "list";
         String pageTitle = "";
         if (mode.equals("list")) {
-            pageTitle = "회원 목록";
+            pageTitle = "회원목록";
         }
 
-        pageTitle += " - 회원 관리";
+        pageTitle += " - 회원관리";
 
         model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("subMenuCode", mode);

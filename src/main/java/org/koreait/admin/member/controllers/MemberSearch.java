@@ -14,9 +14,9 @@ public class MemberSearch extends CommonSearch {
     private List<Authority> authority;
     private String dateType;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private LocalDate sDate;
 
-    @DateTimeFormat(pattern = "yyyy-MM-dd")
+    @DateTimeFormat(pattern="yyyy-MM-dd")
     private LocalDate eDate;
 }

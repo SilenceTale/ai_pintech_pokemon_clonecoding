@@ -4,7 +4,25 @@
       layout:decorate="~{admin/layouts/main}">
 <div layout:fragment="content">
     <h1>회원검색</h1>
-
+    <form name="frmSearch" method="GET" th:action="@{/admin/member/list}" th:object="${memberSearch}" autocomplete="off">
+        <tr>
+            <table class="table-cols">
+                <th width="180">날짜검색</th>
+                <td colspan="3">
+                    <select name="dateType" th:field="*{dataType}">
+                        <option value="createdAt">가입일</option>
+                        <option value="credentialChangedAt">비밀번호 변경일</option>
+                        <option value="deletedAt">탈퇴일</option>
+                    </select>
+                    <input type="date" name="sDate" th:field="*{sDate}">
+                    <span class="error" th:each="err : ${#fields.errors('sDate')}" th:text="${err}"></span>
+                    ~
+                    <input type="date" name="eDate" th:field="*{eDate}">
+                    <span class="error" th:each="err : ${#fields.errors('eDate')}" th:text="${err}"></span>
+                </td>
+            </table>
+        </tr>
+    </form>
     <h2>회원목록</h2>
 
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>

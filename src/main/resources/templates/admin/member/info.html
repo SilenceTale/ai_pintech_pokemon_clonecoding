@@ -39,6 +39,18 @@
                 </td>
             </tr>
 
+                <tr>
+                    <th>회원 권한</th>
+                    <td>
+                        <input type="hidden" name="authorities" value="USER">
+                        일반 회원
+                        <span class="checkbox" th:each="authority, status : ${authorities}" th:if="${authority.name != 'USER'}">
+                            <input type="checkbox" name="authorities" th:value="${authority.name}" th:id="${'authorities-' + status.index}" th:field="*{authorities}">
+                            <label th:for="${'authorities-' + status.index}" th:text="${#message.msg(authority.name)}"></label>
+                        </span>
+                    </td>
+                </tr>
+
             <tr>
                 <th th:text="#{회원명}"></th>
                 <td>

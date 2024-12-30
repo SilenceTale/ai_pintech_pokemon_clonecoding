@@ -100,10 +100,10 @@ commonLib.popup = function(url, width = 350, height = 350, isAjax = false) {
     const ypos = (innerHeight - height) / 2;
     layerPopup.style.left = xpos + "px";
     layerPopup.style.top = ypos + "px";
-    layerPopup.width = width + "px";
-    layerPopup.height = height + "px";
+    layerPopup.style.width = width + "px";
+    layerPopup.style.height = height + "px";
     /* 레이어 팝업 가운데 배치하기 E */
-    
+
     document.body.append(layerPopup);
     document.body.append(layerDim);
     /* 레이어 팝업 요소 동적 추가 E */

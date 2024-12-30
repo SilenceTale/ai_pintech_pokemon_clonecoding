@@ -80,8 +80,34 @@ commonLib.ajaxLoad = function(url, callback, method = 'GET', data, headers) {
     }); // Promise
 };
 
-
+/**
+* 레이어 팝업
+*
+*/
 commonLib.popup = function(url, width = 350, height = 350, isAjax = false) {
+    /* 레이어 팝업 요소 동적 추가 S */
+    const layerEls = document.querySelectorAll(".layer-dim, .layer-popup");
+    layerDim.forEach(el => el.parentElement.removeChild(el));
+
+    const layerDim = document.createElement("div");
+    layerDim.className = "layer-dim";
+
+    const layerPopup = document.createElement("div");
+    layerPopup.className = "layer-popup";
+
+    /* 레이어 팝업 가운데 배치하기 S */
+    const xpos = (innerWidth - width) / 2;
+    const ypos = (innerHeight - height) / 2;
+    layerPopup.style.left = xpos + "px";
+    layerPopup.style.top = ypos + "px";
+    layerPopup.width = width + "px";
+    layerPopup.height = height + "px";
+    /* 레이어 팝업 가운데 배치하기 E */
+    
+    document.body.append(layerPopup);
+    document.body.append(layerDim);
+    /* 레이어 팝업 요소 동적 추가 E */
+
 
 }
 

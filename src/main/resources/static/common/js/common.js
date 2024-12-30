@@ -60,7 +60,7 @@ commonLib.ajaxLoad = function(url, callback, method = 'GET', data, headers, isTe
                 }
             })
             .then(json => {
-                if(isText) {
+                if (isText) {
                     resolve(json);
                     return;
                 }
@@ -90,9 +90,9 @@ commonLib.ajaxLoad = function(url, callback, method = 'GET', data, headers, isTe
 *
 */
 commonLib.popup = function(url, width = 350, height = 350, isAjax = false) {
-    /* 레이어 팝업 요소 동적 추가 S */
+    /* 레이어팝업 요소 동적 추가 S */
     const layerEls = document.querySelectorAll(".layer-dim, .layer-popup");
-    layerDim.forEach(el => el.parentElement.removeChild(el));
+    layerEls.forEach(el => el.parentElement.removeChild(el));
 
     const layerDim = document.createElement("div");
     layerDim.className = "layer-dim";
@@ -100,14 +100,14 @@ commonLib.popup = function(url, width = 350, height = 350, isAjax = false) {
     const layerPopup = document.createElement("div");
     layerPopup.className = "layer-popup";
 
-    /* 레이어 팝업 가운데 배치하기 S */
+    /* 레이어 팝업 가운데 배치 S */
     const xpos = (innerWidth - width) / 2;
     const ypos = (innerHeight - height) / 2;
     layerPopup.style.left = xpos + "px";
     layerPopup.style.top = ypos + "px";
     layerPopup.style.width = width + "px";
     layerPopup.style.height = height + "px";
-    /* 레이어 팝업 가운데 배치하기 E */
+    /* 레이어 팝업 가운데 배치 E */
 
     /* 레이어 팝업 컨텐츠 영역 추가 */
     const content = document.createElement("div");
@@ -118,12 +118,11 @@ commonLib.popup = function(url, width = 350, height = 350, isAjax = false) {
     const button = document.createElement("button");
     const icon = document.createElement("i");
     button.className = "layer-close";
-    button.type = "button"; // 버튼의 기본 타입은 submit 이므로 정보가 제출 될 수 있으므로 형식을 변경해야함!
+    button.type = "button";
     icon.className = "xi-close";
     button.append(icon);
-    layerPopup.prepend(button)
+    layerPopup.prepend(button);
 
-    // 버튼에 Event 추가
     button.addEventListener("click", commonLib.popupClose);
     /* 레이어 팝업 닫기 버튼 추가 E */
 
@@ -131,15 +130,15 @@ commonLib.popup = function(url, width = 350, height = 350, isAjax = false) {
     document.body.append(layerDim);
 
 
-    /* 레이어 팝업 요소 동적 추가 E */
+    /* 레이어팝업 요소 동적 추가 E */
 
     /* 팝업 컨텐츠 로드 S */
-    if (isAjax) { // 컨텐츠를 ajax로 로드
+    if (isAjax) { // 컨텐트를 ajax로 로드
         const { ajaxLoad } = commonLib;
         ajaxLoad(url, null, 'GET', null, null, true)
             .then((text) => content.innerHTML = text);
 
-    } else { // iframe 으로 로드
+    } else { // iframe으로 로드
         const iframe = document.createElement("iframe");
         iframe.width = width - 80;
         iframe.height = height - 80;
@@ -149,12 +148,13 @@ commonLib.popup = function(url, width = 350, height = 350, isAjax = false) {
     }
     /* 팝업 컨텐츠 로드 E */
 }
+
 /**
 * 레이어팝업 제거
 *
 */
 commonLib.popupClose = function() {
-    const layerEls = document.querySelectorAll(".layer-dim", ".layer-popup")
+    const layerEls = document.querySelectorAll(".layer-dim, .layer-popup");
     layerEls.forEach(el => el.parentElement.removeChild(el));
 };
 

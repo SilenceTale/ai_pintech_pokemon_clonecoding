@@ -14,6 +14,8 @@ import java.util.List;
 @Data
 public class RequestProfile {
 
+    private String mode;
+
     private String email;
 
     @NotBlank
@@ -42,7 +44,7 @@ public class RequestProfile {
 
     private List<String> optionalTerms; // 추가 선택 약관
 
-    private List<Authority> authorities; // 관리자에서 수정할 수 있도록 코드를 가공함
+    private List<Authority> authorities;
 
     private FileInfo profileImage;
 }

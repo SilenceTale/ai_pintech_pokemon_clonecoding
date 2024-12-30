@@ -188,7 +188,8 @@ public class Utils {
     }
 
     /**
-     * 줄개행 문자(\n(리눅스) 또는 \r\n(윈도우))를 br 태그로 전환
+     *  줄개행 문자(\n 또는 \r\n)를 br 태그로 변환
+     *
      * @param text
      * @return
      */

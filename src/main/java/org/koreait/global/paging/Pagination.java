@@ -69,8 +69,8 @@ public class Pagination {
             nextRangeFirstPage = (rangeCnt + 1) * ranges + 1;
         }
 
-        /* 쿼리스트링 값 처리 S */
-        String qs = request.getQueryString();
+        /* 쿼리스트링 값 처리 S */ // null일때 3중 연하여 쿼리 스트링으로 사용할 수 있도록 오류 수정
+        String qs = request == null ? "" : request.getQueryString();
         baseUrl = "?";
         if (StringUtils.hasText(qs)) {
             baseUrl += Arrays.stream(qs.split("&"))

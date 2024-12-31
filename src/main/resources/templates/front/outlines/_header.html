@@ -56,11 +56,21 @@
                         <i class="icon catalog"></i>
                         <th:block th:text="#{포켓몬_도감}"></th:block>
                     </a>
+
+                    <a th:if="${@memberUtil.isLogin() && !@memberUtil.isAdmin()}" th:href="@{/mypage/profile}">
+                        <i class="icon profile"></i>
+                        <th:block th:text="#{프로필}"></th:block>
+                    </a>
                 </li>
                 <li>
                     <a th:unless="${@memberUtil.isLogin()}" th:href="@{/member/login}">
                         <i class="icon login"></i>
                         <th:block th:text="#{로그인}"></th:block>
+                    </a>
+
+                    <a th:unless="${@memberUtil.isLogin()}" th:href="@{/member/logout}">
+                        <i class="icon logout"></i>
+                        <th:block th:text="#{로그아웃}"></th:block>
                     </a>
 
                     <a th:if="${@memberUtil.isLogin() && !@memberUtil.isAdmin()}" th:href="@{/mypage}">

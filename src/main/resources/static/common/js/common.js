@@ -158,6 +158,39 @@ commonLib.popupClose = function() {
     layerEls.forEach(el => el.parentElement.removeChild(el));
 };
 
+/**
+* 위지윅 에디터 로드
+*
+*/
+commonLib.loadEditor = function(id, height = 350) {
+    if (typeof ClassicEditor === 'undefined' || !id) {
+        return;
+    }
+
+
+    return new Promise((resolve, reject) => {
+        (async() => {
+            try {
+                const editor = await ClassicEditor.create(document.getElementById(id));
+                resolve(editor);
+                editor.editing.view.change((writer) => {
+                    writer.setStyle(
+                        "height",
+                        `${height}px`,
+                        editor.editing.view.document.getRoot()
+                        );
+                });
+
+            } catch (err) {
+                console.log(err);
+
+                reject(err);
+            }
+        })();
+    });
+
+};
+
 window.addEventListener("DOMContentLoaded", function() {
     // 체크박스 전체 토글 기능 S
     const checkAlls = document.getElementsByClassName("check-all");

@@ -35,7 +35,7 @@ commonLib.ajaxLoad = function(url, callback, method = 'GET', data, headers, isTe
     const { getMeta } = commonLib;
     const csrfHeader = getMeta("_csrf_header");
     const csrfToken = getMeta("_csrf");
-    url = /^http[s]?:/.test(url) ? url : getMeta("rootUrl") + url.replace("/", "");
+    url = /^http[s]?:/.test(url) ? url : commonLib.url(url);
 
     headers = headers ?? {};
     headers[csrfHeader] = csrfToken;
@@ -163,10 +163,10 @@ commonLib.popupClose = function() {
 *
 */
 commonLib.loadEditor = function(id, height = 350) {
+
     if (typeof ClassicEditor === 'undefined' || !id) {
         return;
     }
-
 
     return new Promise((resolve, reject) => {
         (async() => {
@@ -175,14 +175,14 @@ commonLib.loadEditor = function(id, height = 350) {
                 resolve(editor);
                 editor.editing.view.change((writer) => {
                     writer.setStyle(
-                        "height",
-                        `${height}px`,
-                        editor.editing.view.document.getRoot()
+                           "height",
+                           `${height}px`,
+                           editor.editing.view.document.getRoot()
                         );
                 });
 
             } catch (err) {
-                console.log(err);
+                console.error(err);
 
                 reject(err);
             }

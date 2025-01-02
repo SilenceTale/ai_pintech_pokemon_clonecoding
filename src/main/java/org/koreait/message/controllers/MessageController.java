@@ -2,6 +2,8 @@ package org.koreait.message.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.koreait.file.constants.FileStatus;
+import org.koreait.file.services.FileInfoService;
 import org.koreait.global.annotations.ApplyErrorPage;
 import org.koreait.global.libs.Utils;
 import org.koreait.message.validators.MessageValidator;
@@ -23,37 +25,44 @@ public class MessageController {
 
     private final Utils utils;
     private final MessageValidator messageValidator;
+    private final FileInfoService fileInfoService;
 
     @ModelAttribute("addCss")
     public List<String> addCss() {
         return List.of("message/style");
     }
+
     /**
      * 쪽지 작성 양식
-     * 겟 방식일때 양식을 불러옴
+     *
      * @return
      */
     @GetMapping
     public String form(@ModelAttribute RequestMessage form, Model model) {
-        commonProcess("send", model); // 공통 기능 처리를 위한 코드(commonProcess) 추가
+        commonProcess("send", model);
 
-        form.setGid(UUID.randomUUID().toString()); // 그룹 ID 발급에 필요함
+        form.setGid(UUID.randomUUID().toString());
 
         return utils.tpl("message/form");
     }
 
     /**
      * 쪽지 작성
-     * 양식에 대한 처리
+     *
      * @return
      */
-    @PostMapping // @Valid 어노테이션 넣은 이유는 커맨드 객체 검증
+    @PostMapping
     public String process(@Valid RequestMessage form, Errors errors, Model model) {
         commonProcess("send", model);
 
-        messageValidator.validate(form, errors); // 추가 오류에 대한 검증
+        messageValidator.validate(form, errors);
 
         if (errors.hasErrors()) {
+            // 업로드한 파일 목록 form에 추가
+            String gid = form.getGid();
+            form.setEditorImages(fileInfoService.getList(gid, "editor", FileStatus.ALL));
+            form.setAttachFiles(fileInfoService.getList(gid, "attach", FileStatus.ALL));
+
             return utils.tpl("message/form");
         }
 
@@ -86,14 +95,14 @@ public class MessageController {
     }
 
     /**
-     * 컨트롤러 공통 처리 코드 ( 공통 처리 부분 )
+     * 컨트롤러 공통 처리
      *
      * @param mode
      * @param model
      */
     private void commonProcess(String mode, Model model) {
-        mode = StringUtils.hasText(mode) ? mode : "list"; // hasText에 mode 가 있다면 mode 값을, 없다면 "list" 값 주입
-        String pageTitle = ""; // pageTitle 안에 비어있는 문자열 삽입
+        mode = StringUtils.hasText(mode) ? mode : "list";
+        String pageTitle = "";
         List<String> addCommonScript = new ArrayList<>();
         List<String> addScript = new ArrayList<>();
 

@@ -7,7 +7,6 @@ import org.koreait.pokemon.api.entities.UrlItem;
 import org.koreait.pokemon.entities.Pokemon;
 import org.koreait.pokemon.repositories.PokemonRepository;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
@@ -27,7 +26,6 @@ public class ApiUpdateService {
      *
      * @param page
      */
-    @Transactional
     public void update(int page) {
         int limit = 100;
         //int limit = 3;
@@ -64,7 +62,7 @@ public class ApiUpdateService {
             pokemon.setAbilities(abilities);
 
             // 포켓몬 한글 이름, 포켓몬 한글 설명
-            String url2 = String.format("https://pokeapi.co/api/v2/pokemon-species/", data1.getId());
+            String url2 = String.format("https://pokeapi.co/api/v2/pokemon-species/%d", data1.getId());
             ApiPokemon data2 = tpl.getForObject(URI.create(url2), ApiPokemon.class);
 
             // 한글 이름

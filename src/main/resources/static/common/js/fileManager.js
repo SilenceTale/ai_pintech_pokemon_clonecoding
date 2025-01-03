@@ -81,7 +81,7 @@ window.addEventListener("DOMContentLoaded", function() {
                 fileEl = document.createElement("input");
                 fileEl.type = 'file';
             } else {
-                
+                fileEl.value = ''; // 초기화
             }
 
             fileEl.gid = gid;

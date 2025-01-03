@@ -7,15 +7,16 @@ window.addEventListener("DOMContentLoaded", function() {
         });
 
     // 이미지 본문 추가 이벤트 처리
-    const insertImages = document.querySelectorAll(".insert-editor")
+    const insertEditors = document.querySelectorAll(".insert-editor")
     insertEditors.forEach(el => {
         el.addEventListener("click", e => insertImage(e.currentTarget.dataset.url));
     });
 
     // 파일 삭제 버튼 이벤트 처리
     const removeEls = document.querySelectorAll(".file-item .remove");
+    const { fileManager } = commonLib;
     removeEls.forEach(el => {
-       el.addEventListener("click", e => {
+        el.addEventListener("click", e => {
             if (confirm('정말 삭제하겠습니까?')) {
                 const seq = e.currentTarget.dataset.seq;
                 fileManager.delete(seq, () => {
@@ -23,7 +24,7 @@ window.addEventListener("DOMContentLoaded", function() {
                     el.parentElement.removeChild(el);
                 });
             }
-       });
+        });
     });
 });
 

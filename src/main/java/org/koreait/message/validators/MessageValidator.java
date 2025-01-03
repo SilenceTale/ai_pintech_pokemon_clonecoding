@@ -35,7 +35,7 @@ public class MessageValidator implements Validator {
 
         if (!memberUtil.isAdmin() && !notice && !StringUtils.hasText(email)) {
             errors.rejectValue("email", "NotBlank");
-        } else if (!memberRepository.exists(email)) { // 수신하는 쪽 회원이 존재 하지 않으면 NotFound.member 의 메세지를 띄워준다
+        } else if (!memberRepository.exists(email)) { // 수신하는 쪽 회원이 존재 X
             errors.reject("NotFound.member");
         }
     }

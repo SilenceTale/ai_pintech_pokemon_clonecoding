@@ -1,5 +1,6 @@
 package org.koreait.pokemon.api.services;
 
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.koreait.pokemon.api.entities.ApiPokemon;
 import org.koreait.pokemon.api.entities.ApiResponse;
@@ -26,6 +27,7 @@ public class ApiUpdateService {
      *
      * @param page
      */
+    @Transactional  // 트랜잭션 적용
     public void update(int page) {
         int limit = 100;
         //int limit = 3;

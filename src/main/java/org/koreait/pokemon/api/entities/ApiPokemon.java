@@ -20,7 +20,7 @@ public class ApiPokemon {
     @JsonAlias("base_experience")
     private int baseExperience;
 
-    // https://pokeapi.co/api/v2/pokemon-species/1
+    //https://pokeapi.co/api/v2/pokemon-species/1
     private List<Names> names;
 
     @JsonAlias("flavor_text_entries")

@@ -76,6 +76,6 @@ public class FileUploadServiceTest {
         boolean result1 = items.stream().anyMatch(i -> i.getFileName().equals(files[0].getOriginalFilename()));
         boolean result2 = items.stream().anyMatch(i -> i.getFileName().equals(files[1].getOriginalFilename()));
 
-        
+        assertTrue()
     }
 }

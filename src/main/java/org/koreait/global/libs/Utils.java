@@ -196,7 +196,7 @@ public class Utils {
     public String nl2br(String text) {
         return text == null ? "" : text.replaceAll("\\r", "")
                                         .replaceAll("\\n", "<br>");
-    } // null 일땐 비어있고 아닐때는 replaceAll로 치환해서 줄개행문자를 br태그로 변환
+    }
 
     public String popup(String url, int width, int height) {
         return String.format("commonLib.popup('%s', %d, %d);", url, width, height);

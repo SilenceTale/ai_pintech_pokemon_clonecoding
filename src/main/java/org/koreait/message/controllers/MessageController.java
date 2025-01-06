@@ -64,7 +64,7 @@ public class MessageController {
      * @return
      */
     @PostMapping
-    public String process(@Valid RequestMessage form, Errors errors, Model model) {
+    public String process(@Valid RequestMessage form, Errors errors, Model model, HttpServletRequest request) {
         commonProcess("send", model);
 
         messageValidator.validate(form, errors);
@@ -80,7 +80,9 @@ public class MessageController {
 
         sendService.process(form);
 
-        return "redirect:/message/list";
+        StringBuffer sb = new StringBuffer();
+        sb.append(String.format("location.replace('%s');"), request.getContextPath() + "/message/list"));
+        return "common/_execute_script";
     }
 
     /**

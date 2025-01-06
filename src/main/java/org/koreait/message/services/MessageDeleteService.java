@@ -64,6 +64,9 @@ public class MessageDeleteService {
 
             // 파일 삭제
             fileDeleteService.deletes(gid);
+        } else { // 보내는 쪽 또는 받는 쪽 한군데서만 삭제 처리를 한 경우
+            repository.saveAndFlush(item);
+
         }
     }
 }

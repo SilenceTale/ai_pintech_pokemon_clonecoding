@@ -88,10 +88,12 @@ public class MessageController {
         StringBuffer sb = new StringBuffer();
 
         try {
-            String json = om.writeValueAsString(data);
-            sb.append(String.format("if (typeof webSocket != undefined) webSocket.send('%s')", json)); // 웹소켓 타입이 정의되었다면 웹소켓의 문자를 json형태로 보내겠다?
+            String json = om.writeValueAsString(data); // data 를 json 형식 파일로 변환
+            sb.append(String.format("if (typeof webSocket != undefined) { webSocket.onopen = () => webSocket.send('%s') }", json)); // 만약 웹소켓 타입이 정의되었다면, 웹 소켓이 열렸을 경우 Json형태로 문자를 전송하겠다?
 
-        } catch (JsonProcessingException e ) {}
+        } catch (JsonProcessingException e) {
+            e.printStackTrace();
+        }
 
         sb.append(String.format("location.replace('%s');", request.getContextPath() + "/message/list"));
 

@@ -48,9 +48,15 @@ public class MessageInfoService {
 
         if (!memberUtil.isAdmin()) {
             Member member = memberUtil.getMember();
+            BooleanBuilder orBuilder2 = new BooleanBuilder();
+            BooleanBuilder andBuilder = new BooleanBuilder();
+
+            orBuilder2.or(andBuilder.and(message.notice.eq(true)).and(message.receiver.isNull()))
+                            .or(message.receiver.eq(member));
 
             orBuilder.or(message.sender.eq(member))
-                    .or(message.receiver.eq(member));
+                            .or(orBuilder2);
+
 
             builder.and(orBuilder);
         }
@@ -83,7 +89,18 @@ public class MessageInfoService {
 
         mode = StringUtils.hasText(mode) ? mode : "receive";
         // send - 보낸 쪽지 목록, receive - 받은 쪽지 목록
-        andBuilder.and(mode.equals("send") ? message.sender.eq(member) : message.receiver.eq(member));
+        if (mode.equals("send")) {
+            andBuilder.and(message.sender.eq(member));
+        } else {
+            BooleanBuilder orBuilder = new BooleanBuilder();
+            BooleanBuilder andBuilder1 = new BooleanBuilder();
+
+            orBuilder.or(andBuilder1.and(message.notice.eq(true)).and(message.receiver.isNull())) // 공지 쪽지 사항.
+                    .or(message.receiver.eq(member));
+            andBuilder.and(orBuilder);
+        }
+
+
         andBuilder.and(mode.equals("send") ? message.deletedBySender.eq(false) : message.deletedByReceiver.eq(false));
 
         // 보낸사람 조건 검색

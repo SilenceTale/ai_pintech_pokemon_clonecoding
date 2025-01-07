@@ -2,10 +2,12 @@ package org.koreait.admin.board.controllers;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.koreait.admin.board.validators.BoardValidator;
 import org.koreait.admin.global.menu.SubMenus;
-import org.koreait.board.validators.BoardValidator;
+import org.koreait.board.services.configs.BoardConfigUpdateService;
 import org.koreait.global.annotations.ApplyErrorPage;
 import org.koreait.global.libs.Utils;
+import org.koreait.member.constants.Authority;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
@@ -22,7 +24,8 @@ import java.util.List;
 public class BoardController implements SubMenus {
 
     private final Utils utils;
-    private final BoardValidator boardValidator; // 게시판 추가 검증에 대한 의존성
+    private final BoardValidator boardValidator;
+    private final BoardConfigUpdateService configUpdateService;
 
     @Override
     @ModelAttribute("menuCode")
@@ -53,6 +56,12 @@ public class BoardController implements SubMenus {
     public String add(@ModelAttribute RequestBoard form, Model model) {
         commonProcess("add", model);
 
+        form.setSkin("default");
+        form.setListAuthority(Authority.ALL);
+        form.setViewAuthority(Authority.ALL);
+        form.setWriteAuthority(Authority.ALL);
+        form.setCommentAuthority(Authority.ALL);
+
         return "admin/board/add";
     }
 
@@ -76,14 +85,17 @@ public class BoardController implements SubMenus {
      */
     @PostMapping("/save")
     public String save(@Valid RequestBoard form, Errors errors, Model model) {
-        String mode =form.getMode();
+        String mode = form.getMode();
         mode = StringUtils.hasText(mode) ? mode : "add";
+        commonProcess(mode, model);
 
         boardValidator.validate(form, errors);
 
         if (errors.hasErrors()) {
             return "admin/board/" + mode;
         }
+
+        configUpdateService.process(form);
 
         return "redirect:/admin/board/list";
     }

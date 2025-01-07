@@ -1,4 +1,4 @@
-package org.koreait.board.validators;
+package org.koreait.admin.board.validators;
 
 import lombok.RequiredArgsConstructor;
 import org.koreait.admin.board.controllers.RequestBoard;

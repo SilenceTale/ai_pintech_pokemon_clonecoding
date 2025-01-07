@@ -1,12 +1,15 @@
 package org.koreait.admin.board.controllers;
 
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.koreait.admin.global.menu.SubMenus;
+import org.koreait.board.validators.BoardValidator;
 import org.koreait.global.annotations.ApplyErrorPage;
 import org.koreait.global.libs.Utils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -19,6 +22,7 @@ import java.util.List;
 public class BoardController implements SubMenus {
 
     private final Utils utils;
+    private final BoardValidator boardValidator; // 게시판 추가 검증에 대한 의존성
 
     @Override
     @ModelAttribute("menuCode")
@@ -46,7 +50,7 @@ public class BoardController implements SubMenus {
      * @return
      */
     @GetMapping("/add")
-    public String add(Model model) {
+    public String add(@ModelAttribute RequestBoard form, Model model) {
         commonProcess("add", model);
 
         return "admin/board/add";
@@ -71,7 +75,15 @@ public class BoardController implements SubMenus {
      * @return
      */
     @PostMapping("/save")
-    public String save() {
+    public String save(@Valid RequestBoard form, Errors errors, Model model) {
+        String mode =form.getMode();
+        mode = StringUtils.hasText(mode) ? mode : "add";
+
+        boardValidator.validate(form, errors);
+
+        if (errors.hasErrors()) {
+            return "admin/board/" + mode;
+        }
 
         return "redirect:/admin/board/list";
     }

@@ -45,5 +45,6 @@ public class CommonInterceptor implements HandlerInterceptor {
         }
 
         mv.addObject("profile", memberUtil.getMember());
-    }
+        mv.addObject("totalUnRead", messageInfoService.totalUnRead()); // 미열람 쪽지 갯수
+;    }
 }

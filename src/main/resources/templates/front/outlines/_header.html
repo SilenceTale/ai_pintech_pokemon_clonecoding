@@ -79,12 +79,6 @@
                         <th:block th:text="#{통합검색}"></th:block>
                     </a>
                 </li>
-                <li>
-                    <a th:if="${@memberUtil.isLogin()}" th:href="@{/member/logout}">
-                        <i class="icon login"></i>
-                        <th:block th:text="#{로그아웃}"></th:block>
-                    </a>
-                </li>
             </ul>
             <a href="#" class="move-to-store"></a>
         </div>

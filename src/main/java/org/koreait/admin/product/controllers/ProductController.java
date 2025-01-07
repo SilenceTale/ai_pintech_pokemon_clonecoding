@@ -53,7 +53,7 @@ public class ProductController implements SubMenus {
     public String add(@ModelAttribute RequestProduct form, Model model) {
         commonProcess("add", model);
 
-        form.setGid(UUID.randomUUID().toString()); // 중복되지않는 gid 값
+        form.setGid(UUID.randomUUID().toString());
 
         return "admin/product/add";
     }
@@ -84,15 +84,16 @@ public class ProductController implements SubMenus {
 
         commonProcess(mode, model);
 
-        if (errors.hasErrors()) { // ~만약 검증에 실패시~
+        if (errors.hasErrors()) {
             String gid = form.getGid();
             form.setMainImages(fileInfoService.getList(gid, "main", FileStatus.ALL));
             form.setListImages(fileInfoService.getList(gid, "list", FileStatus.ALL));
             form.setEditorImages(fileInfoService.getList(gid, "editor", FileStatus.ALL));
+
             return "admin/product/" + mode;
         }
 
-        // 상품 등록, 수정 처리 서비스
+        //  상품 등록, 수정 처리 서비스
 
         return "redirect:/admin/product/list";
     }

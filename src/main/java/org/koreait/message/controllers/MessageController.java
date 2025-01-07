@@ -79,8 +79,7 @@ public class MessageController {
         }
 
         Message message = sendService.process(form);
-        long totalUnRead = infoService.totalUnRead();
-
+        long totalUnRead = infoService.totalUnRead(form.getEmail());
         Map<String, Object> data = new HashMap<>();
         data.put("item", message);
         data.put("totalUnRead", totalUnRead);
@@ -88,14 +87,14 @@ public class MessageController {
         StringBuffer sb = new StringBuffer();
 
         try {
-            String json = om.writeValueAsString(data); // data 를 json 형식 파일로 변환
-            sb.append(String.format("if (typeof webSocket != undefined) { webSocket.onopen = () => webSocket.send('%s') }", json)); // 만약 웹소켓 타입이 정의되었다면, 웹 소켓이 열렸을 경우 Json형태로 문자를 전송하겠다?
+            String json = om.writeValueAsString(data);
+            sb.append(String.format("if (typeof webSocket != undefined) { webSocket.onopen = () => webSocket.send('%s'); }", json));
 
         } catch (JsonProcessingException e) {
             e.printStackTrace();
         }
 
-        sb.append(String.format("location.replace('%s');", request.getContextPath() + "/message/list"));
+        sb.append(String.format("location.replace('%s');",request.getContextPath() + "/message/list"));
 
         model.addAttribute("script", sb.toString());
 
@@ -129,14 +128,14 @@ public class MessageController {
 
         statusService.change(seq); // 열람 상태로 변경
 
-        String referer = Objects.requireNonNullElse(request.getHeader("referer"), "");
+        String referer = Objects.requireNonNullElse(request.getHeader("referer"),"");
         model.addAttribute("mode", referer.contains("mode=send") ? "send":"receive");
 
         return utils.tpl("message/view");
     }
 
     @GetMapping("/delete/{seq}")
-    public String delete(@PathVariable("seq") Long seq, @RequestParam(name="mode", defaultValue="receive") String mode) {
+    public String delete(@PathVariable("seq") Long seq, @RequestParam(name="mode", defaultValue = "receive") String mode) {
 
         deleteService.process(seq, mode);
 

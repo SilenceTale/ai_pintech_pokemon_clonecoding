@@ -161,6 +161,7 @@ public class ProductController implements SubMenus {
         mode = StringUtils.hasText(mode) ? mode : "list";
 
         List<String> addCommonScript = new ArrayList<>();
+        List<String> addScript = new ArrayList<>();
 
         String pageTitle = "";
 
@@ -168,8 +169,9 @@ public class ProductController implements SubMenus {
             pageTitle = "상품목록";
         } else if (mode.equals("add") || mode.equals("edit")) {
             pageTitle = mode.equals("edit") ? "상품수정" : "상품등록";
-            addCommonScript.add("fileManager"); // 이미지를 활용하기에 fileManager 필요
+            addCommonScript.add("fileManager");
             addCommonScript.add("ckeditor5/ckeditor");
+            addScript.add("product/product");
 
         } else if (mode.equals("category")) {
             pageTitle = "분류관리";
@@ -182,6 +184,7 @@ public class ProductController implements SubMenus {
 
         model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("addCommonScript", addCommonScript);
+        model.addAttribute("addScript", addScript);
         model.addAttribute("subMenuCode", mode);
     }
 }

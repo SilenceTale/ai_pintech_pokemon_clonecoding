@@ -44,14 +44,13 @@ public class Pokemon extends BaseEntity {
     @Transient
     private Map<String, Object> nextItem;
 
+    @Transient
     private boolean recommended; // 추천 여부를 나타냄
 
-    /*
-    @Entity
-public class Pokemon {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-
-    private boolean recommended; // 추천 여부를 나타내는 필드
+    /**
+     * 추천 여부에 따라 이모지를 반환하는 메서드
      */
+    public String getRecommendationEmoji() {
+        return recommended ? "👍" : "👎";
+    }
 }

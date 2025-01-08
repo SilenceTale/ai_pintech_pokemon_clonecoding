@@ -32,6 +32,7 @@ public class BoardController implements SubMenus {
     private final BoardConfigUpdateService configUpdateService;
     private final BoardConfigInfoService configInfoService;
     private final HttpServletRequest request;
+
     @Override
     @ModelAttribute("menuCode")
     public String menuCode() {
@@ -56,7 +57,7 @@ public class BoardController implements SubMenus {
         return "admin/board/list";
     }
 
-    @RequestMapping(path = "/list", method={RequestMethod.PATCH, RequestMethod.DELETE})
+    @RequestMapping(path="/list", method={RequestMethod.PATCH, RequestMethod.DELETE})
     public String listPs(@RequestParam(name="chk", required = false) List<Integer> chks, Model model) {
 
         configUpdateService.process(chks, request.getMethod().equalsIgnoreCase("DELETE") ? "delete" : "edit");
@@ -76,6 +77,7 @@ public class BoardController implements SubMenus {
         commonProcess("add", model);
 
         form.setSkin("default");
+        form.setLocationAfterWriting("list");
         form.setListAuthority(Authority.ALL);
         form.setViewAuthority(Authority.ALL);
         form.setWriteAuthority(Authority.ALL);

@@ -21,8 +21,55 @@
         <button type="submit" class="submit-btn">검색하기</button>
     </form>
 
-    <form name="frmList" method="POST" th:action="@{/admin/board/list}" target="ifrmProcess" autocomplete="off"></form>
+    <form name="frmList" method="POST" th:action="@{/admin/board/list}" target="ifrmProcess" autocomplete="off">
+        <input type="hidden" name="_method" value="PATCH">
+        <table class="table-rows">
+            <thead>
+                <tr>
+                    <th>
+                        <span class="radio">
+                            <input type="checkbox" class="checkall" id="checkall" data-target-class="chk">
+                            <label for="checkall" class="standalone"></label>
+                        </span>
+                    </th>
+                    <th width="180">게시판 아이디</th>
+                    <th width="200">게시판 이름</th>
+                    <th width="180">사용여부</th>
+                    <th width="180">스킨</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:if="${items == null || items.isEmpty()}">
+                    <td colspan="6" class="no-data">조회된 게시판이 없습니다</td>
+                </tr>
+                <tr th:runless="${items == null || items.isEmpty()}"
+                    th:each="item, status : ${items}" th:object="${items}">
+                    <td>
+                        <input type="checkbox" name="chk" th:value="${status.index}" th:id="${'chk-' + status.index}">
+                        <label th:for="${'chk-' + status.index}" class="standalone"></label>
+                        <input type="hidden" th:name="${'bid_' + status.index}" th:value="*{bid}">
+                    </td>
+                    <td th:text="*{bid}"></td>
+                    <td>
+                        <input type="text" th:name="${'name_' + status.index}" th:value="*{name}">
+                    </td>
+                    <td>
+                        <select th:name="${'open_' + status.index}">
+                            <option value="true" th:selected="*{open}">사용</option>
+                            <option value="false" th:selected="*{!open}">미사용</option>
+                        </select>
+                    </td>
+                    <td>
+                        <select th:name="${'skin'_ + status.index}">
+                            <option value="default">기본</option>
+                        </select>
+                    </td>
+                </tr>
+            </tbody>
 
+        </table>
+    </form>
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>
 </div>
 </html>

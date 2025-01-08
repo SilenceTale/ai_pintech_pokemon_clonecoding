@@ -43,4 +43,18 @@ public class Pokemon extends BaseEntity {
 
     @Transient
     private Map<String, Object> nextItem;
+
+    private boolean recommended; // 추천 여부를 나타냄
+
+    /*
+    @Entity
+public class Pokemon {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+
+    private boolean recommended; // 추천 여부를 나타내는 필드
+
+    // Getters and setters
+}
+     */
 }

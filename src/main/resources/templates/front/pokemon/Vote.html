@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Pokemon List</title>
+</head>
+<body>
+<h1>추천 포켓몬 목록</h1>
+<ul>
+    <li th:each="pokemon : ${pokemons}">
+        <span th:text="${pokemon.name}">포켓몬 이름</span>
+        <span th:text="${@pokemonController.getRecommendationEmoji(pokemon)}">이모지</span>
+    </li>
+</ul>
+</body>
+</html>

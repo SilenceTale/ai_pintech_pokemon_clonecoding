@@ -71,5 +71,7 @@ public class PokemonController {
         model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("addCss", addCss);
         model.addAttribute("addCommonScript", addCommonScript);
+
+
     }
 }

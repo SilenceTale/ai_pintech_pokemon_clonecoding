@@ -1,6 +1,7 @@
 package org.koreait.board.controllers;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Size;
 import lombok.Data;
 import org.koreait.file.entities.FileInfo;
 
@@ -13,13 +14,15 @@ public class RequestBoard {
     private String mode;
 
     @NotBlank
-    private String bid; // 게시판 id
+    private String bid; // 게시판 아이디
 
     @NotBlank
     private String gid;
 
     @NotBlank
     private String poster; // 작성자
+
+    @Size(min=4)
     private String guestPw; // 비회원 비밀번호
 
     @NotBlank

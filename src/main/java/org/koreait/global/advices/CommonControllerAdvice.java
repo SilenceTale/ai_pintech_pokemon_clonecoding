@@ -69,7 +69,7 @@ public class CommonControllerAdvice {
         data.put("status", status.value());
         data.put("_status", status);
         data.put("message", message);
-        
+
         SiteConfig siteConfig = Objects.requireNonNullElseGet(codeValueService.get("siteConfig", SiteConfig.class), SiteConfig::new);
         data.put("siteConfig", siteConfig);
 

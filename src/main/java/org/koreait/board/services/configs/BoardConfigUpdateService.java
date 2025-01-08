@@ -45,6 +45,9 @@ public class BoardConfigUpdateService {
         board.setWriteAuthority(Objects.requireNonNullElse(form.getWriteAuthority(), Authority.ALL));
         board.setCommentAuthority(Objects.requireNonNullElse(form.getCommentAuthority(), Authority.ALL));
 
+        String locationAfterWriting = form.getLocationAfterWriting();
+        board.setLocationAfterWriting(StringUtils.hasText(locationAfterWriting) ? locationAfterWriting : "list");
+
         boardRepository.saveAndFlush(board);
     }
 
@@ -56,7 +59,7 @@ public class BoardConfigUpdateService {
     public void process(List<Integer> chks, String mode) {
         mode = StringUtils.hasText(mode) ? mode : "edit";
         if (chks == null || chks.isEmpty()) {
-            throw new AlertException("처리할 게시판을 선택하세요");
+            throw new AlertException("처리할 게시판을 선택하세요.");
         }
 
         List<Board> items = new ArrayList<>();
@@ -70,6 +73,7 @@ public class BoardConfigUpdateService {
 
             Board item = boardRepository.findById(bid).orElse(null);
             if (item == null) continue;
+
             item.setName(utils.getParam("name_" + chk));
             item.setOpen(Boolean.parseBoolean(utils.getParam("open_" + chk)));
             item.setSkin(utils.getParam("skin_" + chk));

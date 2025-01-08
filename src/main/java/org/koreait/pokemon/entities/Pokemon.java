@@ -53,8 +53,5 @@ public class Pokemon {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
 
     private boolean recommended; // 추천 여부를 나타내는 필드
-
-    // Getters and setters
-}
      */
 }

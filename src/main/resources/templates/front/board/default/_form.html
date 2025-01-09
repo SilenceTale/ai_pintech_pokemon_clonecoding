@@ -9,7 +9,7 @@
         <dt th:text="#{분류}"></dt>
         <dd>
             <select name="category" th:field="*{category}">
-                <option value="" th:text="${#strings.concat('- ', #messages.msg('분류_선택'),' -')}"></option>
+                <option value="" th:text="${#strings.concat('- ', #messages.msg('분류_선택'), ' -')}"></option>
                 <option th:each="category : ${categories}" th:value="${category}" th:text="${category}"></option>
             </select>
         </dd>
@@ -26,7 +26,7 @@
             </th:block>
         </dd>
     </dl>
-    <dl th:if="${requestBoard.mode == 'write' && !@memberUtil.isLogin() || (requestBoard.mode == 'edit' && boardData.member == null)}">
+    <dl th:if="${(requestBoard.mode == 'write' && !@memberUtil.isLogin()) || (requestBoard.mode == 'edit' && boardData.member == null)}">
         <dt th:text="#{비밀번호}"></dt>
         <dd>
             <input type="password" name="guestPw" th:field="*{guestPw}">

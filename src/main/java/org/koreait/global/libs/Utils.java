@@ -61,13 +61,13 @@ public class Utils {
 
     public List<String> getMessages(String[] codes) {
 
-            return Arrays.stream(codes).map(c -> {
-                try {
-                    return getMessage(c);
-                } catch (Exception e) {
-                    return "";
-                }
-            }).filter(s -> !s.isBlank()).toList();
+        return Arrays.stream(codes).map(c -> {
+            try {
+                return getMessage(c);
+            } catch (Exception e) {
+                return "";
+            }
+        }).filter(s -> !s.isBlank()).toList();
 
     }
 
@@ -197,16 +197,16 @@ public class Utils {
      */
     public String nl2br(String text) {
         return text == null ? "" : text.replaceAll("\\r", "")
-                                        .replaceAll("\\n", "<br>");
+                .replaceAll("\\n", "<br>");
     }
 
     public String popup(String url, int width, int height) {
         return String.format("commonLib.popup('%s', %d, %d);", url, width, height);
     }
 
-    // 회원 비회원 구분 해시
+    // 회원, 비회원 구분 해시
     public int getMemberHash() {
-        // 회원은 회원번호, 비 회원은 IP + User-Agent
+        // 회원 - 회원번호, 비회원 - IP + User-Agent
         if (memberUtil.isLogin()) return Objects.hash(memberUtil.getMember().getSeq());
         else { // 비회원
             String ip = request.getRemoteAddr();

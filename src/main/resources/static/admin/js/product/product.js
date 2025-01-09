@@ -33,7 +33,7 @@ function callbackFileUpload(files) {
         const el = dom.querySelector(".file-item, .image-item");
 
         switch (location) {
-            case "main": // 메인 이미지
+            case "main":  // 메인 이미지
                 targetMain.append(el);
                 break;
             case "list": // 목록 이미지

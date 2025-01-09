@@ -57,12 +57,12 @@ public class BoardInfoService {
     }
 
     public RequestBoard getForm(Long seq) {
-
         return getForm(get(seq));
     }
 
     /**
-     * 수정 처리 시 커멘드 객체 RequestBoard 로 변환
+     * 수정 처리시 커맨드 객체 RequestBoard로 변환
+     *
      * @param item
      * @return
      */

@@ -88,3 +88,4 @@ function callbackFileUpload(files) {
 
     if (imageUrls.length > 0) commonLib.insertEditorImage(imageUrls);
 }
+

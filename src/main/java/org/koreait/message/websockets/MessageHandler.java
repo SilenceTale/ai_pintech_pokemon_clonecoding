@@ -16,15 +16,17 @@ public class MessageHandler extends TextWebSocketHandler {
 
     @Override
     public void afterConnectionEstablished(WebSocketSession session) throws Exception {
-        System.out.println(sessions);
+        sessions.add(session);
     }
 
     @Override
-    protected void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
+    public void handleTextMessage(WebSocketSession session, TextMessage message) throws Exception {
 
         for (WebSocketSession s : sessions) {
             s.sendMessage(message);
         }
+
+
     }
 
     @Override

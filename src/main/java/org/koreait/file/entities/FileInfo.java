@@ -46,7 +46,7 @@ public class FileInfo extends BaseMemberEntity implements Serializable {
     private boolean done; // 파일과 연관된 작업이 완료되었는지 여부
 
     private boolean selected; // 노출을 1개 하는 경우 대표 이미지 선택
-    private long listOrder; // 정렬 순서, 내림 차순 정렬
+    private long listOrder; // 정렬 순서, 오름 차순
 
     // 이미지 형식 여부
     public boolean isImage() {

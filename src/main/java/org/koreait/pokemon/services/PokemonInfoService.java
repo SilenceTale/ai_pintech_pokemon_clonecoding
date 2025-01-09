@@ -171,10 +171,4 @@ public class PokemonInfoService {
                     .from(pokemon)
                     .fetchFirst();
     }
-
-     //추천 여부에 따라 이모지 반환 Pokemon Entity에 recommeded와 연동
-     public String getRecommendationEmoji(Pokemon pokemon) {
-
-        return pokemon.isRecommended() ? "👍" : "👎"; // 추천된 포켓몬은 👍, 아닌 포켓몬은 👎
-    }
 }

@@ -17,7 +17,7 @@ public class RequestBoard {
 
     private boolean open;
     private String category;  // 줄개행 문자로 여러 분류를 등록
-    private int rowsPerPage; // 1페이지당 게시글 갯수
+    private int rowsPerPage; // 1페이지당 게시글 갯수 
     private int pageRanges; // front 뷰일때 노출되는 페이지 링크 갯수
     private int pageRangesMobile; // mobile 뷰일때 노출되는 페이지 링크 갯수
     private boolean useEditor; // 에디터 사용 여부

@@ -27,7 +27,7 @@ public class BoardValidator implements Validator {
         }
 
         RequestBoard form = (RequestBoard)target;
-
+        
         // 게시판 등록일때만 게시판 아이디의 중복 여부 체크
         String bid = form.getBid();
         if (form.getMode().equals("add") && boardRepository.exists(bid)) {

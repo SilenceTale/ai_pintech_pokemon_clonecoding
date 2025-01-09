@@ -21,12 +21,12 @@ public class MessageDeleteService {
 
     /**
      * 삭제 처리
-     * 0. 공지인 경우는 관리자인 경우만 삭제 가능
-     * 1. sender 쪽에서 삭제하는 경우 / mode 값이 send 일때만!
+     * 0. 공지인 경우는 관리자인 경우만 삭제
+     * 1. sender 쪽에서 삭제하는 경우 / mode - send
      *      deletedBySender 값을 true
-     * 2. receiver 쪽에서 삭제하는 경우 / mode 값이 receive 일때만!
+     * 2. receiver 쪽에서 삭제 하는 경우 / mode - receive
      *      deletedByReceiver 값을 true
-     * 3. deletedBySender 와 deletedByReceiver 가 모두 true 인 경우 실제 DB에서도 삭제(Message 쪽 삭제, 파일 데이터 함께 삭제)
+     * 3. deletedBySender와 deletedByReceiver가 모두 true인 경우 실제 DB에서도 삭제(Message 쪽 삭제, 파일 데이터 함께 삭제)
      *
      *
      * @param seq
@@ -39,34 +39,33 @@ public class MessageDeleteService {
         if (item.isNotice()) {
             if (memberUtil.isAdmin()) { // 삭제 처리
                 isProceedDelete = true;
-            } else { // 공지이지만 관리자가 아닌 경우 - 권한 없음 예외처리로 던지기
+            } else { // 공지이지만 관리자가 아닌 경우 - 권한 없음
                 throw new UnAuthorizedException();
             }
-        } // ..endif
+        } // endif
 
-        if (mode.equals("send")) { // 보낸 쪽
+        if (mode.equals("send")) { // 보낸 쪽 
             item.setDeletedBySender(true);
         } else { // 받는 쪽
             item.setDeletedByReceiver(true);
         }
 
         if (item.isDeletedBySender() && item.isDeletedByReceiver()) {
-            isProceedDelete = true; // 보낸쪽 받는쪽 모두 삭제한 경우 -> DB에서 삭제 처리
+            isProceedDelete = true; // 보낸쪽, 받는쪽 모두 삭제 한 경우 -> DB에서 삭제
         }
 
         // 삭제 진행이 필요한 경우 처리
         if (isProceedDelete) {
             String gid = item.getGid();
 
-            // DB 에서 삭제
-            repository.delete(item); // 삭제처리
-            repository.flush(); // 확인 처리
+            // DB에서 삭제
+            repository.delete(item);
+            repository.flush();
 
             // 파일 삭제
             fileDeleteService.deletes(gid);
-        } else { // 보내는 쪽 또는 받는 쪽 한군데서만 삭제 처리를 한 경우
+        } else { // 보내는쪽 또는 받는 쪽 한군데서만 삭제 처리를 한 경우
             repository.saveAndFlush(item);
-
         }
     }
 }

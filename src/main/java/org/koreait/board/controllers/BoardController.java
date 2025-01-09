@@ -188,7 +188,7 @@ public class BoardController {
         // 게시판 스킨별 CSS, JS
         addScript.add(String.format("board/%s/common", board.getSkin()));
         addCss.add(String.format("board/%s/style", board.getSkin()));
-
+        
         if (mode.equals("write") || mode.equals("edit")) { // 글작성, 글수정
             if (board.isUseEditor()) { // 에디터를 사용하는 경우
                 addCommonScript.add("ckeditor5/ckeditor");

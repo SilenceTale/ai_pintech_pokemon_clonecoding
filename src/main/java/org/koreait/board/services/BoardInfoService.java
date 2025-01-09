@@ -264,9 +264,9 @@ public class BoardInfoService {
                     .fetchFirst();
 
             BoardData next = queryFactory.selectFrom(boardData)
-                    .where(boardData.seq.gt(seq))
-                    .orderBy(boardData.seq.asc())
-                    .fetchFirst();
+                            .where(boardData.seq.gt(seq))
+                            .orderBy(boardData.seq.asc())
+                            .fetchFirst();
 
             item.setPrev(prev);
             item.setNext(next);

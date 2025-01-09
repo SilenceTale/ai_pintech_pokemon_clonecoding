@@ -60,7 +60,7 @@ public class BoardConfigInfoService {
 
     /**
      * 게시판 설정 목록
-     *
+     * 
      * @param search
      * @return
      */

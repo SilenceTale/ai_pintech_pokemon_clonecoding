@@ -5,7 +5,7 @@ window.addEventListener("DOMContentLoaded", function() {
     const { insertEditorImage, fileManager } = commonLib;
 
     // 에디터 이미지 추가 처리
-    const insertEditors = document.getElementByClassName("insert-editor");
+    const insertEditors = document.getElementsByClassName("insert-editor");
     for (const el of insertEditors) {
         el.addEventListener("click", (e) => insertEditorImage(e.currentTarget.dataset.url))
     }
@@ -14,7 +14,7 @@ window.addEventListener("DOMContentLoaded", function() {
     const removeEls = document.querySelectorAll(".file-item .remove, .image-item .remove");
     for (const el of removeEls) {
         el.addEventListener("click", function() {
-            if (!confirm('정말 삭제하시겠습니까?')) {
+            if (!confirm('정말 삭제하겠습니까?')) {
                 return;
             }
 
@@ -64,14 +64,16 @@ function callbackFileUpload(files) {
         const removeEl = el.querySelector(".remove");
         removeEl.addEventListener("click", () => {
             fileManager.delete(seq, () => {
-                if (!confirm('정말 처리하시겠습니까?')) {
+                if (!confirm('정말 처리하겠습니까?')) {
                     return;
                 }
+
                 // 삭제 후속 처리
                 const el = document.getElementById(`file-${seq}`);
                 el.parentElement.removeChild(el);
             });
         });
+
 
         switch (location) {
             case "main":  // 메인 이미지

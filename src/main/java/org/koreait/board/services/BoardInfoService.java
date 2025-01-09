@@ -2,19 +2,25 @@ package org.koreait.board.services;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.core.types.dsl.StringExpression;
+import com.querydsl.jpa.impl.JPAQuery;
 import com.querydsl.jpa.impl.JPAQueryFactory;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.koreait.board.controllers.BoardSearch;
+import org.koreait.board.controllers.RequestBoard;
 import org.koreait.board.entities.Board;
 import org.koreait.board.entities.BoardData;
 import org.koreait.board.entities.QBoardData;
 import org.koreait.board.exceptions.BoardDataNotFoundException;
 import org.koreait.board.repositories.BoardDataRepository;
 import org.koreait.board.services.configs.BoardConfigInfoService;
+import org.koreait.file.services.FileInfoService;
 import org.koreait.global.libs.Utils;
 import org.koreait.global.paging.ListData;
 import org.koreait.global.paging.Pagination;
+import org.koreait.member.entities.Member;
+import org.koreait.member.libs.MemberUtil;
+import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -28,8 +34,11 @@ public class BoardInfoService {
 
     private final BoardConfigInfoService configInfoService;
     private final BoardDataRepository boardDataRepository;
+    private final FileInfoService fileInfoService;
     private final JPAQueryFactory queryFactory;
     private final HttpServletRequest request;
+    private final MemberUtil memberUtil;
+    private final ModelMapper modelMapper;
     private final Utils utils;
 
     /**
@@ -42,9 +51,26 @@ public class BoardInfoService {
 
         BoardData item = boardDataRepository.findById(seq).orElseThrow(BoardDataNotFoundException::new);
 
-        addInfo(item); // 추가 정보 처리
+        addInfo(item, true); // 추가 정보 처리
 
         return item;
+    }
+
+    public RequestBoard getForm(Long seq) {
+
+        return getForm(get(seq));
+    }
+
+    /**
+     * 수정 처리 시 커멘드 객체 RequestBoard 로 변환
+     * @param item
+     * @return
+     */
+    public RequestBoard getForm(BoardData item) {
+        RequestBoard form = modelMapper.map(item, RequestBoard.class);
+        form.setMode("edit");
+
+        return form;
     }
 
     /**
@@ -110,18 +136,44 @@ public class BoardInfoService {
             andBuilder.and(condition.contains(skey));
         }
 
+        // 회원 이메일
+        List<String> emails = search.getEmail();
+        if (emails != null && !emails.isEmpty()) {
+            andBuilder.and(boardData.member.email.in(emails));
+        }
+
         /* 검색 처리 E */
 
-        List<BoardData> items = queryFactory.selectFrom(boardData)
+        JPAQuery<BoardData> query = queryFactory.selectFrom(boardData)
                 .leftJoin(boardData.board)
                 .fetchJoin()
                 .leftJoin(boardData.member)
                 .fetchJoin()
                 .where(andBuilder)
                 .offset(offset)
-                .limit(limit)
-                .orderBy(boardData.notice.desc(), boardData.createdAt.desc())
-                .fetch();
+                .limit(limit);
+
+        /* 정렬 조건 처리 S */
+        String sort = search.getSort();
+        if (StringUtils.hasText(sort)) {
+            String[] _sort = sort.split("_");
+            String field = _sort[0];
+            String direction = _sort[1];
+            if (field.equals("viewCount")) {
+                query.orderBy(direction.equalsIgnoreCase("DESC") ? boardData.viewCount.desc() : boardData.viewCount.asc());
+            } else if (field.equals("commentCount")) {
+                query.orderBy(direction.equalsIgnoreCase("DESC") ? boardData.commentCount.desc() : boardData.commentCount.asc());
+            } else {
+                query.orderBy(boardData.notice.desc(), boardData.createdAt.desc());
+            }
+
+        } else { // 기본 정렬 조건 - notice DESC, createdAt DESC
+            query.orderBy(boardData.notice.desc(), boardData.createdAt.desc());
+        }
+
+        /* 정렬 조건 처리 E */
+
+        List<BoardData> items = query.fetch();
 
         long total = boardDataRepository.count(andBuilder);
 
@@ -144,7 +196,7 @@ public class BoardInfoService {
     }
 
     /**
-     * 게시판 별 최신 게시글
+     * 게시판별 최신 게시글
      *
      * @param bid
      * @param limit
@@ -156,12 +208,30 @@ public class BoardInfoService {
         search.setBid(List.of(bid));
 
         ListData<BoardData> data = getList(search);
+
         return data.getItems();
     }
 
     public List<BoardData> getLatest(String bid) {
-
         return getLatest(bid, 5);
+    }
+
+    /**
+     * 로그인한 회원이 작성한 게시글 목록
+     *
+     * @param search
+     * @return
+     */
+    public ListData<BoardData> getMyList(BoardSearch search) {
+        if (!memberUtil.isLogin()) {
+            return new ListData<>(List.of(), null);
+        }
+
+        Member member = memberUtil.getMember();
+        String email = member.getEmail();
+        search.setEmail(List.of(email));
+
+        return getList(search);
     }
 
     /**
@@ -169,7 +239,34 @@ public class BoardInfoService {
      *
      * @param item
      */
+    private void addInfo(BoardData item, boolean isView) {
+        // 게시판 파일 정보 S
+        String gid = item.getGid();
+        item.setEditorImages(fileInfoService.getList(gid, "editor"));
+        item.setAttachFiles(fileInfoService.getList(gid, "attach"));
+        // 게시판 파일 정보 E
+
+        // 이전, 다음 게시글
+        if (isView) { // 보기 페이지 데이터를 조회하는 경우만 이전, 다음 게시글을 조회
+            QBoardData boardData = QBoardData.boardData;
+            Long seq = item.getSeq();
+
+            BoardData prev = queryFactory.selectFrom(boardData)
+                    .where(boardData.seq.lt(seq))
+                    .orderBy(boardData.seq.desc())
+                    .fetchFirst();
+
+            BoardData next = queryFactory.selectFrom(boardData)
+                    .where(boardData.seq.gt(seq))
+                    .orderBy(boardData.seq.asc())
+                    .fetchFirst();
+
+            item.setPrev(prev);
+            item.setNext(next);
+        }
+    }
+
     private void addInfo(BoardData item) {
-        
+        addInfo(item, false);
     }
 }

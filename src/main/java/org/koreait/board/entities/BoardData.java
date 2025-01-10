@@ -61,7 +61,7 @@ public class BoardData extends BaseEntity implements Serializable {
     @Column(length=60)
     private String category; // 게시글 분류
 
-    @Transient // db에 포함시키지 않기 위해 사용하는 어노테이션 (2차 가공에 유리)
+    @Transient
     private BoardData prev; // 이전 게시글
 
     @Transient

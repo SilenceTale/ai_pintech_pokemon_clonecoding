@@ -4,6 +4,7 @@ package org.koreait.member.social.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.koreait.global.libs.Utils;
 import org.koreait.global.services.CodeValueService;
@@ -26,6 +27,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.net.URI;
 import java.util.Map;
+import java.util.Objects;
 
 @Lazy
 @Service
@@ -38,6 +40,7 @@ public class KakaoLoginService implements SocialLoginService {
     private final CodeValueService codeValueService;
     private final ObjectMapper om;
     private final Utils utils;
+    private final HttpSession session;
 
     @Override
     public String getToken(String code) {
@@ -99,12 +102,26 @@ public class KakaoLoginService implements SocialLoginService {
 
         MemberInfo memberInfo = (MemberInfo)memberInfoService.loadUserByUsername(member.getEmail());
 
-        System.out.println("memberInfo:" + memberInfo);
-
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(memberInfo, null, memberInfo.getAuthorities());
 
         SecurityContextHolder.getContext().setAuthentication(authentication); // 로그인 처리
 
+        session.setAttribute("member", memberInfo.getMember());
+        session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
         return true;
+    }
+
+    @Override
+    public String getLoginUrl(String redirectUrl) {
+        SocialConfig socialConfig = codeValueService.get("socialConfig", SocialConfig.class);
+        String restApiKey = socialConfig.getKakaoRestApiKey();
+        if (!socialConfig.isUseKakaoLogin() || !StringUtils.hasText(restApiKey)) {
+            return null;
+        }
+
+        String redirectUri = utils.getUrl("/member/social/callback/kakao");
+        redirectUrl = Objects.requireNonNullElse(redirectUrl, "");
+
+        return String.format("https://kauth.kakao.com/oauth/authorize?client_id=%s&redirect_uri=%s&response_type=code&state=%s", restApiKey, redirectUri, redirectUrl);
     }
 }

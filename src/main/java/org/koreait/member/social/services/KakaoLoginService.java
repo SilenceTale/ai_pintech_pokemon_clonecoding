@@ -4,7 +4,6 @@ package org.koreait.member.social.services;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.koreait.global.libs.Utils;
 import org.koreait.global.services.CodeValueService;
@@ -39,7 +38,6 @@ public class KakaoLoginService implements SocialLoginService {
     private final CodeValueService codeValueService;
     private final ObjectMapper om;
     private final Utils utils;
-    private final HttpSession session;
 
     @Override
     public String getToken(String code) {
@@ -107,7 +105,6 @@ public class KakaoLoginService implements SocialLoginService {
 
         SecurityContextHolder.getContext().setAuthentication(authentication); // 로그인 처리
 
-        session.setAttribute("SPRING_SECURITY_CONTEXT", SecurityContextHolder.getContext());
         return true;
     }
 }

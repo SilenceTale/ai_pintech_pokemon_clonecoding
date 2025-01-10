@@ -44,11 +44,11 @@ public class RequestJoin extends RequestAgree {
     private String address; // 주소
     private String addressSub; // 나머지 주소
 
-    private SocialChannel socialChannel; // 토큰과 같이 데이터 값을 보냄
-    private String socialToken; // socialChannel 이랑 같이 실어서 보내기 위해 토큰도 추가
+    private SocialChannel socialChannel;
+    private String socialToken;
 
-    // 소셜 로그인으로 가입하는건지 체크
-    public boolean isSocial() { // 메서드 추가
-        return socialChannel != null && StringUtils.hasText(socialToken);
+    // 소셜 로그인으로 가입하는 건지 체크
+    public boolean isSocial() {
+        return socialChannel != null && socialChannel != SocialChannel.NONE && StringUtils.hasText(socialToken);
     }
 }

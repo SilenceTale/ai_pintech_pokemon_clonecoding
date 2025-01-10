@@ -59,7 +59,7 @@ public class Member extends BaseEntity implements Serializable {
 
     @Enumerated(EnumType.STRING)
     @Column(length=20)
-    private SocialChannel socialChannel; // 소셜 로그인 채널
+    private SocialChannel socialChannel; // 소설 로그인 채널
 
     @Column(length=65)
     private String socialToken; // 소셜 로그인 기본 ID

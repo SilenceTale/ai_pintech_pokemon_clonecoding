@@ -15,28 +15,16 @@ public class RequestBoard {
     @NotBlank
     private String name; // 게시판 명
 
-    /* 줄개행 문자로 여러 분류를 등록
-    * 1페이지당 게시글 갯수
-    * front 뷰일때 노출되는 페이지 링크 갯수
-    * mobile 뷰일때 노출되는 페이지 링크 갯수
-    * mobile 뷰일때 노출되는 페이지 링크 갯수
-    * 에디터 사용 여부
-    * 에디터 첨부 이미지 사용 여부
-    * 파일 첨부 사용 여부
-    * 댓글 사용 여부
-    * 글 작성 후 이동 경로 list, view
-    * 게시판 스킨
-    */
     private boolean open;
-    private String category;
-    private int rowsPerPage;
-    private int pageRanges;
-    private int pageRangesMobile;
-    private boolean useEditor;
-    private boolean useEditorImage;
-    private boolean useAttachFile;
-    private boolean useComment;
-    private String locationAfterWriting;
+    private String category;  // 줄개행 문자로 여러 분류를 등록
+    private int rowsPerPage; // 1페이지당 게시글 갯수 
+    private int pageRanges; // front 뷰일때 노출되는 페이지 링크 갯수
+    private int pageRangesMobile; // mobile 뷰일때 노출되는 페이지 링크 갯수
+    private boolean useEditor; // 에디터 사용 여부
+    private boolean useEditorImage; // 에디터 첨부 이미지 사용 여부
+    private boolean useAttachFile; // 다운로드용 첨부 파일 사용 여부
+    private boolean useComment; // 댓글 사용 여부
+    private String locationAfterWriting; // 글 작성 후 이동 경로 list, view
     private String skin; // 게시판 스킨
 
     /**

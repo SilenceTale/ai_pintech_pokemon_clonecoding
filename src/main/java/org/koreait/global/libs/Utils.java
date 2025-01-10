@@ -217,12 +217,12 @@ public class Utils {
     }
 
     /**
-     * 전체 주소를 담는 메서드
+     * 전체 주소
      *
      * @param url
      * @return
      */
     public String getUrl(String url) {
-        return String.format("%s://%s:%d%s%s", request.getScheme(), request.getServerName(), request.getServerPort(),request.getContextPath(), url);
+        return String.format("%s://%s:%d%s%s", request.getScheme(), request.getServerName(), request.getServerPort(), request.getContextPath(), url);
     }
 }

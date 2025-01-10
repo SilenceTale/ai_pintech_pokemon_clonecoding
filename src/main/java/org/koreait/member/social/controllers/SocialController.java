@@ -25,7 +25,7 @@ public class SocialController {
     private final Utils utils;
 
     @GetMapping("/callback/kakao")
-    public String callback(@RequestParam(name="code", required = false) String code) {
+    public String callback(@RequestParam(name="code", required = false) String code, @RequestParam(name="state", required = false) String redirectUrl) {
 
         String token = kakaoLoginService.getToken(code);
         if (!StringUtils.hasText(token)) {

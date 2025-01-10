@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
-@Lazy
+@Lazy // 일시적으로 지연시켜 필요할때 사용하기 위한 어노테이션
 @Service
 @RequiredArgsConstructor
 public class BoardConfigUpdateService {

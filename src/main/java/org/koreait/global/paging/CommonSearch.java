@@ -6,7 +6,7 @@ import lombok.Data;
  * 공통 검색 항목
  *
  */
-@Data
+@Data // 기본 데이터 설정 값을 사용할때 한다.
 public class CommonSearch {
     private int page = 1; // 페이지 번호
     private int limit = 20; // 페이지당 출력 갯수

@@ -27,11 +27,11 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
-@Controller
-@ApplyErrorPage
-@RequestMapping("/board")
-@RequiredArgsConstructor
-@SessionAttributes({"commonValue"})
+@Controller // 이 클래스가 controller임을 나타내는 어노테이션 RequestMapping과 함께 쓰임.
+@ApplyErrorPage // 에러페이지가 뜰 수 있도록 설정한 어노테이션
+@RequestMapping("/board") // 경로를 /board로 설정한 어노테이션
+@RequiredArgsConstructor // 클래스 모든필드의 매개변수로 자동으로 생성하는 어노테이션
+@SessionAttributes({"commonValue"}) // commonValue의 세션값을 일시적으로 저장하기 위해 사용한 어노테이션
 public class BoardController {
 
     private final Utils utils;
@@ -59,7 +59,7 @@ public class BoardController {
      * @param bid
      * @param model
      * @return
-     */
+     */ //
     @GetMapping("/list/{bid}")
     public String list(@PathVariable("bid") String bid, BoardSearch search, Model model) {
         commonProcess(bid, "list", model);

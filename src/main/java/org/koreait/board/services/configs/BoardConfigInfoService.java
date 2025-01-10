@@ -26,9 +26,9 @@ import java.util.List;
 
 import static org.springframework.data.domain.Sort.Order.desc;
 
-@Lazy
-@Service
-@RequiredArgsConstructor
+@Lazy // 필요할때 사용할 수 있도록 지연시킴
+@Service // 이 클래스를 서비스 빈으로 등극
+@RequiredArgsConstructor // 필수 의존성 주입을 위한 생성자 생성 어노테이션
 public class BoardConfigInfoService {
 
     private final BoardRepository boardRepository;
@@ -42,11 +42,11 @@ public class BoardConfigInfoService {
      * @return
      */
     public Board get(String bid) {
-        Board item = boardRepository.findById(bid).orElseThrow(BoardNotFoundException::new);
+        Board item = boardRepository.findById(bid).orElseThrow(BoardNotFoundException::new);// boardRepository에 있는 bid라는 Id 데이터로 Board 객체를 찾음, 그게 아니라면 BoardNotFoundException으로 예외처리함
 
         addInfo(item); // 추가 정보 처리
 
-        return item;
+        return item; // Board의 item을 반환
     }
 
     public RequestBoard getForm(String bid) {
@@ -90,16 +90,16 @@ public class BoardConfigInfoService {
         }
 
         List<String> bids = search.getBid();
-        if (bids != null && !bids.isEmpty()) {
-            andBuilder.and(board.bid.in(bids));
+        if (bids != null && !bids.isEmpty()) { // bids가 null이 아니고 비어있지않을때 조건실행
+            andBuilder.and(board.bid.in(bids)); // bids 조건이 들어있는 board.bid를 andBuilder로 조회
         }
         /* 검색 처리 E */
 
-        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(desc("createdAt")));
-        Page<Board> data = boardRepository.findAll(andBuilder, pageable);
+        Pageable pageable = PageRequest.of(page - 1, limit, Sort.by(desc("createdAt"))); // 한 페이지당 작성된 당시 내림차순으로 설정
+        Page<Board> data = boardRepository.findAll(andBuilder, pageable); // boardRepository안에 있는 andBuilder, pageable 데이터를 Board객체에 리스트 형식으로 저장
 
-        List<Board> items = data.getContent();
-        items.forEach(this::addInfo);
+        List<Board> items = data.getContent(); // Board리스트에 data 안에 있는 content데이터를 Board List의 items로 저장
+        items.forEach(this::addInfo); //addInfo또한 items와 같이 설정
 
         Pagination pagination = new Pagination(page, (int)data.getTotalElements(), 10, limit, request);
 
@@ -109,14 +109,14 @@ public class BoardConfigInfoService {
     // 추가 정보처리
     private void addInfo(Board item) {
         String category = item.getCategory();
-        if (StringUtils.hasText(category)) {
+        if (StringUtils.hasText(category)) { // category가 비어있는지 확인
             List<String> categories = Arrays.stream(category.split("\\n"))
                     .map(s -> s.replaceAll("\\r", ""))
                     .filter(s -> !s.isBlank())
                     .map(String::trim)
-                    .toList();
+                    .toList(); // 비어있지않다면 리스트형태로 \r을 공백으로 전환후, 공백이 아닌걸 걸러 리스트형태로 반환
 
-            item.setCategories(categories);
+            item.setCategories(categories);item.setCategories(categories); // 최종적으로 변환된 categories를 board객체에 설정
         }
     }
 }

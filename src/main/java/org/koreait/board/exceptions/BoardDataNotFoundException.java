@@ -6,6 +6,6 @@ import org.springframework.http.HttpStatus;
 public class BoardDataNotFoundException extends AlertBackException {
     public BoardDataNotFoundException() {
         super("NotFound.boardData", HttpStatus.NOT_FOUND);
-        setErrorCode(true);
+        setErrorCode(true); // boardData 가 없을경우 NotFound 에러 코드 발송
     }
 }

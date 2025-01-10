@@ -11,7 +11,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(indexes = {
+@Table(indexes = { //db 컬럼에 createdAt을 내림차순으로 공지글도 내림차순으로 설정
         @Index(name="idx_bd_created_at", columnList = "createdAt DESC"),
         @Index(name="idx_bd_notice_created_at", columnList = "notice DESC, createdAt DESC")
 })
@@ -61,7 +61,7 @@ public class BoardData extends BaseEntity implements Serializable {
     @Column(length=60)
     private String category; // 게시글 분류
 
-    @Transient
+    @Transient // db에 포함시키지 않기 위해 사용하는 어노테이션 (2차 가공에 유리)
     private BoardData prev; // 이전 게시글
 
     @Transient

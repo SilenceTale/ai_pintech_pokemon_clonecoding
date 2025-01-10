@@ -5,7 +5,7 @@
 <main layout:fragment="content">
     <h1 th:text="#{회원가입}"></h1>
 
-    <th:block th:if="${!socialConfig.useKakaoLogin && !requestJoin.social}">
+    <th:block th:if="${socialConfig.useKakaoLogin && requestJoin.social}">
         <div class="social-channel">
             <img th:src="@{/front/images/kakaotalk.png}">
             <th:block th:text="#{카카오_로그인_회원가입}"></th:block>

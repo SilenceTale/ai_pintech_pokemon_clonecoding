@@ -27,14 +27,31 @@ public class SocialController {
     @GetMapping("/callback/kakao")
     public String callback(@RequestParam(name="code", required = false) String code, @RequestParam(name="state", required = false) String redirectUrl) {
 
+        // 연결 해제 요청 처리 S
+        if (StringUtils.hasText(redirectUrl) && redirectUrl.equals("disconnect")) {
+            kakaoLoginService.disconnect();
+
+            return "redirect:/mypage/profile";
+        }
+        // 연결 해제 요청 처리 E
+
         String token = kakaoLoginService.getToken(code);
         if (!StringUtils.hasText(token)) {
             throw new AlertBackException(utils.getMessage("UnAuthorized"), HttpStatus.UNAUTHORIZED);
         }
 
+        // 카카오 로그인 연결 요청 처리 S
+        if (StringUtils.hasText(redirectUrl) && redirectUrl.equals("connect")) {
+            kakaoLoginService.connect(token);
+
+            return "redirect:/mypage/profile";
+        }
+        // 카카오 로그인 연결 요청 처리 E
+
         boolean result = kakaoLoginService.login(token);
         if (result) { // 로그인 성공
-            return "redirect:/";
+            redirectUrl = StringUtils.hasText(redirectUrl) ? redirectUrl : "/";
+            return "redirect:" + redirectUrl;
         }
 
         // 소셜 회원 미가입 -> 회원가입 페이지 이동

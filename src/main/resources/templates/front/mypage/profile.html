@@ -17,8 +17,8 @@
                      data-done="true"
                      th:data-seq="${(profile != null && profile.profileImage != null) ? profile.profileImage.seq : ''}"
                 >
-                <th:block th:if="${profile.profileImage != null}"
-                          th:utext="${@utils.showImage(profile.profileImage.seq, 250, 350, 'image')}"></th:block>
+                    <th:block th:if="${profile.profileImage != null}"
+                              th:utext="${@utils.showImage(profile.profileImage.seq, 250, 350, 'image')}"></th:block>
                 </div>
                 <button type="button" class='file-upload'
                         data-image-only="true"
@@ -114,8 +114,14 @@
                 <label for="optionalTerms0" th:text="#{광고성_정보_전송에_대해_동의합니다.(선택)}"></label>
             </dd>
         </dl>
-
-
+        <th:block th:if="${profile.kakaoConnected}">
+            <button type="button" th:text="#{카카오_로그인_해제}"></button>
+        </th:block>
+        <th:block th:unless="${profile.kakaoConnected}">
+            <a th:if="*{kakaoLoginConnectUrl != null && kakaoLoginConnectUrl != ''}" th:href="*{kakaoLoginConnectUrl}">
+                <button type="button" th:text="#{카카오_로그인_연결}"></button>
+            </a>
+        </th:block>
 
         <button type="submit" th:text="#{수정하기}"></button>
     </form>

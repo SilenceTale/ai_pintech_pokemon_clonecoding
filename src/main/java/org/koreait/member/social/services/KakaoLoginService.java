@@ -132,7 +132,7 @@ public class KakaoLoginService implements SocialLoginService {
     // 소셜 로그인 연결
     @Override
     public void connect(String token) {
-        if (memberUtil.isLogin()) return;
+        if (!memberUtil.isLogin()) return;
 
         Member member = memberUtil.getMember();
         member.setSocialChannel(SocialChannel.KAKAO);
@@ -155,11 +155,11 @@ public class KakaoLoginService implements SocialLoginService {
 
         memberRepository.saveAndFlush(member);
 
-        memberInfoService.addInfo(member); // member 데이터 정보 수정
-        session.setAttribute("member", member); // 변경됀 member 값을 세션에 반환
+        memberInfoService.addInfo(member);
+        session.setAttribute("member", member);
     }
 
-    public boolean exist(String token) { // 새로 연결시 체크해야하는가?
+    public boolean exists(String token) {
         BooleanBuilder builder = new BooleanBuilder();
         QMember member = QMember.member;
         builder.and(member.socialChannel.eq(SocialChannel.KAKAO))

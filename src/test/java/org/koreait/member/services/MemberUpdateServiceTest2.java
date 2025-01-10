@@ -57,7 +57,7 @@ public class MemberUpdateServiceTest2 {
 
     @Test
     @DisplayName("회원정보 수정 성공시 예외가 발생하지 않는 테스트")
-    @WithUserDetails(value = "user01@test.org", setupBefore = TestExecutionEvent.TEST_EXECUTION)
+    @WithUserDetails(value="user01@test.org", setupBefore = TestExecutionEvent.TEST_EXECUTION)
     void updateSuccessTest() {
         profile.setName("(수정)이이름");
         assertDoesNotThrow(() -> {

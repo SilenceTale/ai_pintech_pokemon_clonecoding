@@ -34,12 +34,7 @@ public class SocialController {
 
         boolean result = kakaoLoginService.login(token);
         if (result) { // 로그인 성공
-<<<<<<< HEAD
-            redirectUrl = StringUtils.hasText(redirectUrl) ? redirectUrl : "/";
-            return "redirect:" + redirectUrl;
-=======
             return "redirect:/";
->>>>>>> f3db3aa5639a2523545ea2a719a14474c69dd19b
         }
 
         // 소셜 회원 미가입 -> 회원가입 페이지 이동

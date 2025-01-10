@@ -13,7 +13,6 @@ import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @ApplyErrorPage
@@ -25,12 +24,11 @@ public class SocialController {
     private final HttpSession session;
     private final Utils utils;
 
-    @ResponseBody
     @GetMapping("/callback/kakao")
     public String callback(@RequestParam(name="code", required = false) String code) {
 
         String token = kakaoLoginService.getToken(code);
-        if (StringUtils.hasText(token)) {
+        if (!StringUtils.hasText(token)) {
             throw new AlertBackException(utils.getMessage("UnAuthorized"), HttpStatus.UNAUTHORIZED);
         }
 
@@ -39,9 +37,9 @@ public class SocialController {
             return "redirect:/";
         }
 
-        // 소셜 회원 미가입 -> 회원 가입 페이지 이동
-        session.setAttribute("SocialChannel", SocialChannel.KAKAO);
-        session.setAttribute("SocialToken", token);
+        // 소셜 회원 미가입 -> 회원가입 페이지 이동
+        session.setAttribute("socialChannel", SocialChannel.KAKAO);
+        session.setAttribute("socialToken", token);
 
         return "redirect:/member/agree";
     }

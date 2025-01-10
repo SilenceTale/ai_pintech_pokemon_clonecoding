@@ -1,4 +1,4 @@
-package org.koreait.member.social.entities; // DATA 클래스 생성
+package org.koreait.member.social.entities;
 
 import com.fasterxml.jackson.annotation.JsonAlias;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;

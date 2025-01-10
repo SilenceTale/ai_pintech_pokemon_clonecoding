@@ -10,7 +10,11 @@ import org.springframework.test.context.ActiveProfiles;
 
 import java.util.List;
 
-import static org.mockito.BDDMockito.*;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
+import static org.mockito.Mockito.atLeast;
+import static org.mockito.Mockito.times;
 
 @SpringBootTest
 @ActiveProfiles({"default", "test"})
@@ -23,13 +27,12 @@ public class MemberLoginServiceTest {
 
     @BeforeEach
     void init() {
-//        request = mock(HttpServletRequest.class); // 모의 객체
+        //request = mock(HttpServletRequest.class); // 모의 객체
         // 스텁
-        given(request.getParameter("email")).willReturn("user01@test.org"); //참고용!
-        given(request.getParameter("password")).willReturn("_Aa123456"); // 참고용!
-//        given(request.getParameter("email")).willReturn(matches("[a-zA-z0-9]{4,20}"));
-//        given(request.getParameter("password")).willReturn(matches("\\w{8,16}"));
-
+        given(request.getParameter("email")).willReturn("user01@test.org");
+        given(request.getParameter("password")).willReturn("12345678");
+        //given(request.getParameter("email")).willReturn(matches("[a-zA-Z0-9]{4,20}"));
+        //given(request.getParameter("password")).willReturn(matches("\\w{8,16}"));
         service = new MemberLoginService(request);
     }
 
@@ -37,7 +40,7 @@ public class MemberLoginServiceTest {
     void test1() {
         service.process();
 
-        then(request).should(atLeast(1)).getParameter(any()); // 어떤값이 한번이라도 들어오면 호출은 한번 이상
+        then(request).should(atLeast(1)).getParameter(any());
     }
 
     @Test
@@ -49,7 +52,7 @@ public class MemberLoginServiceTest {
 
         then(request).should(times(2)).setAttribute(captor1.capture(), captor2.capture());
 
-        List<String> key = captor1.getAllValues(); //captor1.getValue();
+        List<String> key = captor1.getAllValues();//captor1.getValue();
         List<String> value = captor2.getAllValues();
         System.out.printf("%s, %s%n", key, value);
     }

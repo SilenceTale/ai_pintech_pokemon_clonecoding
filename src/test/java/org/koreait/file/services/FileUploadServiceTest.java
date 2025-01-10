@@ -42,8 +42,8 @@ public class FileUploadServiceTest {
     @BeforeEach
     void init() {
         files = new MockMultipartFile[] {
-                new MockMultipartFile("file", "test1.png", MediaType.IMAGE_PNG_VALUE, new byte[] {1,2,3}),
-                new MockMultipartFile("file", "test2.png", MediaType.IMAGE_PNG_VALUE, new byte[] {1,2,3})
+                new MockMultipartFile("file", "test1.png", MediaType.IMAGE_PNG_VALUE, new byte[] {1, 2, 3}),
+                new MockMultipartFile("file", "test2.png", MediaType.IMAGE_PNG_VALUE, new byte[] {1, 2, 3}),
         };
     }
 
@@ -56,29 +56,28 @@ public class FileUploadServiceTest {
 
         assertDoesNotThrow(() -> service.upload(form));
     }
-
+    
     @Test
     @DisplayName("파일 업로드 통합 테스트")
     @MockMember
     void uploadControllerTest() throws Exception {
-        String body = mockMvc.perform(multipart(
-                "/api/file/upload")
-                        .file(files[0])
-                        .file(files[1])
-                        .param("gid", UUID.randomUUID().toString())
-                                .with(csrf().asHeader()))
-                        .andDo(print())
-                        .andExpect(status().isCreated())
-                        .andReturn().getResponse().getContentAsString(Charset
-                        .forName("UTF-8"));
+        String body = mockMvc.perform(multipart("/api/file/upload")
+                .file(files[0])
+                .file(files[1])
+                .param("gid", UUID.randomUUID().toString())
+                        .with(csrf().asHeader()))
+                .andDo(print())
+                .andExpect(status().isCreated())
+                .andReturn().getResponse().getContentAsString(Charset.forName("UTF-8"));
 
         System.out.println(body);
-        /*
-        참고하기
-        List<FileInfo> items = om.readValue(body, new TypeReference<List<FileInfo>>() {});
-        boolean result1 = items.stream().anyMatch(i -> i.getFileName().equals(files[0].getOriginalFilename()));
-        boolean result2 = items.stream().anyMatch(i -> i.getFileName().equals(files[1].getOriginalFilename()));*/
 
+        /*
+        List<FileInfo> items = om.readValue(body, new TypeReference<>() {});
+        boolean result1 = items.stream().anyMatch(i -> i.getFileName().equals(files[0].getOriginalFilename()));
+        boolean result2 = items.stream().anyMatch(i -> i.getFileName().equals(files[1].getOriginalFilename()));
+        */
         //assertTrue(result1 && result2);
+
     }
 }

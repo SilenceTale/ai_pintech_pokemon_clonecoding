@@ -2,7 +2,6 @@ package org.koreait.member.services;
 
 import org.junit.jupiter.api.*;
 
-@DisplayName("라이프 사이클을 사용해보는 테스트 클래스")
 public class LifeCycleTest {
 
     @BeforeAll

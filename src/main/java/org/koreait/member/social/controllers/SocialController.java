@@ -4,6 +4,7 @@ import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.koreait.global.annotations.ApplyErrorPage;
 import org.koreait.global.exceptions.scripts.AlertBackException;
+import org.koreait.global.exceptions.scripts.AlertRedirectException;
 import org.koreait.global.libs.Utils;
 import org.koreait.member.social.constants.SocialChannel;
 import org.koreait.member.social.services.KakaoLoginService;
@@ -43,8 +44,10 @@ public class SocialController {
         // 카카오 로그인 연결 요청 처리 S
         if (StringUtils.hasText(redirectUrl) && redirectUrl.equals("connect")) {
             if (kakaoLoginService.exists(token)) {
-                throw new AlertBackException(utils.getMessage("Duplicated.kakaoLogin"), "/mypage/profile", HttpStatus.BAD_REQUEST);
+                throw new AlertRedirectException(utils.getMessage("Duplicated.kakaoLogin"), "/mypage/profile", HttpStatus.BAD_REQUEST);
             }
+
+            kakaoLoginService.connect(token);
 
             return "redirect:/mypage/profile";
         }

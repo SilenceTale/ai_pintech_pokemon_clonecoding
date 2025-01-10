@@ -42,7 +42,9 @@ public class SocialController {
 
         // 카카오 로그인 연결 요청 처리 S
         if (StringUtils.hasText(redirectUrl) && redirectUrl.equals("connect")) {
-            kakaoLoginService.connect(token);
+            if (kakaoLoginService.exists(token)) {
+                throw new AlertBackException(utils.getMessage("Duplicated.kakaoLogin"), "/mypage/profile", HttpStatus.BAD_REQUEST);
+            }
 
             return "redirect:/mypage/profile";
         }

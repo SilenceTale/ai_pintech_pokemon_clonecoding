@@ -128,6 +128,12 @@ public class MypageController {
         return utils.tpl("mypage/wishlist");
     }
 
+    @PostMapping("/recommend/{pokemonId}")
+    @ResponseBody
+    public String recommend(@PathVariable Long pokemonId) {
+        return recommendationService.recommendPokemon(pokemonId);
+    }
+
     /**
      * 컨트롤러 공통 처리 영역
      *

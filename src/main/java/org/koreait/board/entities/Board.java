@@ -74,7 +74,7 @@ public class Board extends BaseMemberEntity implements Serializable {
     private String category; // 카테고리 설정 여부
 
     private int rowsPerPage; // 세로로 게시글을 보기위한 페이지 의존성
-    private int pageRanges; // 한 페이지에 게시글을 얼마나 볼지 거리 조정한 어노테이션
+    private int pageRanges; // 한 페이지에 게시글을 얼마나 볼지 거리 조정한 의존성
     private int pageRangesMobile; // 모바일에서 한 페이지당 게시글을 얼마나 볼지 거리 조정한 어노테이션
 
     private boolean useEditor; // 에디터 사용 여부

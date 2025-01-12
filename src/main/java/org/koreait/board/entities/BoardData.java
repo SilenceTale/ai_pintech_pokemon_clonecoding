@@ -19,7 +19,7 @@ public class BoardData extends BaseEntity implements Serializable {
     @Id @GeneratedValue
     private Long seq;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY) // 다대일 사용 패치로 지연시켜서 필요시 데이터를 사용할 수 있도록.
     @JoinColumn(name="bid")
     private Board board;
 

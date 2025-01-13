@@ -1,5 +1,5 @@
-FROM yonggyo00/ubuntu:bert
-ARG JAR_PATH=build/libs/pokemon-0.0.1-SNAPSHOT.jar
+FROM silvertale/ubuntu:bert
+ARG JAR_PATH=build/libs/ai_pintech_pokemon_clonecoding-0.0.1-SNAPSHOT.jar
 ARG PORT=3000
 COPY ${JAR_PATH} app.jar
 RUN mkdir uploads

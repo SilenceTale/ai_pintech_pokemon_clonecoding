@@ -6,12 +6,14 @@ import lombok.Data;
 import lombok.RequiredArgsConstructor;
 import org.koreait.board.entities.Board;
 import org.koreait.board.entities.BoardData;
+import org.koreait.board.exceptions.GuestPasswordCheckException;
 import org.koreait.board.services.*;
 import org.koreait.board.services.configs.BoardConfigInfoService;
 import org.koreait.board.validators.BoardValidator;
 import org.koreait.file.constants.FileStatus;
 import org.koreait.file.services.FileInfoService;
 import org.koreait.global.annotations.ApplyErrorPage;
+import org.koreait.global.entities.SiteConfig;
 import org.koreait.global.exceptions.scripts.AlertException;
 import org.koreait.global.libs.Utils;
 import org.koreait.global.paging.ListData;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.*;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.UUID;
 
 @Controller
@@ -183,12 +186,14 @@ public class BoardController {
      *
      * @return
      */
-//    @ExceptionHandler(GuestPasswordCheckException.class)
-//    public String guestPassword(Model model) {
-//        SiteConfig config = Objects.requireNonNullElse(codeValueService.get("siteConfig", SiteConfig.class), );
-//        model.addAttribute("siteConfig", config);
-//        return utils.tpl("board/password");
-//    }
+    @ExceptionHandler(GuestPasswordCheckException.class)
+    public String guestPassword(Model model) {
+
+        SiteConfig config = Objects.requireNonNullElseGet(codeValueService.get("siteConfig", SiteConfig.class), SiteConfig::new);
+        model.addAttribute("siteConfig", config);
+
+        return utils.tpl("board/password");
+    }
 
     /**
      * 비회원 비밀번호 검증

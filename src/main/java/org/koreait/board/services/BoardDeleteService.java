@@ -1,7 +1,9 @@
 package org.koreait.board.services;
 
 import lombok.RequiredArgsConstructor;
-import org.koreait.board.repositories.BoardRepository;
+import org.koreait.board.entities.BoardData;
+import org.koreait.board.repositories.BoardDataRepository;
+import org.koreait.file.services.FileDeleteService;
 import org.springframework.context.annotation.Lazy;
 import org.springframework.stereotype.Service;
 
@@ -10,5 +12,18 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class BoardDeleteService {
     private final BoardInfoService infoService;
-    private final BoardRepository boardRepository;
+    private final BoardDataRepository boardRepository;
+    private final FileDeleteService fileDeleteService;
+
+    public void delete(Long seq) {
+
+        BoardData item = infoService.get(seq);
+        String gid = item.getGid();
+
+        // 파일 삭제
+        fileDeleteService.deletes(gid); // 일괄적으로 게시글 삭제
+
+        boardRepository.delete(item);
+        boardRepository.flush();
+    }
 }

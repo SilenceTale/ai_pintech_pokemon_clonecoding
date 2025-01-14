@@ -11,7 +11,7 @@ import java.util.List;
 
 @Data
 @Entity
-@Table(indexes = { //db 컬럼에 createdAt을 내림차순으로 공지글도 내림차순으로 설정
+@Table(indexes = {
         @Index(name="idx_bd_created_at", columnList = "createdAt DESC"),
         @Index(name="idx_bd_notice_created_at", columnList = "notice DESC, createdAt DESC")
 })
@@ -19,7 +19,7 @@ public class BoardData extends BaseEntity implements Serializable {
     @Id @GeneratedValue
     private Long seq;
 
-    @ManyToOne(fetch = FetchType.LAZY) // 다대일 사용 패치로 지연시켜서 필요시 데이터를 사용할 수 있도록.
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name="bid")
     private Board board;
 
@@ -61,7 +61,7 @@ public class BoardData extends BaseEntity implements Serializable {
     @Column(length=60)
     private String category; // 게시글 분류
 
-    @Transient // db에 포함시키지 않기 위해 사용하는 어노테이션 (2차 가공에 유리)
+    @Transient
     private BoardData prev; // 이전 게시글
 
     @Transient

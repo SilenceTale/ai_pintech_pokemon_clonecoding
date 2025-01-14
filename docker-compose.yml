@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  oracle-xe:
+    image: gvenzl/oracle-xe:18
+    container_name: oracle-xe
+    ports:
+      - "1521:1521"
+    environment:
+      ORACLE_PASSWORD: oracle
+
+  pokemon:
+    image: silvertale/pokemon:0.0.1
+    container_name: pokemon
+    ports:
+      - "3000:3000"
+    environment:
+      DB_HOST: oracle-xe
+      DB_USERNAME: system
+      DB_PASSWORD: oracle
+      SPRING_PROFILES_ACTIVE: default,prod
+    depends_on:
+      - oracle-xe

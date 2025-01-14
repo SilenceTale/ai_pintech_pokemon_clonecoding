@@ -48,6 +48,8 @@ public class BoardConfigUpdateService {
         String locationAfterWriting = form.getLocationAfterWriting();
         board.setLocationAfterWriting(StringUtils.hasText(locationAfterWriting) ? locationAfterWriting : "list");
 
+        board.setListUnderView();
+
         boardRepository.saveAndFlush(board);
     }
 

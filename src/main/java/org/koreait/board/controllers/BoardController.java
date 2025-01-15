@@ -103,7 +103,6 @@ public class BoardController {
         // 댓글을 사용하는 경우
         if (board.isUseComment() && memberUtil.isLogin()) {
             form.setCommenter(memberUtil.getMember().getName());
-
         }
 
         return utils.tpl("board/view");
@@ -224,9 +223,9 @@ public class BoardController {
 
         Long seq = (Long)session.getAttribute("seq");
 
-        if (!boardValidator.checkGuestPassword(password, seq)) {
-            throw new AlertException(utils.getMessage("Mismatch.password"));
-        }
+       if (!boardValidator.checkGuestPassword(password, seq)) {
+           throw new AlertException(utils.getMessage("Mismatch.password"));
+       }
 
         // 비회원 비밀번호 검증 성공시 세션에 board_게시글번호
         session.setAttribute("board_" + seq, true);
@@ -258,7 +257,7 @@ public class BoardController {
         // 게시판 스킨별 CSS, JS
         addScript.add(String.format("board/%s/common", board.getSkin()));
         addCss.add(String.format("board/%s/style", board.getSkin()));
-
+        
         if (mode.equals("write") || mode.equals("edit")) { // 글작성, 글수정
             if (board.isUseEditor()) { // 에디터를 사용하는 경우
                 addCommonScript.add("ckeditor5/ckeditor");

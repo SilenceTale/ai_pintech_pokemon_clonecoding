@@ -122,15 +122,15 @@ public class BoardConfigInfoService {
             item.setCategories(categories);
         }
 
-        // listable, writable 처리 S
+        // listable, writable S
         Authority listAuthority = item.getListAuthority();
-        boolean listable = (listAuthority == Authority.USER && memberUtil.isLogin()) || (listAuthority == Authority.ADMIN && memberUtil.isAdmin());
+        boolean listable = listAuthority == Authority.ALL || (listAuthority == Authority.USER && memberUtil.isLogin()) || (listAuthority == Authority.ADMIN && memberUtil.isAdmin());
 
         Authority writeAuthority = item.getWriteAuthority();
-        boolean writable = (writeAuthority == Authority.USER && memberUtil.isLogin()) || (writeAuthority == Authority.ADMIN && memberUtil.isAdmin());
+        boolean writable = writeAuthority == Authority.ALL || (writeAuthority == Authority.USER && memberUtil.isLogin()) || (writeAuthority == Authority.ADMIN && memberUtil.isAdmin());
 
         item.setListable(listable);
         item.setWritable(writable);
-        // listable, writable 처리 E
+        // listable, writable E
     }
 }

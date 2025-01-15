@@ -264,9 +264,9 @@ public class BoardInfoService {
                     .fetchFirst();
 
             BoardData next = queryFactory.selectFrom(boardData)
-                    .where(boardData.seq.gt(seq))
-                    .orderBy(boardData.seq.asc())
-                    .fetchFirst();
+                            .where(boardData.seq.gt(seq))
+                            .orderBy(boardData.seq.asc())
+                            .fetchFirst();
 
             item.setPrev(prev);
             item.setNext(next);
@@ -275,7 +275,7 @@ public class BoardInfoService {
         /* listable, writable, editable, mine 처리 S */
 
         Board board = item.getBoard();
-        configInfoService.addInfo(board); // 2차가공을 위해 board데이터를 info에 추가
+        configInfoService.addInfo(board);
 
         boolean listable = board.isListable();
 
@@ -287,7 +287,7 @@ public class BoardInfoService {
         boolean editable = member == null || (memberUtil.isLogin() && loggedMember.getEmail().equals(member.getEmail())); // 비회원게시글은 비밀번호 확인이 필요하므로 버튼 노출, 회원게시글 로그인한 회원과 일치하면 버튼 노출
 
         boolean mine = request.getSession().getAttribute("board_" + item.getSeq()) != null
-                || (member != null && memberUtil.isLogin() && loggedMember.getEmail().equals(member.getEmail()));
+                        || (member != null && memberUtil.isLogin() && loggedMember.getEmail().equals(member.getEmail()));
 
         item.setListable(listable);
         item.setWritable(writable);

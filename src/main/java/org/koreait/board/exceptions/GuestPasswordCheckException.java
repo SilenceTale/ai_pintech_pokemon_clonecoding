@@ -4,7 +4,7 @@ import org.koreait.global.exceptions.BadRequestException;
 
 public class GuestPasswordCheckException extends BadRequestException {
     public GuestPasswordCheckException() {
-      super("Required.guestPassword");
-      setErrorCode(true);
+        super("Required.guestPassword");
+        setErrorCode(true);
     }
 }

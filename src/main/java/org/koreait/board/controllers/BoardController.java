@@ -342,7 +342,7 @@ public class BoardController {
     private void commonProcess(String bid, String mode, Model model) {
 
         // 권한 체크
-        if (!List.of("edit", "delete").contains(mode)) {
+        if (!List.of("edit", "delete", "comment").contains(mode)) {
             boardAuthService.check(mode, bid);
         }
 

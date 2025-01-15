@@ -1,10 +1,7 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org"
-      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-      layout:decorate="~{front/layouts/main}">
-<main layout:fragment="content" th:object="${board}">
-    <th:block th:if="*{skin == 'default'}">
-        <th:block th:replace="~{front/board/default/comment::skin}"></th:block>
-    </th:block>
-</main>
+<html xmlns:th="http://www.thymeleaf.org">
+<th:block th:fragment="skin">
+    <div th:replace="~{front/board/default/_title::title}"></div>
+    <form th:replace="~{front/board/default/_comment_form::form}"></form>
+</th:block>
 </html>

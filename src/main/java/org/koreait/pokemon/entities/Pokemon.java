@@ -43,4 +43,16 @@ public class Pokemon extends BaseEntity {
 
     @Transient
     private Map<String, Object> nextItem;
+
+    // 추천 횟수 필드 추가
+    private int recommendationCount; // 추천 횟수
+
+    // Getter 및 Setter
+    public int getRecommendationCount() {
+        return recommendationCount;
+    }
+
+    public void setRecommendationCount(int recommendationCount) {
+        this.recommendationCount = recommendationCount;
+    }
 }

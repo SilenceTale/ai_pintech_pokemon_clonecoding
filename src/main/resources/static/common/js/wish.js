@@ -1,46 +1,38 @@
-
-
 window.addEventListener("DOMContentLoaded", function() {
+    // 찜하기 버튼 로직
     const wishButtons = document.getElementsByClassName("wish-btn");
     for (const el of wishButtons) {
         el.addEventListener("click", function() {
-            /**
-            * 1. 로그인 상태 체크 - 클래스에 guest가 포함되어 있으면 미로그인 상태
-            * 2. 미로그인 상태 -> 로그인 페이지 주소 이동, 로그인 완료시에는 현재 페이지로 다시 이동
-            */
             if (this.classList.contains("guest")) { // 미로그인 상태
                 alert("로그인이 필요한 서비스 입니다.");
                 const { pathname, search } = location;
                 const redirectUrl = search ? pathname + search : pathname;
-
-                location.href= commonLib.url(`/member/login?redirectUrl=${redirectUrl}`);
-
+                location.href = commonLib.url(`/member/login?redirectUrl=${redirectUrl}`);
                 return;
             }
 
             let apiUrl = commonLib.url("/api/wish/");
             const classList = this.classList;
-            if (classList.contains("on")) { // 찜하기 제거
+            if (classList.contains("on")) { // 찜 제거
                 apiUrl += "remove";
-            } else { // 찜하기
+            } else { // 찜 추가
                 apiUrl += "add";
             }
 
             const { seq, type } = this.dataset;
 
             apiUrl += `?seq=${seq}&type=${type}`;
-
             const { ajaxLoad } = commonLib;
 
             const icon = this.querySelector("i");
 
-            (async() => {
+            (async () => {
                 try {
                     await ajaxLoad(apiUrl);
 
-                    if (classList.contains("on")) { // 제거 처리
+                    if (classList.contains("on")) { // 찜 제거
                         icon.className = "xi-heart-o";
-                    } else { // 추가 처리
+                    } else { // 찜 추가
                         icon.className = "xi-heart";
                     }
 
@@ -50,6 +42,26 @@ window.addEventListener("DOMContentLoaded", function() {
                     alert(err.message);
                 }
             })();
+        });
+    }
+
+    // 추천 버튼 로직
+    const recommendButtons = document.getElementsByClassName("recommend-btn");
+    for (const button of recommendButtons) {
+        button.addEventListener("click", function() {
+            const seq = this.dataset.seq;
+
+            fetch(`/pokemon/recommend/${seq}`, {
+                method: "POST"
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error("추천 등록에 실패했습니다.");
+                }
+                alert("추천이 등록되었습니다!");
+                location.reload(); // 추천 수 갱신
+            })
+            .catch(err => alert(err.message));
         });
     }
 });

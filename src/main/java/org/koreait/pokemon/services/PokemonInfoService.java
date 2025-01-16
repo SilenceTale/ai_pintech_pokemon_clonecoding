@@ -2,6 +2,8 @@ package org.koreait.pokemon.services;
 
 import com.querydsl.core.BooleanBuilder;
 import com.querydsl.jpa.impl.JPAQueryFactory;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.koreait.global.libs.Utils;
@@ -20,6 +22,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import java.util.Arrays;
@@ -170,5 +173,17 @@ public class PokemonInfoService {
         return queryFactory.select(pokemon.seq.max())
                     .from(pokemon)
                     .fetchFirst();
+    }
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Transactional
+    public void recommendPokemon(Long seq) {
+        // JPQL로 추천 횟수 증가
+        String jpql = "UPDATE Pokemon p SET p.recommendationCount = p.recommendationCount + 1 WHERE p.seq = :seq";
+        entityManager.createQuery(jpql)
+                .setParameter("seq", seq)
+                .executeUpdate();
     }
 }

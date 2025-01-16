@@ -211,16 +211,22 @@ public class BoardInfoService {
      * @return
      */
     public List<BoardData> getLatest(String bid, String category, int limit) {
-        BoardSearch search = new BoardSearch();
-        search.setLimit(limit);
-        search.setBid(List.of(bid));
-        search.setCategory(category == null ? null : List.of(category));
+        try {
+            BoardSearch search = new BoardSearch();
+            search.setLimit(limit);
+            search.setBid(List.of(bid));
+            search.setCategory(category == null ? null : List.of(category));
 
-        ListData<BoardData> data = getList(search);
+            ListData<BoardData> data = getList(search);
+            List<BoardData> items = data.getItems();
 
-        List<BoardData> items = data.getItems();
-        return items == null ? List.of() : items;
+            return items == null ? List.of() : items;
+        } catch (Exception e) {
+            // 예외가 발생하면 빈 리스트 반환
+            return List.of();
+        }
     }
+
 
     public List<BoardData> getLatest(String bid, int limit) {
         return getLatest(bid, null, limit);

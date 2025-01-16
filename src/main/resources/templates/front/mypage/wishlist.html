@@ -1,3 +1,4 @@
+<!-- wishlist.html -->
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
@@ -12,9 +13,35 @@
     <th:block th:if="${mode != null && mode.name == 'BOARD'}">
         <th:block th:replace="~{front/mypage/_wish_board::board}"></th:block>
     </th:block>
+
     <th:block th:unless="${mode != null && mode.name == 'BOARD'}">
-        <th:block th:replace="~{front/mypage/_wish_pokemon::pokemon}"></th:block>
+        <table>
+            <thead>
+            <tr>
+                <th>포켓몬 이름</th>
+                <th>추천 수</th>
+                <th>추천</th>
+                <th>찜</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="pokemon : ${items}">
+                <td th:text="${pokemon.name}"></td>
+                <td th:text="${pokemon.recommendationCount}"></td>
+                <td>
+                    <button class="recommend-btn" data-seq="${pokemon.seq}">추천</button>
+                </td>
+                <td>
+                    <button class="wish-btn" data-seq="${pokemon.seq}" data-type="POKEMON">
+                        <i th:class="${#lists.contains(wishList, pokemon.seq)} ? 'xi-heart' : 'xi-heart-o'"></i>
+                    </button>
+                </td>
+            </tr>
+            </tbody>
+        </table>
     </th:block>
+
     <th:block th:replace="~{common/_pagination::pagination}"></th:block>
 </section>
+<script src="/static/js/wish.js"></script>
 </html>

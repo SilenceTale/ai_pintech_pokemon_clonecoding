@@ -9,10 +9,8 @@ import org.koreait.pokemon.services.PokemonInfoService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.util.StringUtils;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -71,5 +69,12 @@ public class PokemonController {
         model.addAttribute("pageTitle", pageTitle);
         model.addAttribute("addCss", addCss);
         model.addAttribute("addCommonScript", addCommonScript);
+    }
+
+    @PostMapping("/pokemon/recommend/{seq}")
+    public String recommendPokemon(@PathVariable Long seq, RedirectAttributes redirectAttributes) {
+        infoService.recommendPokemon(seq);
+        redirectAttributes.addFlashAttribute("message", "추천이 등록되었습니다!");
+        return "redirect:/mypage/wishlist";
     }
 }

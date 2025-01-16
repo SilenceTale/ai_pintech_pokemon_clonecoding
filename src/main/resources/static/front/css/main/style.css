@@ -3,6 +3,8 @@
     height: 768px;
 }
 
+.
+
 .main-banner a {
     position: relative;
     display: block;
@@ -24,7 +26,7 @@
 }
 
 @media screen and (max-width: 1000px) {
-    .main-banner .banner {
+    .main-banner .banner, .main-banner a {
         height: 650px;
     }
 }
@@ -52,5 +54,47 @@
     cursor: pointer;
     color: #fff;
     text-align: center;
+    line-height: 61px;
+    transform: skew(-20deg);
 }
+
+.main-banner .more-button::after {
+    content: '';
+    width: 10px;
+    height: 20px;
+    background: url('../../images/icon_more.png') no-repeat center center;
+    position: absolute;
+    right: 70px;
+    top: calc(50% - 10px);
+    transform: skew(20deg);
+}
+
+.main-banner .more-button > span {
+    color: #fff;
+    transform:skew(20deg);
+    display: block;
+    font-size: 1.62 rem;
+    font-weight: 700;
+    background: transparent url("../../images/icon_prev.png") no-repeat center center;
+}
+
+.main-banner .swiper-button-prev .main-banner .swiper-button-next {
+    width: 86px;
+    height: 86px;
+    opacity: 1;
+    top: calc(50% - 43px);
+}
+
+.main-banner .swiper-button-prev::after, .main-banner .swiper-button-next::after {
+    display: none;
+}
+
+.main-banner .swiper-button-next {
+    width: 86px;
+    height: 86px;
+    opacity: 1;
+    background: transparent url("../../images/icon_next.png") no-repeat center center;
+}
+
+
 /* 메인 배너 E */
